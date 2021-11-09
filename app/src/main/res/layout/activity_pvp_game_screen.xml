@@ -5,5 +5,256 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PvpGameScreen">
+    <Button
+        android:id="@+id/pvpB00"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="272dp"
+        android:text="b00"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/pvpB01"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="272dp"
+        android:text="B01"
+        app:layout_constraintEnd_toStartOf="@+id/pvpB02"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toEndOf="@+id/pvpB00"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/pvpB02"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="272dp"
+        android:layout_marginEnd="20dp"
+        android:text="B02"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/pvpB03"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:text="B03"
+        app:layout_constraintBottom_toTopOf="@+id/pvpB05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pvpB00"
+        app:layout_constraintVertical_bias="0.444" />
+
+    <Button
+        android:id="@+id/pvpB05"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="76dp"
+        android:text="B05"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/pvpB06"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="80dp"
+        android:text="B06"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/pvpB07"
+        app:layout_constraintHorizontal_bias="0.471"
+        app:layout_constraintStart_toEndOf="@+id/pvpB05" />
+
+    <Button
+        android:id="@+id/pvpB07"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="80dp"
+        android:text="B07"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/pvpB04"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
+        android:text="B04"
+        app:layout_constraintBottom_toTopOf="@+id/pvpB07"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pvpB02"
+        app:layout_constraintVertical_bias="0.452" />
+
+    <Button
+        android:id="@+id/pvpB10"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="4dp"
+        android:text="B10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pvpB00" />
+
+    <Button
+        android:id="@+id/pvpB11"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="4dp"
+        android:text="B11"
+        app:layout_constraintEnd_toStartOf="@+id/pvpB12"
+        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintStart_toEndOf="@+id/pvpB10"
+        app:layout_constraintTop_toBottomOf="@+id/pvpB01" />
+
+    <Button
+        android:id="@+id/pvpB12"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="72dp"
+        android:text="B12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pvpB02" />
+
+    <Button
+        android:id="@+id/pvpB13"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="1dp"
+        android:text="B13"
+        app:layout_constraintBottom_toTopOf="@+id/pvpB15"
+        app:layout_constraintStart_toEndOf="@+id/pvpB03"
+        app:layout_constraintTop_toBottomOf="@+id/pvpB10"
+        app:layout_constraintVertical_bias="0.413" />
+
+    <Button
+        android:id="@+id/pvpB15"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginBottom="4dp"
+        android:text="B15"
+        app:layout_constraintBottom_toTopOf="@+id/pvpB05"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/pvpB14"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="1dp"
+        android:text="B14"
+        app:layout_constraintBottom_toTopOf="@+id/pvpB17"
+        app:layout_constraintEnd_toStartOf="@+id/pvpB04"
+        app:layout_constraintTop_toBottomOf="@+id/pvpB12"
+        app:layout_constraintVertical_bias="0.413" />
+
+    <Button
+        android:id="@+id/pvpB17"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="4dp"
+        android:text="B17"
+        app:layout_constraintBottom_toTopOf="@+id/pvpB07"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/pvpB16"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="4dp"
+        android:text="B16"
+        app:layout_constraintBottom_toTopOf="@+id/pvpB06"
+        app:layout_constraintEnd_toStartOf="@+id/pvpB17"
+        app:layout_constraintHorizontal_bias="0.442"
+        app:layout_constraintStart_toEndOf="@+id/pvpB15" />
+
+    <Button
+        android:id="@+id/pvpB20"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="8dp"
+        android:text="B20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pvpB10" />
+
+    <Button
+        android:id="@+id/pvpB21"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="B21"
+        app:layout_constraintEnd_toStartOf="@+id/pvpB22"
+        app:layout_constraintHorizontal_bias="0.136"
+        app:layout_constraintStart_toEndOf="@+id/pvpB20"
+        app:layout_constraintTop_toBottomOf="@+id/pvpB11" />
+
+    <Button
+        android:id="@+id/pvpB22"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="120dp"
+        android:text="B22"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pvpB12" />
+
+    <Button
+        android:id="@+id/pvpB23"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="B23"
+        app:layout_constraintBottom_toTopOf="@+id/pvpB25"
+        app:layout_constraintStart_toEndOf="@+id/pvpB13"
+        app:layout_constraintTop_toBottomOf="@+id/pvpB20"
+        app:layout_constraintVertical_bias="0.176" />
+
+    <Button
+        android:id="@+id/pvpB24"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="B24"
+        app:layout_constraintBottom_toTopOf="@+id/pvpB27"
+        app:layout_constraintEnd_toStartOf="@+id/pvpB14"
+        app:layout_constraintTop_toBottomOf="@+id/pvpB22" />
+
+    <Button
+        android:id="@+id/pvpB25"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="120dp"
+        android:text="B25"
+        app:layout_constraintBottom_toTopOf="@+id/pvpB15"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/pvpB26"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="B26"
+        app:layout_constraintBottom_toTopOf="@+id/pvpB16"
+        app:layout_constraintEnd_toStartOf="@+id/button28"
+        app:layout_constraintHorizontal_bias="0.38"
+        app:layout_constraintStart_toEndOf="@+id/pvpB25" />
+
+    <Button
+        android:id="@+id/pvpB27"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="120dp"
+        android:text="B27"
+        app:layout_constraintBottom_toTopOf="@+id/pvpB17"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/quitPvpButton"
+        android:layout_width="136dp"
+        android:layout_height="83dp"
+        android:text="Quit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
