@@ -11,8 +11,11 @@
         android:layout_width="135dp"
         android:layout_height="60dp"
         android:layout_marginTop="220dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/amatic_sc_bold"
         android:onClick="updateGameModePvp"
         android:text="PVP"
+        android:textSize="36sp"
         app:layout_constraintEnd_toStartOf="@+id/pvcButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +28,9 @@
         android:layout_marginEnd="56dp"
         android:onClick="updateGameModePvc"
         android:text="PVC"
+        android:textSize="36sp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/amatic_sc_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,8 +38,12 @@
         android:id="@+id/easyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/amatic_sc_bold"
         android:onClick="updateGameDifEasy"
         android:text="Easy"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="@+id/mediumButton"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -41,20 +51,27 @@
         android:id="@+id/mediumButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="168dp"
+        android:layout_marginBottom="176dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/amatic_sc_bold"
         android:onClick="updateGameMedium"
         android:text="Medium"
+        android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/startGameButton"
         app:layout_constraintEnd_toStartOf="@+id/hardButton"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toEndOf="@+id/easyButton" />
 
     <Button
         android:id="@+id/hardButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/amatic_sc_bold"
         android:onClick="updateGameHard"
         android:text="Hard"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="@+id/mediumButton"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -65,16 +82,23 @@
         android:layout_marginBottom="148dp"
         android:onClick="startGame"
         android:text="Start"
+        android:textSize="36sp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/amatic_sc_bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/quitModeSelect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:onClick="quitModeSelect"
+        android:text="Quit"
+        android:textSize="36sp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/amatic_sc_bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,10 +108,10 @@
         android:layout_height="wrap_content"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button10" />
+        app:layout_constraintEnd_toStartOf="@+id/button5" />
 
     <Button
-        android:id="@+id/button10"
+        android:id="@+id/button5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"

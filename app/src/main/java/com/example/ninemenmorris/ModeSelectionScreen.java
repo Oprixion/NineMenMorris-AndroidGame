@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+/**
+ * When ever a button is chosen it will be disabled, the disabled state should be change into
+ * something more clear.
+ */
 public class ModeSelectionScreen extends AppCompatActivity {
     public int gameMode=2;
     public int gameDifficulty=2;
@@ -17,7 +21,6 @@ public class ModeSelectionScreen extends AppCompatActivity {
         setDefaultGame();
     }
 
-
     public void updateGameModePvp(View myView){
         Button pvpButton = (Button)findViewById(R.id.pvpButton);
         Button pvcButton = (Button)findViewById(R.id.pvcButton);
@@ -26,14 +29,14 @@ public class ModeSelectionScreen extends AppCompatActivity {
         gameMode=1;
         disableTheDifficulties();
     }
-    public void updateGameModePvc(View myView){
 
+    public void updateGameModePvc(View myView){
         enableTheDifficulties();
         setDefaultGame();
-
         gameMode=2;
 
     }
+
     public void updateGameDifEasy(View myView){
         Button easyButton = (Button)findViewById(R.id.easyButton);
         Button mediumButton = (Button)findViewById(R.id.mediumButton);
@@ -43,6 +46,7 @@ public class ModeSelectionScreen extends AppCompatActivity {
         hardButton.setEnabled(true);
         gameDifficulty=1;
     }
+
     public void updateGameMedium(View myView){
         Button easyButton = (Button)findViewById(R.id.easyButton);
         Button mediumButton = (Button)findViewById(R.id.mediumButton);
@@ -52,6 +56,7 @@ public class ModeSelectionScreen extends AppCompatActivity {
         hardButton.setEnabled(true);
         gameDifficulty=2;
     }
+
     public void updateGameHard(View myView){
         Button easyButton = (Button)findViewById(R.id.easyButton);
         Button mediumButton = (Button)findViewById(R.id.mediumButton);
@@ -61,6 +66,7 @@ public class ModeSelectionScreen extends AppCompatActivity {
         hardButton.setEnabled(false);
         gameDifficulty=3;
     }
+
     public void startGame(View myView){
         Intent toGameScreen;
         if (gameMode==1){
@@ -70,6 +76,7 @@ public class ModeSelectionScreen extends AppCompatActivity {
         }
         startActivity(toGameScreen);
     }
+
     private void disableTheDifficulties(){
         Button easyButton = (Button)findViewById(R.id.easyButton);
         Button mediumButton = (Button)findViewById(R.id.mediumButton);
@@ -78,6 +85,7 @@ public class ModeSelectionScreen extends AppCompatActivity {
         mediumButton.setEnabled(false);
         hardButton.setEnabled(false);
     }
+
     private void enableTheDifficulties(){
         Button easyButton = (Button)findViewById(R.id.easyButton);
         Button mediumButton = (Button)findViewById(R.id.mediumButton);
@@ -86,6 +94,7 @@ public class ModeSelectionScreen extends AppCompatActivity {
         mediumButton.setEnabled(true);
         hardButton.setEnabled(true);
     }
+
     private void setDefaultGame(){
         Button easyButton = (Button)findViewById(R.id.easyButton);
         Button mediumButton = (Button)findViewById(R.id.mediumButton);
@@ -97,5 +106,11 @@ public class ModeSelectionScreen extends AppCompatActivity {
         pvpButton.setEnabled(true);
         easyButton.setEnabled(true);
         hardButton.setEnabled(true);
+    }
+
+    public void quitModeSelect(View myView){
+        Intent toStartScreen = new Intent(this, StartScreen.class);
+        startActivity(toStartScreen);
+        this.finish();
     }
 }
