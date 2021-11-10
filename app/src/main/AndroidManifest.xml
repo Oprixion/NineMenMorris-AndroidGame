@@ -10,9 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NineMenMorris">
         <activity android:name=".PvpGameScreen"></activity>
-        <activity android:name=".PvcGameScreen" />
-        <activity android:name=".StartScreen" />
-        <activity android:name=".ModeSelectionScreen" />
+        <activity android:name=".PvcGameScreen"></activity>
+        <activity android:name=".StartScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ModeSelectionScreen" ></activity>
 
         <meta-data
             android:name="preloaded_fonts"
