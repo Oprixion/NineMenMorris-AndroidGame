@@ -255,6 +255,7 @@
         android:id="@+id/quitPvcButton"
         android:layout_width="136dp"
         android:layout_height="83dp"
+        android:onClick="toModeSelection"
         android:text="Quit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
