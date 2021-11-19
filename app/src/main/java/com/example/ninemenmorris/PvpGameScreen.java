@@ -51,13 +51,16 @@ public class PvpGameScreen extends AppCompatActivity {
     public void player1Turn(Button theMove){
         theMove.setText("P1");
         movePiecesOnHandToBoard(player1PieceOnHand,player1PieceOnBoard);
+        playerPieceArray[8-player1PieceOnHand]=theMove;
         theMove.setEnabled(false);
         lastMove="P1";
+
     }
 
     public void player2Turn(Button theMove){
         theMove.setText("P2");
         movePiecesOnHandToBoard(player2PieceOnHand,player2PieceOnBoard);
+        computerPieceArray[8-player2PieceOnHand]=theMove;
         theMove.setEnabled(false);
         lastMove="P2";
     }
@@ -68,13 +71,25 @@ public class PvpGameScreen extends AppCompatActivity {
     }
 
 
-    public void removeOpponentPieceIfMill(Button theMove){
+    public void removeOpponentPieceIfMill(Button toRemove){
+        //human's turn
         if (lastMove=="P1"){
-            theMove.setText("");
+            for (int i =0; i<playerPieceArray.length;i++){
+                if (playerPieceArray[i]==toRemove){
+                    playerPieceArray[i]=null;
+                }
+            }
+            toRemove.setText("");
             player2PieceOnBoard--;
         }
+        //computer's turn
         if (lastMove=="P2"){
-            theMove.setText("");
+            for (int i =0; i<computerPieceArray.length;i++){
+                if (computerPieceArray[i]==toRemove){
+                    computerPieceArray[i]=null;
+                }
+            }
+            toRemove.setText("");
             player1PieceOnBoard--;
         }
 
@@ -94,11 +109,15 @@ public class PvpGameScreen extends AppCompatActivity {
     }
 
     public void disableP2Moves(){
-
+        for (int i=0;i<computerPieceArray.length;i++){
+            computerPieceArray[i].setEnabled(false);
+        }
     }
 
     public void disableP1Moves(){
-
+        for (int i=0;i<playerPieceArray.length;i++){
+            playerPieceArray[i].setEnabled(false);
+        }
     }
 
     public boolean isMill() {
