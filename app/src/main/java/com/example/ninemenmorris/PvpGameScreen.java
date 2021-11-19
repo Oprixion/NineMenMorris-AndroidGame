@@ -19,7 +19,7 @@ public class PvpGameScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pvp_game_screen);
-        lastMove = "P";
+        lastMove = "P1";
     }
     public void toModeSelection(View myView){
         Intent modeSelection = new Intent(this, ModeSelectionScreen.class);
@@ -29,14 +29,35 @@ public class PvpGameScreen extends AppCompatActivity {
 
     public void p1Orp2(View myView){
         Button theMoves = (Button) myView;
-        //Initial state of the game
-        if ((player1PieceOnHand==9)&&(player2PieceOnHand==9)){
-            theMoves.setText(lastMove);
-            theMoves.setEnabled(false);
+        //winning condition
+        if ((player1PieceOnBoard==0)||(player2PieceOnBoard==0)){
+
         }
+
+
+
+
+    }
+    public void player1Turn(Button theMove){
+        theMove.setText("P1");
+        movePiecesOnHandToBoard(player1PieceOnHand,player1PieceOnBoard);
+        theMove.setEnabled(false);
+        lastMove="P1";
     }
 
-    public boolean isThreePiece(){
+    public void player2Turn(Button theMove){
+        theMove.setText("P2");
+        movePiecesOnHandToBoard(player2PieceOnHand,player2PieceOnBoard);
+        theMove.setEnabled(false);
+        lastMove="P2";
+    }
+
+    public void movePiecesOnHandToBoard(int onHand, int onBoard){
+        onBoard++;
+        onHand--;
+    }
+
+    public boolean isMill() {
         //all moves on first square
         Button b00=(Button) findViewById(R.id.pvpB00);
         Button b01=(Button) findViewById(R.id.pvpB01);
@@ -46,6 +67,39 @@ public class PvpGameScreen extends AppCompatActivity {
         Button b05=(Button) findViewById(R.id.pvpB05);
         Button b06=(Button) findViewById(R.id.pvpB06);
         Button b07=(Button) findViewById(R.id.pvpB07);
+        return true;
+    }
+
+    public void removeOpponentPieceIfMill(Button theMove){
+        if (lastMove=="P1"){
+            theMove.setText("");
+            player2PieceOnBoard--;
+            disableP2Moves();
+        }
+        if (lastMove=="P2"){
+            theMove.setText("");
+            player1PieceOnBoard--;
+            disableP1Moves();
+
+        }
+
+    }
+
+
+    public void enableP2Moves(){
+
+    }
+
+    public void enableP1Moves(){
+
+    }
+
+    public void disableP2Moves(){
+
+    }
+
+    public void disableP1Moves(){
+
     }
 
 
