@@ -11,4 +11,5 @@ public class PvpGameScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pvp_game_screen);
     }
+
 }
