@@ -27,13 +27,93 @@ public class PvpGameScreen extends AppCompatActivity {
         this.finish();
     }
 
-    public void p1Orp2(View myView){
+    public void placeMove(View myView){
         Button theMoves = (Button) myView;
-        //Initial state of the game
-        if ((player1PieceOnHand==9)&&(player2PieceOnHand==9)){
-            theMoves.setText(lastMove);
-            theMoves.setEnabled(false);
+        //winning condition
+        if ((player1PieceOnBoard==0)||(player2PieceOnBoard==0)){
+
         }
+        //game loop: Place move=>if mills=>enable opponent's moves=>remove it=>disable opponent's move
+
+        while (player1PieceOnBoard > 2 || player2PieceOnBoard > 2){
+            while (player1PieceOnHand > 0 && player2PieceOnHand > 0){
+                if (isMill() == true && lastMove == "P1"){
+                    enableP2Moves();
+                    removeOpponentPieceIfMill(theMoves);
+                    disableP2Moves();
+                    lastMove = "P2";
+                }
+                else if (isMill() == true && lastMove == "P2"){
+                    enableP1Moves();
+                    removeOpponentPieceIfMill(theMoves);
+                    disableP1Moves();
+                    lastMove = "P1";
+                }
+                else if (isMill() == false && lastMove == "P1"){
+                    player2Turn(theMoves);
+                }
+                else if (isMill() == false && lastMove == "P2"){
+                    player1Turn(theMoves);
+                }
+            }
+            while (player1PieceOnHand == 0 && player2PieceOnHand == 0){
+
+            }
+
+        }
+    }
+
+    public void player1Turn(Button theMove){
+        theMove.setText("P1");
+        movePiecesOnHandToBoard(player1PieceOnHand,player1PieceOnBoard);
+        theMove.setEnabled(false);
+        lastMove="P1";
+    }
+
+    public void player2Turn(Button theMove){
+        theMove.setText("P2");
+        movePiecesOnHandToBoard(player2PieceOnHand,player2PieceOnBoard);
+        theMove.setEnabled(false);
+        lastMove="P2";
+    }
+
+    public void movePiecesOnHandToBoard(int onHand, int onBoard){
+        onBoard++;
+        onHand--;
+    }
+
+
+    public void removeOpponentPieceIfMill(Button theMove){
+        if (lastMove=="P1"){
+            theMove.setText("");
+            player2PieceOnBoard--;
+        }
+        if (lastMove=="P2"){
+            theMove.setText("");
+            player1PieceOnBoard--;
+        }
+
+    }
+
+
+    public void enableP2Moves(){
+        for (int i=0;i<computerPieceArray.length;i++){
+            computerPieceArray[i].setEnabled(true);
+        }
+    }
+
+    public void enableP1Moves(){
+        for (int i=0;i<playerPieceArray.length;i++){
+            playerPieceArray[i].setEnabled(true);
+        }
+    }
+
+    public void disableP2Moves(){
+
+    }
+
+    public void disableP1Moves(){
+
     }
 
     public boolean isMill() {
@@ -46,6 +126,7 @@ public class PvpGameScreen extends AppCompatActivity {
         Button b05 = (Button) findViewById(R.id.pvpB05);
         Button b06 = (Button) findViewById(R.id.pvpB06);
         Button b07 = (Button) findViewById(R.id.pvpB07);
+
         Button b10 = (Button) findViewById(R.id.pvpB10);
         Button b11 = (Button) findViewById(R.id.pvpB11);
         Button b12 = (Button) findViewById(R.id.pvpB12);
@@ -54,6 +135,7 @@ public class PvpGameScreen extends AppCompatActivity {
         Button b15 = (Button) findViewById(R.id.pvpB15);
         Button b16 = (Button) findViewById(R.id.pvpB16);
         Button b17 = (Button) findViewById(R.id.pvpB17);
+
         Button b20 = (Button) findViewById(R.id.pvpB20);
         Button b21 = (Button) findViewById(R.id.pvpB21);
         Button b22 = (Button) findViewById(R.id.pvpB22);
