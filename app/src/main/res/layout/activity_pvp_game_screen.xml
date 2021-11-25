@@ -236,7 +236,7 @@
         android:layout_height="50dp"
         android:text="B26"
         app:layout_constraintBottom_toTopOf="@+id/pvpB16"
-        app:layout_constraintEnd_toStartOf="@+id/button28"
+        app:layout_constraintEnd_toStartOf="@+id/button27"
         app:layout_constraintHorizontal_bias="0.38"
         app:layout_constraintStart_toEndOf="@+id/pvpB25" />
 
