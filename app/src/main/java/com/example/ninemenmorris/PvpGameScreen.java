@@ -1,6 +1,7 @@
 package com.example.ninemenmorris;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -68,6 +69,14 @@ public class PvpGameScreen extends AppCompatActivity {
     public void movePiecesOnHandToBoard(int onHand, int onBoard){
         onBoard++;
         onHand--;
+    }
+
+    public void movePieceAdjacent(){
+
+    }
+
+    public Button returnAdjacentButtonId(Button mainButton){
+        return mainButton;
     }
 
 
