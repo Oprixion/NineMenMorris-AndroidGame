@@ -35,22 +35,10 @@ public class PvpGameScreen extends AppCompatActivity {
         if ((player1PieceOnBoard+player1PieceOnHand > 2) || (player2PieceOnBoard+player2PieceOnHand > 2)){
             //When there are sill pieces on hand
             if (player1PieceOnHand > 0 && player2PieceOnHand > 0){
-                if (isMill() == true){
-                    enableP2Moves();
-                    //removeOpponentPieceIfMill(theMoves);
-                    disableP2Moves();
-                    lastMove = "P2";
-                }//if
-                else if (isMill() == true){
-                    enableP1Moves();
-                    //removeOpponentPieceIfMill(theMoves);
-                    disableP1Moves();
-                    lastMove = "P1";
-                }//else if
-                else if (isMill() == false && lastMove == "P1"){
+                if (lastMove == "P1"){
                     player2Turn(theMoves);
                 }//else if
-                else if (isMill() == false && lastMove == "P2"){
+                else if (lastMove == "P2"){
                     player1Turn(theMoves);
                 }//else if
             }//if
@@ -83,6 +71,7 @@ public class PvpGameScreen extends AppCompatActivity {
         lastMove="P1";
         textView.setText(lastMove);
 
+
     }
 
     public void player2Turn(Button theMove){
@@ -97,7 +86,6 @@ public class PvpGameScreen extends AppCompatActivity {
         textView.setText(lastMove);
     }
 
-
     public void movePieceAdjacent(){
 
     }
@@ -109,7 +97,6 @@ public class PvpGameScreen extends AppCompatActivity {
 
 
     public void removeOpponentPieceIfMill(Button toRemove){
-        //human's turn
         if (lastMove=="P1"){
             for (int i = 0; i< player1PieceArray.length; i++){
                 if (player1PieceArray[i]==toRemove){
@@ -119,7 +106,7 @@ public class PvpGameScreen extends AppCompatActivity {
             toRemove.setText("");
             player2PieceOnBoard--;
         }
-        //computer's turn
+
         if (lastMove=="P2"){
             for (int i = 0; i< player2PieceArray.length; i++){
                 if (player2PieceArray[i]==toRemove){
@@ -196,58 +183,58 @@ public class PvpGameScreen extends AppCompatActivity {
 
         //first outer layer
         //check first layer above
-        if (b00.getText().equals(lastMove) && b01.getText().equals(lastMove) && b02.getText().equals(lastMove))
+        if (b00.getText().equals(b01.getText()) && b01.getText().equals(b02.getText()))
             return true;
         //check first layer left
-        if (b00.getText().equals(lastMove) && b03.getText().equals(lastMove) && b05.getText().equals(lastMove))
+        if (b00.getText().equals(b03.getText()) && b03.getText().equals(b05.getText()))
             return true;
         //check first layer right
-        if (b02.getText().equals(lastMove) && b04.getText().equals(lastMove) && b07.getText().equals(lastMove))
+        if (b02.getText().equals(b04.getText()) && b04.getText().equals(b07.getText()))
             return true;
         //check first layer below
-        if (b05.getText().equals(lastMove) && b06.getText().equals(lastMove) && b07.getText().equals(lastMove))
+        if (b05.getText().equals(b06.getText()) && b06.getText().equals(b07.getText()))
             return true;
 
         //second inner layer
         //check second layer above
-        if (b10.getText().equals(lastMove) && b11.getText().equals(lastMove) && b12.getText().equals(lastMove))
+        if (b10.getText().equals(b11.getText()) && b11.getText().equals(b12.getText()))
             return true;
         //check second layer left
-        if (b10.getText().equals(lastMove) && b13.getText().equals(lastMove) && b15.getText().equals(lastMove))
+        if (b10.getText().equals(b13.getText()) && b13.getText().equals(b15.getText()))
             return true;
         //check second layer right
-        if (b12.getText().equals(lastMove) && b14.getText().equals(lastMove) && b17.getText().equals(lastMove))
+        if (b12.getText().equals(b14.getText()) && b14.getText().equals(b17.getText()))
             return true;
         //check second layer below
-        if (b15.getText().equals(lastMove) && b17.getText().equals(lastMove) && b17.getText().equals(lastMove))
+        if (b15.getText().equals(b17.getText()) && b17.getText().equals(b17.getText()))
             return true;
 
         //third inner layer
         //check third layer above
-        if (b20.getText().equals(lastMove) && b21.getText().equals(lastMove) && b22.getText().equals(lastMove))
+        if (b20.getText().equals(b21.getText()) && b21.getText().equals(b22.getText()))
             return true;
         //check third layer left
-        if (b20.getText().equals(lastMove) && b23.getText().equals(lastMove) && b25.getText().equals(lastMove))
+        if (b20.getText().equals(b23.getText()) && b23.getText().equals(b25.getText()))
             return true;
         //check third layer right
-        if (b22.getText().equals(lastMove) && b24.getText().equals(lastMove) && b27.getText().equals(lastMove))
+        if (b22.getText().equals(b24.getText()) && b24.getText().equals(b27.getText()))
             return true;
         //check third layer below
-        if (b25.getText().equals(lastMove) && b26.getText().equals(lastMove) && b27.getText().equals(lastMove))
+        if (b25.getText().equals(b26.getText()) && b26.getText().equals(b27.getText()))
             return true;
 
         //middles
         //check middle above
-        if (b01.getText().equals(lastMove) && b11.getText().equals(lastMove) && b21.getText().equals(lastMove))
+        if (b01.getText().equals(b11.getText()) && b11.getText().equals(b21.getText()))
             return true;
         //check middle left
-        if (b03.getText().equals(lastMove) && b13.getText().equals(lastMove) && b23.getText().equals(lastMove))
+        if (b03.getText().equals(b13.getText()) && b13.getText().equals(b23.getText()))
             return true;
         //check middle right
-        if (b04.getText().equals(lastMove) && b14.getText().equals(lastMove) && b24.getText().equals(lastMove))
+        if (b04.getText().equals(b14.getText()) && b14.getText().equals(b24.getText()))
             return true;
         //check middle below
-        if (b06.getText().equals(lastMove) && b16.getText().equals(lastMove) && b26.getText().equals(lastMove))
+        if (b06.getText().equals(b16.getText()) && b16.getText().equals(b26.getText()))
             return true;
         return false;
     }

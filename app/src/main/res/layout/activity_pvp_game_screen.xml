@@ -278,6 +278,7 @@
         android:id="@+id/quitPvpButton"
         android:layout_width="136dp"
         android:layout_height="83dp"
+        android:onClick="toModeSelection"
         android:text="Quit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -312,6 +313,15 @@
         android:layout_marginTop="108dp"
         android:layout_marginEnd="60dp"
         android:text="9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="enable"
+        android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
