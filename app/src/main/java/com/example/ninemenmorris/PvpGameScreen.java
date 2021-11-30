@@ -34,8 +34,20 @@ public class PvpGameScreen extends AppCompatActivity {
         //When there are still pieces to play
         if ((player1PieceOnBoard+player1PieceOnHand > 2) || (player2PieceOnBoard+player2PieceOnHand > 2)){
             //When there are sill pieces on hand
-            if (player1PieceOnHand > 0 && player2PieceOnHand > 0){
-                if (lastMove == "P1"){
+            if (player1PieceOnHand > 0 && player2PieceOnHand > 0) {
+                if(isMill()&&lastMove=="P1"){
+                    enableP2Moves();
+                    removeOpponentPieceIfMill(theMoves);
+                    disableP2Moves();
+                    lastMove="P2";
+                }
+                if(isMill()&&lastMove=="P2"){
+                    enableP1Moves();
+                    removeOpponentPieceIfMill(theMoves);
+                    disableP1Moves();
+                    lastMove="P1";
+                }
+                else if (lastMove == "P1"){
                     player2Turn(theMoves);
                 }//else if
                 else if (lastMove == "P2"){
