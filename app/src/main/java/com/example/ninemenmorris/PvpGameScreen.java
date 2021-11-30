@@ -58,9 +58,7 @@ public class PvpGameScreen extends AppCompatActivity {
                 }
             }
             while (player1PieceOnHand == 0 && player2PieceOnHand == 0){
-
             }
-
         }
     }
 
