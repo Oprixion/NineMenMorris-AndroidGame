@@ -1,12 +1,12 @@
 package com.example.ninemenmorris;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class PvpGameScreen extends AppCompatActivity {
     String lastMove;
@@ -14,13 +14,13 @@ public class PvpGameScreen extends AppCompatActivity {
     private int player1PieceOnHand=9;
     private int player2PieceOnBoard=0;
     private int player2PieceOnHand=9;
-    private Button[] playerPieceArray = new Button[9];
-    private Button[] computerPieceArray = new Button[9];
+    private Button[] player1PieceArray = new Button[9];
+    private Button[] player2PieceArray = new Button[9];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pvp_game_screen);
-        lastMove = "P1";
+        lastMove = "P2";
     }
     public void toModeSelection(View myView){
         Intent modeSelection = new Intent(this, ModeSelectionScreen.class);
@@ -30,67 +30,80 @@ public class PvpGameScreen extends AppCompatActivity {
 
     public void placeMove(View myView){
         Button theMoves = (Button) myView;
-        //winning condition
-        if ((player1PieceOnBoard==0)||(player2PieceOnBoard==0)){
-
-        }
         //game loop: Place move=>if mills=>enable opponent's moves=>remove it=>disable opponent's move
-
-        while (player1PieceOnBoard > 2 || player2PieceOnBoard > 2){
-            while (player1PieceOnHand > 0 && player2PieceOnHand > 0){
-                if (isMill() == true && lastMove == "P1"){
+        //When there are still pieces to play
+        if ((player1PieceOnBoard+player1PieceOnHand > 2) || (player2PieceOnBoard+player2PieceOnHand > 2)){
+            //When there are sill pieces on hand
+            if (player1PieceOnHand > 0 && player2PieceOnHand > 0){
+                if (isMill() == true){
                     enableP2Moves();
-                    removeOpponentPieceIfMill(theMoves);
+                    //removeOpponentPieceIfMill(theMoves);
                     disableP2Moves();
                     lastMove = "P2";
-                }
-                else if (isMill() == true && lastMove == "P2"){
+                }//if
+                else if (isMill() == true){
                     enableP1Moves();
-                    removeOpponentPieceIfMill(theMoves);
+                    //removeOpponentPieceIfMill(theMoves);
                     disableP1Moves();
                     lastMove = "P1";
-                }
+                }//else if
                 else if (isMill() == false && lastMove == "P1"){
                     player2Turn(theMoves);
-                }
+                }//else if
                 else if (isMill() == false && lastMove == "P2"){
                     player1Turn(theMoves);
-                }
-            }
-            while (player1PieceOnHand == 0 && player2PieceOnHand == 0){
+                }//else if
+            }//if
+            //When there are no pieces left on hand
+            if (player1PieceOnHand == 0 && player2PieceOnHand == 0){
 
-            }
+            }//if
 
-        }
-    }
+        }//if
+    }//placeMove
+
+    public void updateP1PieceCounterTV(){
+        TextView p1CounterTV=(TextView) findViewById(R.id.p1CounterTV);
+        p1CounterTV.setText(String.valueOf(player1PieceOnHand));
+    }//updateP1PieceCounterTV
+
+    public void updateP2PieceCounterTV(){
+        TextView p2CounterTV=(TextView) findViewById(R.id.p2CounterTV);
+        p2CounterTV.setText(String.valueOf(player2PieceOnHand));
+    }//updateP2PieceCounterTV
 
     public void player1Turn(Button theMove){
+        TextView textView = (TextView) findViewById(R.id.textView2);
         theMove.setText("P1");
-        movePiecesOnHandToBoard(player1PieceOnHand,player1PieceOnBoard);
-        playerPieceArray[8-player1PieceOnHand]=theMove;
+        player1PieceArray[9-player1PieceOnHand]=theMove;
+        player1PieceOnHand--;
+        player1PieceOnBoard++;
         theMove.setEnabled(false);
+        updateP1PieceCounterTV();
         lastMove="P1";
+        textView.setText(lastMove);
 
     }
 
     public void player2Turn(Button theMove){
+        TextView textView = (TextView) findViewById(R.id.textView2);
         theMove.setText("P2");
-        movePiecesOnHandToBoard(player2PieceOnHand,player2PieceOnBoard);
-        computerPieceArray[8-player2PieceOnHand]=theMove;
+        player2PieceArray[9-player2PieceOnHand]=theMove;
+        player2PieceOnHand--;
+        player2PieceOnBoard++;
         theMove.setEnabled(false);
+        updateP2PieceCounterTV();
         lastMove="P2";
+        textView.setText(lastMove);
     }
 
-    public void movePiecesOnHandToBoard(int onHand, int onBoard){
-        onBoard++;
-        onHand--;
-    }
 
     public void movePieceAdjacent(){
 
     }
 
     public Button returnAdjacentButtonId(Button mainButton){
+
         return mainButton;
     }
 
@@ -98,9 +111,9 @@ public class PvpGameScreen extends AppCompatActivity {
     public void removeOpponentPieceIfMill(Button toRemove){
         //human's turn
         if (lastMove=="P1"){
-            for (int i =0; i<playerPieceArray.length;i++){
-                if (playerPieceArray[i]==toRemove){
-                    playerPieceArray[i]=null;
+            for (int i = 0; i< player1PieceArray.length; i++){
+                if (player1PieceArray[i]==toRemove){
+                    player1PieceArray[i]=null;
                 }
             }
             toRemove.setText("");
@@ -108,9 +121,9 @@ public class PvpGameScreen extends AppCompatActivity {
         }
         //computer's turn
         if (lastMove=="P2"){
-            for (int i =0; i<computerPieceArray.length;i++){
-                if (computerPieceArray[i]==toRemove){
-                    computerPieceArray[i]=null;
+            for (int i = 0; i< player2PieceArray.length; i++){
+                if (player2PieceArray[i]==toRemove){
+                    player2PieceArray[i]=null;
                 }
             }
             toRemove.setText("");
@@ -121,26 +134,34 @@ public class PvpGameScreen extends AppCompatActivity {
 
 
     public void enableP2Moves(){
-        for (int i=0;i<computerPieceArray.length;i++){
-            computerPieceArray[i].setEnabled(true);
+        for (int i = 0; i< player2PieceArray.length; i++){
+            if (player2PieceArray[i] != null){
+                player2PieceArray[i].setEnabled(true);
+            }
         }
     }
 
     public void enableP1Moves(){
-        for (int i=0;i<playerPieceArray.length;i++){
-            playerPieceArray[i].setEnabled(true);
+        for (int i = 0; i< player1PieceArray.length; i++){
+            if(player1PieceArray[i]!=null){
+                player1PieceArray[i].setEnabled(true);
+            }
         }
     }
 
     public void disableP2Moves(){
-        for (int i=0;i<computerPieceArray.length;i++){
-            computerPieceArray[i].setEnabled(false);
+        for (int i = 0; i< player2PieceArray.length; i++){
+            if(player2PieceArray[i]!=null){
+                player2PieceArray[i].setEnabled(false);
+            }
         }
     }
 
     public void disableP1Moves(){
-        for (int i=0;i<playerPieceArray.length;i++){
-            playerPieceArray[i].setEnabled(false);
+        for (int i = 0; i< player1PieceArray.length; i++){
+            if(player1PieceArray[i]!=null) {
+                player1PieceArray[i].setEnabled(false);
+            }
         }
     }
 
