@@ -345,7 +345,6 @@ public class PvcGameScreen extends AppCompatActivity {
                     if(buttonArray[i][7].getText() !="C" && buttonArray[i][7].getText()!="P"){
                         return true;
                     }
-                }
             }
             if(buttonArray[i][7].getText() == "P") {
                 if (buttonArray[i][4].getText() == "P") {
