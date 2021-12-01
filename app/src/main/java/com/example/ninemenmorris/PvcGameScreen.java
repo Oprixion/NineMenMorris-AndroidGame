@@ -1032,13 +1032,13 @@ public class PvcGameScreen extends AppCompatActivity {
         }//for loop
         return -1;
     }//blockMoveInBetweenReturnRows
-    public boolean isBlockMoveCrossLinesInBetween(){
+    public boolean isMakeMillCrossLinesInBetween(){
         int[] numberArray = {1,3,4,6,0};
         int numInListCounter= 0;
         int numbersInList= numberArray[numInListCounter];
         while(numInListCounter<4){
-            if(buttonArray[0][numbersInList].getText()=="P"){
-                if(buttonArray[2][numbersInList].getText()=="P") {
+            if(buttonArray[0][numbersInList].getText()=="C"){
+                if(buttonArray[2][numbersInList].getText()=="C") {
                     if(buttonArray[1][numbersInList].getText()!= "C" && buttonArray[1]
                             [numbersInList].getText()!="P"){
                         return true;
@@ -1050,13 +1050,13 @@ public class PvcGameScreen extends AppCompatActivity {
         }//while loop
         return false;
     }
-    public int blockMoveCrossLinesInBetweenReturnCol(){
+    public int makeMillCrossLinesInBetweenReturnCol(){
         int[] numberArray = {1,3,4,6,0};
         int numInListCounter= 0;
         int numbersInList= numberArray[numInListCounter];
         while(numInListCounter<4){
-            if(buttonArray[0][numbersInList].getText()=="P"){
-                if(buttonArray[2][numbersInList].getText()=="P") {
+            if(buttonArray[0][numbersInList].getText()=="C"){
+                if(buttonArray[2][numbersInList].getText()=="C") {
                     if(buttonArray[1][numbersInList].getText()!= "C" && buttonArray[1]
                             [numbersInList].getText()!="P"){
                         return numbersInList;
@@ -1068,13 +1068,13 @@ public class PvcGameScreen extends AppCompatActivity {
         }//while loop
         return -1;
     }//blockMoveCrossLinesInBetweenReturnCol
-    public int blockMoveCrossLinesInBetweenReturnRow(){
+    public int makeMillCrossLinesInBetweenReturnRow(){
         int[] numberArray = {1,3,4,6,0};
         int numInListCounter= 0;
         int numbersInList= numberArray[numInListCounter];
         while(numInListCounter<4){
-            if(buttonArray[0][numbersInList].getText()=="P"){
-                if(buttonArray[2][numbersInList].getText()=="P") {
+            if(buttonArray[0][numbersInList].getText()=="C"){
+                if(buttonArray[2][numbersInList].getText()=="C") {
                     if(buttonArray[1][numbersInList].getText()!= "C" && buttonArray[1]
                             [numbersInList].getText()!="P"){
                         return 1;
