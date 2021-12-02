@@ -13,9 +13,10 @@ public class CreditsScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_credits_screen);
     }
-
-    public void goBackToStart(View myView){
-        Intent home = new Intent(this, StartScreen.class);
-        startActivity(home);
+    public void goBackHome(View myView){
+        Intent goHome = new Intent(this, StartScreen.class);
+        startActivity(goHome);
+        this.finish();
     }
+
 }

@@ -27,13 +27,7 @@
         android:layout_height="446dp"
         android:background="@drawable/custom_button"
         android:inputType="textMultiLine"
-        android:text="\nAll Right Reserved\n
-\n\n\nMember Roles:\n
-UI Wireframe and Prototype - Cole\n
-High Level Design - Israel\n
-Low Level Design - Thai\n
-Project requirements and planning - James\n
-"
+        android:text="@string/nall_right_reserved_n_n_n_nmember_roles_n_ui_wireframe_and_prototype_cole_n_high_level_design_israel_n_low_level_design_thai_n_project_requirements_and_planning_james_n"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="24sp"
@@ -50,7 +44,7 @@ Project requirements and planning - James\n
         android:layout_marginBottom="100dp"
         android:background="@drawable/custom_button"
         android:onClick="goBackToStart"
-        android:text="Back"
+        android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -9,6 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NineMenMorris">
+        <activity
+            android:name=".CreditsScreen"
+            android:exported="true" />
         <activity android:name=".PvpGameScreen" />
         <activity android:name=".PvcGameScreen" />
         <activity android:name=".StartScreen">
