@@ -17,4 +17,8 @@ public class StartScreen extends AppCompatActivity {
         Intent toModeSelect = new Intent(this, ModeSelectionScreen.class);
         startActivity(toModeSelect);
     }
+    public void openCreditsScreen(View myView){
+        Intent toCreditsScreen = new Intent(this, CreditsScreen.class);
+        startActivity(toCreditsScreen);
+    }
 }

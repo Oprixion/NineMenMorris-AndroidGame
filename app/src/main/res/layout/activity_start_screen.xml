@@ -29,6 +29,7 @@
         android:layout_marginBottom="224dp"
         android:background="@drawable/custom_button"
         android:fontFamily="@font/amatic_sc_bold"
+        android:onClick="openCreditsScreen"
         android:text="Credits"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -42,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="28dp"
-        android:text="?"
+        android:text="Help"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
