@@ -97,32 +97,52 @@ public class PvcGameScreen extends AppCompatActivity {
         if(isComputerFirstTurn(buttonArray)) {
             firstComputerTurn();
         }
-        else if(isBlockMoveFirstOp()){
-          buttonArray[blockMoveReturnRowsFirstOp()]
-                  [blockMoveReturnColsFirstOp()].setText("C");
+        else if(isBlockMoveFirstOp() || isBlockMoveSecondOp() ||
+                isBlockMoveCrossLines1() || isBlockMoveCrossLines2()
+                || isBlockMoveCrossLinesInBetween() || isBlockMoveInBetween()) {
+            if (isBlockMoveFirstOp()) {
+                buttonArray[blockMoveReturnRowsFirstOp()]
+                        [blockMoveReturnColsFirstOp()].setText("C");
+            } else if (isBlockMoveSecondOp()) {
+                buttonArray[blockMoveReturnRowsSecondOp()]
+                        [blockMoveReturnColsSecondOp()].setText("C");
+            } else if (isBlockMoveCrossLines1()) {
+                buttonArray[blockMoveCrossLinesReturnRows1()]
+                        [blockMoveCrossLinesReturnCols1()].setText("C");
+            } else if (isBlockMoveCrossLines2()) {
+                buttonArray[blockMoveCrossLinesReturnRows2()]
+                        [blockMoveCrossLinesReturnCols2()].setText("C");
+            } else if (isBlockMoveInBetween()) {
+                buttonArray[blockMoveInBetweenReturnRow()]
+                        [blockMoveInBetweenReturnCol()].setText("C");
+            } else if (isBlockMoveCrossLinesInBetween()) {
+                buttonArray[blockMoveCrossLinesInBetweenReturnRow()]
+                        [blockMoveCrossLinesInBetweenReturnCol()].setText("C");
+            }
         }
-        else if(isBlockMoveSecondOp()){
-            buttonArray[blockMoveReturnRowsSecondOp()]
-                    [blockMoveReturnColsSecondOp()].setText("C");
+        else if(isMakeMillCrossLines1()|| isMakeMillCrossLines2()
+                ||isMakeMillFirstOp() || isMakeMillSecondOp() || isMakeMillInBetween()
+        || isMakeMillCrossLinesInBetween()){
+            if (isMakeMillFirstOp()) {
+                buttonArray[makeMillReturnRowsFirstOp()]
+                        [makeMillReturnColsFirstOp()].setText("C");
+            } else if (isMakeMillSecondOp()) {
+                buttonArray[makeMillReturnRowsSecondOp()]
+                        [makeMillReturnColsSecondOp()].setText("C");
+            } else if (isMakeMillCrossLines1()) {
+                buttonArray[makeMillCrossLinesReturnRows1()]
+                        [makeMillCrossLinesReturnCols1()].setText("C");
+            } else if (isMakeMillCrossLines2()) {
+                buttonArray[makeMillCrossLinesReturnRows2()]
+                        [makeMillCrossLinesReturnCols2()].setText("C");
+            } else if (isMakeMillInBetween()) {
+                buttonArray[makeMillInBetweenReturnRow()]
+                        [makeMillInBetweenReturnCol()].setText("C");
+            } else if (isMakeMillCrossLinesInBetween()) {
+                buttonArray[makeMillCrossLinesInBetweenReturnRow()]
+                        [makeMillCrossLinesInBetweenReturnCol()].setText("C");
+            }
         }
-        else if(isBlockMoveCrossLines1()){
-            buttonArray[blockMoveCrossLinesReturnRows1()]
-                    [blockMoveCrossLinesReturnCols1()].setText("C");
-        }
-        else if(isBlockMoveCrossLines2()){
-            buttonArray[blockMoveCrossLinesReturnRows2()]
-                    [blockMoveCrossLinesReturnCols2()].setText("C");
-        }
-        else if(isBlockMoveInBetween()){
-            buttonArray[blockMoveInBetweenReturnRow()]
-                    [blockMoveInBetweenReturnCol()].setText("C");
-        }
-        else if(isBlockMoveCrossLinesInBetween()){
-            buttonArray[blockMoveCrossLinesInBetweenReturnRow()]
-                    [blockMoveCrossLinesInBetweenReturnCol()].setText("C");
-        }
-
-
     }
     public void disableAllButtons(Button[][] gameBoard ) {
         for (int i = 0; i <= 2; i++) {
@@ -342,9 +362,10 @@ public class PvcGameScreen extends AppCompatActivity {
             }
             if (buttonArray[i][2].getText() == "P") {
                 if (buttonArray[i][4].getText() == "P") {
-                    if(buttonArray[i][7].getText() !="C" && buttonArray[i][7].getText()!="P"){
+                    if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
                         return true;
                     }
+                }
             }
             if(buttonArray[i][7].getText() == "P") {
                 if (buttonArray[i][4].getText() == "P") {
@@ -692,7 +713,7 @@ public class PvcGameScreen extends AppCompatActivity {
         }//for loop
         return -1;
     }//blockMoveReturnCols
-    public int makeMillsReturnRowsFirstOp (){
+    public int makeMillReturnRowsFirstOp (){
         for(int i = 0 ; i<=2 ; i++) {
             if (buttonArray[i][0].getText() == "C") {
                 if (buttonArray[i][1].getText() == "C") {
@@ -1085,6 +1106,20 @@ public class PvcGameScreen extends AppCompatActivity {
         }//while loop
         return -1;
     }//blockMoveCrossLineInBetweenReturnRow
+  /*  public boolean isTryingToMakeMillMiddleHorizonal() {
+        for (int i = 0; i < 3; i++) {
+            if (buttonArray[i][1].getText() == "C") {
+                if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText()!="P") {
+                    buttonArray[i][0].setText("C");
+                }
+                else if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText()!="P"){
+                    buttonArray[i][2].setText("C");
+                }
+            }
+
+        }
+        return false
+    }*/
 
 }//end of file
     
