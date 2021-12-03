@@ -4,53 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreditsScreen">
+    tools:context=".HelpScreen">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="340dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="100dp"
+        android:id="@+id/title"
+        android:layout_width="131dp"
+        android:layout_height="45dp"
         android:background="@drawable/custom_button"
-        android:text="Credits"
+        android:fontFamily="@font/amatic_sc_bold"
+        android:text="HOW TO PLAY"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:fontFamily="@font/amatic_sc_bold"
-        android:textSize="34sp"
-        android:textStyle="bold"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/instructions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="339dp"
-        android:layout_height="446dp"
+        android:id="@+id/instructions"
+        android:layout_width="316dp"
+        android:layout_height="382dp"
+        android:layout_marginBottom="150dp"
         android:background="@drawable/custom_button"
-        android:inputType="textMultiLine"
-        android:text="@string/nall_right_reserved_n_n_n_nmember_roles_n_ui_wireframe_and_prototype_cole_n_high_level_design_israel_n_low_level_design_thai_n_project_requirements_and_planning_james_n"
-        android:textAlignment="center"
-        android:textColor="#000000"
         android:fontFamily="@font/amatic_sc_bold"
+        android:text="The basic aim of Nine Mens Morris is to make 'mills'- vertical or horizontal lines of three in a row.\nEvery time this is achieved, an opponent'spiece is removed, the overall objective being to reduce the number of opponent's pieces to less than three or to render the\nopponent unable to play. To begin with the board is empty."
+        android:textAlignment="center"
+        android:textColor="#020202"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/backToHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="550dp"
+        android:background="@drawable/custom_button"
+        android:fontFamily="@font/amatic_sc_bold"
+        android:onClick="goBackHome"
+        android:text="BACK"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <Button
-        android:id="@+id/backToMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="450dp"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/custom_button"
-        android:onClick="goBackHome"
-        android:text="@string/back"
-        android:fontFamily="@font/amatic_sc_bold"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NineMenMorris">
         <activity
+            android:name=".SettingScreen"
+            android:exported="true" />
+        <activity
+            android:name=".HelpScreen"
+            android:exported="true" />
+        <activity
             android:name=".CreditsScreen"
             android:exported="true" />
         <activity android:name=".PvpGameScreen" />
