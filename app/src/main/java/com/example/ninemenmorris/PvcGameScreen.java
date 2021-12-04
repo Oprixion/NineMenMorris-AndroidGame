@@ -10,13 +10,13 @@ import java.util.Random;
 public class PvcGameScreen extends AppCompatActivity {
      Button[][] buttonArray = new Button [8][8];
      String playerPiece;
-
-
+    int numOfRd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pvc_game_screen);
         playerPiece= "P";
+        numOfRd=0;
         buttonsBoard(buttonArray);
 
 
@@ -82,14 +82,17 @@ public class PvcGameScreen extends AppCompatActivity {
         gameBoard[2][7] = b27;
     }
     public void playerOrComputer(View myView){
+        numOfRd+=1;
         Button myButton = (Button) myView;
-        myButton.setText(playerPiece);
-        myButton.setEnabled(false);
-        if (playerPiece.equals("P")){
-            computerTurn();
-        }
-        else {
-            playerPiece = "P";
+        if(numOfPlayerPieces()<=9 && numOfPlayerPieces()<=9 ) {
+            myButton.setText(playerPiece);
+            myButton.setEnabled(false);
+            if (playerPiece.equals("P")){
+                computerTurn();
+            }
+            if(numOfRd>=9){
+                disableAllButtons();
+            }
         }
     }
 
@@ -136,18 +139,21 @@ public class PvcGameScreen extends AppCompatActivity {
             if(isTryingToMakeMillMiddleHorizonal()){
                 tryingToMakeMillMiddleHorizonal();
             }
-            else if(isTryingToMakeMillMiddleVertical()){
+           else if(isTryingToMakeMillMiddleVertical()){
                 tryingToMakeMillMiddleVertical();
             }
             else if(isTryingToMakeMillCorners()){
                 tryingToMakeMillCorners();
             }
+            else if(isTryingToMakeMillCrossLines()){
+                tryingToMakeMillCrossLines();
+            }
         }
     }
-    public void disableAllButtons(Button[][] gameBoard ) {
+    public void disableAllButtons( ) {
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
-                gameBoard[i][j].setEnabled(false);
+                buttonArray[i][j].setEnabled(false);
             }
         }
     }//disableAllButtons
@@ -186,12 +192,37 @@ public class PvcGameScreen extends AppCompatActivity {
             return false;
         }
     }//isCompterFirstTurn
+    public int numOfPlayerPieces() {
+        int numberOfPlayerPieces = 0;
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 7; j++) {
+                if (buttonArray[i][j].getText() == ("P")) {
+                    numberOfPlayerPieces += 1;
+                }//if
+            }//inner for loop
+        }// outer for loop
+        return numberOfPlayerPieces;
+    }//isCompterFirstTurn
+    public int numOfComputerPieces() {
+        int numberOfComputerPieces= 0;
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 7; j++) {
+                if (buttonArray[i][j].getText() == ("P")) {
+                    numberOfComputerPieces += 1;
+                }//if
+            }//inner for loop
+        }// outer for loop
+        return numberOfComputerPieces;
+    }//isCompterFirstTurn
+
         public void blockMoveFirstOp (){
             for(int i = 0 ; i<=2 ; i++) {
                 if (buttonArray[i][0].getText() == "P") {
                     if (buttonArray[i][1].getText() == "P") {
                         if(buttonArray[i][2].getText() !="C" && buttonArray[i][2].getText()!="P"){
                             buttonArray[i][2].setText("C");
+                            buttonArray[i][2].setEnabled(false);
+                            return;
                         }
                     }
                 }
@@ -199,6 +230,8 @@ public class PvcGameScreen extends AppCompatActivity {
                     if (buttonArray[i][1].getText() == "P") {
                         if(buttonArray[i][0].getText() !="C" && buttonArray[i][0].getText()!="P"){
                             buttonArray[i][0].setText("C");
+                            buttonArray[i][0].setEnabled(false);
+                            return;
                         }
                     }
                 }
@@ -206,13 +239,17 @@ public class PvcGameScreen extends AppCompatActivity {
                     if (buttonArray[i][6].getText() == "P") {
                         if(buttonArray[i][5].getText() !="C" && buttonArray[i][5].getText()!="P"){
                             buttonArray[i][5].setText("C");
+                            buttonArray[i][5].setEnabled(false);
+                            return;
                         }
                     }
                 }
                 if (buttonArray[i][5].getText() == "P") {
                     if (buttonArray[i][6].getText() == "P") {
                         if(buttonArray[i][7].getText() !="C" && buttonArray[i][7].getText()!="P"){
-                            buttonArray[i][5].setText("C");
+                            buttonArray[i][7].setText("C");
+                            buttonArray[i][7].setEnabled(false);
+                            return;
                         }
                     }
                 }
@@ -224,6 +261,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][3].getText() == "P") {
                     if(buttonArray[i][5].getText() !="C" && buttonArray[i][5].getText()!="P"){
                         buttonArray[i][5].setText("C");
+                        buttonArray[i][5].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -231,13 +270,17 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][4].getText() == "P") {
                     if(buttonArray[i][7].getText() !="C" && buttonArray[i][7].getText()!="P"){
                         buttonArray[i][7].setText("C");
+                        buttonArray[i][7].setEnabled(false);
+                        return;
                     }
                 }
             }
             if(buttonArray[i][7].getText() == "P") {
                 if (buttonArray[i][4].getText() == "P") {
                     if(buttonArray[i][2].getText() !="C" && buttonArray[i][2].getText()!="P"){
-                        buttonArray[i][0].setText("C");
+                        buttonArray[i][2].setText("C");
+                        buttonArray[i][2].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -245,6 +288,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][3].getText() == "P") {
                     if(buttonArray[i][0].getText() !="C" && buttonArray[i][0].getText()!="P"){
                         buttonArray[i][0].setText("C");
+                        buttonArray[i][2].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -346,6 +391,8 @@ public class PvcGameScreen extends AppCompatActivity {
                     if(buttonArray[2][numbersInList].getText()!= "C" && buttonArray[2]
                             [numbersInList].getText()!="P"){
                         buttonArray[2][numbersInList].setText("C");
+                        buttonArray[2][numbersInList].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -381,6 +428,8 @@ public class PvcGameScreen extends AppCompatActivity {
                     if(buttonArray[0][numbersInList].getText()!= "C" && buttonArray[0]
                             [numbersInList].getText()!="P"){
                         buttonArray[0][numbersInList].setText("C");
+                        buttonArray[0][numbersInList].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -428,6 +477,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][2].getText() == "P") {
                     if(buttonArray[i][1].getText() !="C" && buttonArray[i][1].getText()!="P"){
                         buttonArray[i][1].setText("C");
+                        buttonArray[i][1].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -435,6 +486,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][5].getText() == "P") {
                     if(buttonArray[i][3].getText() !="C" && buttonArray[i][3].getText()!="P"){
                         buttonArray[i][3].setText("C");
+                        buttonArray[i][3].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -442,6 +495,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][2].getText() == "P") {
                     if(buttonArray[i][4].getText() !="C" && buttonArray[i][4].getText()!="P"){
                         buttonArray[i][4].setText("C");
+                        buttonArray[i][4].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -449,6 +504,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][7].getText() == "P") {
                     if(buttonArray[i][6].getText() !="C" && buttonArray[i][6].getText()!="P"){
                         buttonArray[i][6].setText("C");
+                        buttonArray[i][6].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -483,6 +540,8 @@ public class PvcGameScreen extends AppCompatActivity {
                     if(buttonArray[1][numbersInList].getText()!= "C" && buttonArray[1]
                             [numbersInList].getText()!="P"){
                         buttonArray[1][numbersInList].setText("C");
+                        buttonArray[1][numbersInList].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -498,6 +557,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][1].getText() == "C") {
                     if(buttonArray[i][2].getText() !="C" && buttonArray[i][2].getText()!="P"){
                         buttonArray[i][2].setText("C");
+                        buttonArray[i][6].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -505,6 +566,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][1].getText() == "C") {
                     if(buttonArray[i][0].getText() !="C" && buttonArray[i][0].getText()!="P"){
                         buttonArray[i][0].setText("C");
+                        buttonArray[i][0].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -512,6 +575,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][6].getText() == "C") {
                     if(buttonArray[i][5].getText() !="C" && buttonArray[i][5].getText()!="P"){
                         buttonArray[i][5].setText("C");
+                        buttonArray[i][5].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -519,6 +584,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][6].getText() == "C") {
                     if(buttonArray[i][7].getText() !="C" && buttonArray[i][7].getText()!="P"){
                         buttonArray[i][7].setText("C");
+                        buttonArray[i][7].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -530,6 +597,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][3].getText() == "C") {
                     if(buttonArray[i][5].getText() !="C" && buttonArray[i][5].getText()!="P"){
                         buttonArray[i][5].setText("C");
+                        buttonArray[i][5].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -537,6 +606,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][4].getText() == "C") {
                     if(buttonArray[i][7].getText() !="C" && buttonArray[i][7].getText()!="P"){
                         buttonArray[i][7].setText("C");
+                        buttonArray[i][7].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -544,6 +615,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][4].getText() == "C") {
                     if(buttonArray[i][2].getText() !="C" && buttonArray[i][2].getText()!="P"){
                         buttonArray[i][2].setText("C");
+                        buttonArray[i][2].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -551,6 +624,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][3].getText() == "C") {
                     if(buttonArray[i][0].getText() !="C" && buttonArray[i][0].getText()!="P"){
                         buttonArray[i][0].setText("C");
+                        buttonArray[i][0].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -651,6 +726,8 @@ public class PvcGameScreen extends AppCompatActivity {
                     if(buttonArray[2][numbersInList].getText()!= "C" && buttonArray[2]
                             [numbersInList].getText()!="P"){
                         buttonArray[2][numbersInList].setText("C");
+                        buttonArray[2][numbersInList].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -686,6 +763,8 @@ public class PvcGameScreen extends AppCompatActivity {
                     if(buttonArray[0][numbersInList].getText()!= "C" && buttonArray[0]
                             [numbersInList].getText()!="P"){
                         buttonArray[0][numbersInList].setText("C");
+                        buttonArray[0][numbersInList].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -732,6 +811,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][2].getText() == "C") {
                     if(buttonArray[i][1].getText() !="C" && buttonArray[i][1].getText()!="P"){
                         buttonArray[i][1].setText("C");
+                        buttonArray[i][1].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -739,6 +820,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][5].getText() == "C") {
                     if(buttonArray[i][3].getText() !="C" && buttonArray[i][3].getText()!="P"){
                         buttonArray[i][3].setText("C");
+                        buttonArray[i][3].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -746,6 +829,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][2].getText() == "C") {
                     if(buttonArray[i][4].getText() !="C" && buttonArray[i][4].getText()!="P"){
                         buttonArray[i][4].setText("C");
+                        buttonArray[i][4].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -753,6 +838,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[i][7].getText() == "C") {
                     if(buttonArray[i][6].getText() !="C" && buttonArray[i][6].getText()!="P"){
                         buttonArray[i][6].setText("C");
+                        buttonArray[i][6].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -786,6 +873,8 @@ public class PvcGameScreen extends AppCompatActivity {
                     if(buttonArray[1][numbersInList].getText()!= "C" && buttonArray[1]
                             [numbersInList].getText()!="P"){
                         buttonArray[1][numbersInList].setText("C");
+                        buttonArray[1][numbersInList].setEnabled(false);
+                        return;
                     }
                 }
             }
@@ -803,7 +892,7 @@ public class PvcGameScreen extends AppCompatActivity {
                     return true;
                 }
             }
-            else if(buttonArray[i][6].getText() == "C") {
+            if(buttonArray[i][6].getText() == "C") {
                 if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText()!="P") {
                     return true;
                 }
@@ -819,17 +908,25 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][1].getText() == "C") {
                 if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText()!="P") {
                     buttonArray[i][0].setText("C");
+                    buttonArray[i][0].setEnabled(false);
+                    return;
                 }
                 else if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText()!="P"){
                     buttonArray[i][2].setText("C");
+                    buttonArray[i][2].setEnabled(false);
+                    return;
                 }
             }
-            else if(buttonArray[i][6].getText() == "C") {
+            if(buttonArray[i][6].getText() == "C") {
                 if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText()!="P") {
                     buttonArray[i][5].setText("C");
+                    buttonArray[i][5].setEnabled(false);
+                    return;
                 }
                 else if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText()!="P"){
                     buttonArray[i][7].setText("C");
+                    buttonArray[i][7].setEnabled(false);
+                    return;
                 }
             }
         }
@@ -844,7 +941,7 @@ public class PvcGameScreen extends AppCompatActivity {
                     return true;
                 }
             }
-            else if(buttonArray[i][4].getText() == "C") {
+             if(buttonArray[i][4].getText() == "C") {
                 if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText()!="P") {
                     return true;
                 }
@@ -860,17 +957,25 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][3].getText() == "C") {
                 if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText()!="P") {
                     buttonArray[i][0].setText("C");
+                    buttonArray[i][0].setEnabled(false);
+                    return;
                 }
                 else if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText()!="P"){
                     buttonArray[i][5].setText("C");
+                    buttonArray[i][5].setEnabled(false);
+                    return;
                 }
             }
-            else if(buttonArray[i][4].getText() == "C") {
+            if(buttonArray[i][4].getText() == "C") {
                 if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText()!="P") {
                     buttonArray[i][2].setText("C");
+                    buttonArray[i][2].setEnabled(false);
+                    return;
                 }
                 else if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText()!="P"){
                     buttonArray[i][7].setText("C");
+                    buttonArray[i][7].setEnabled(false);
+                    return;
                 }
             }
         }
@@ -885,7 +990,7 @@ public class PvcGameScreen extends AppCompatActivity {
                    return true;
                 }
             }
-            else if(buttonArray[i][2].getText() == "C") {
+            if(buttonArray[i][2].getText() == "C") {
                 if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText()!="P") {
                     return true;
                 }
@@ -893,7 +998,7 @@ public class PvcGameScreen extends AppCompatActivity {
                    return true;
                 }
             }
-            else if(buttonArray[i][5].getText() == "C") {
+            if(buttonArray[i][5].getText() == "C") {
                 if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText()!="P") {
                     return true;
                 }
@@ -901,7 +1006,7 @@ public class PvcGameScreen extends AppCompatActivity {
                     return true;
                 }
             }
-            else if(buttonArray[i][7].getText() == "C") {
+            if(buttonArray[i][7].getText() == "C") {
                 if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText()!="P") {
                    return true;
                 }
@@ -917,39 +1022,125 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][0].getText() == "C") {
                 if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText()!="P") {
                     buttonArray[i][1].setText("C");
+                    buttonArray[i][1].setEnabled(false);
+                    return;
                 }
                 else if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText()!="P"){
                     buttonArray[i][3].setText("C");
+                    buttonArray[i][3].setEnabled(false);
+                    return;
                 }
             }
-            else if(buttonArray[i][2].getText() == "C") {
+            if(buttonArray[i][2].getText() == "C") {
                 if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText()!="P") {
                     buttonArray[i][1].setText("C");
+                    buttonArray[i][1].setEnabled(false);
+                    return;
                 }
                 else if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText()!="P"){
                     buttonArray[i][4].setText("C");
+                    buttonArray[i][4].setEnabled(false);
+                    return;
                 }
             }
-            else if(buttonArray[i][5].getText() == "C") {
+            if(buttonArray[i][5].getText() == "C") {
                 if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText()!="P") {
                     buttonArray[i][3].setText("C");
+                    buttonArray[i][3].setEnabled(false);
+                    return;
                 }
                 else if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText()!="P"){
                     buttonArray[i][6].setText("C");
+                    buttonArray[i][6].setEnabled(false);
+                    return;
                 }
             }
-            else if(buttonArray[i][7].getText() == "C") {
+            if(buttonArray[i][7].getText() == "C") {
                 if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText()!="P") {
                     buttonArray[i][6].setText("C");
+                    buttonArray[i][6].setEnabled(false);
+                    return;
+
                 }
                 else if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText()!="P"){
                     buttonArray[i][4].setText("C");
+                    buttonArray[i][4].setEnabled(false);
+                    return;
                 }
             }
         }// for loop
     }
-
-
+    public boolean isTryingToMakeMillCrossLines(){
+        int[] numberArray = {1,3,4,6,0};
+        int numInListCounter= 0;
+        int numbersInList= numberArray[numInListCounter];
+        while (numInListCounter<4){
+            if (buttonArray[0][numbersInList].getText()=="C"){
+                if (buttonArray[1][numbersInList].getText()!="C"&&
+                        buttonArray[1][numbersInList].getText()!="P"){
+                    return true;
+                }
+            }
+            if(buttonArray[1][numbersInList].getText()=="C"){
+                if (buttonArray[0][numbersInList].getText()!="C"&&
+                        buttonArray[0][numbersInList].getText()!="P"){
+                    return true;
+                }
+                if (buttonArray[2][numbersInList].getText()!="C"&&
+                        buttonArray[2][numbersInList].getText()!="P"){
+                    return true;
+                }
+            }
+            if(buttonArray[2][numbersInList].getText()=="C"){
+                if (buttonArray[1][numbersInList].getText()!="C"&&
+                        buttonArray[1][numbersInList].getText()!="P"){
+                    return true;
+                }
+            }
+            numInListCounter+=1;
+            numbersInList=numberArray[numInListCounter];
+        }// end While loop
+        return false;
+    }//isTryingToMakeMillCrossLines
+    public void tryingToMakeMillCrossLines(){
+        int[] numberArray = {1,3,4,6,0};
+        int numInListCounter= 0;
+        int numbersInList= numberArray[numInListCounter];
+        while (numInListCounter<4){
+            if (buttonArray[0][numbersInList].getText()=="C"){
+                if (buttonArray[1][numbersInList].getText()!="C"&&
+                        buttonArray[1][numbersInList].getText()!="P"){
+                    buttonArray[1][numbersInList].setText("C");
+                    buttonArray[1][numbersInList].setEnabled(false);
+                    return;
+                }
+            }
+            if(buttonArray[1][numbersInList].getText()=="C"){
+                if (buttonArray[0][numbersInList].getText()!="C"&&
+                        buttonArray[0][numbersInList].getText()!="P"){
+                    buttonArray[0][numbersInList].setText("C");
+                    buttonArray[0][numbersInList].setEnabled(false);
+                    return;
+                }
+                else if (buttonArray[2][numbersInList].getText()!="C"&&
+                        buttonArray[2][numbersInList].getText()!="P"){
+                    buttonArray[2][numbersInList].setText("C");
+                    buttonArray[2][numbersInList].setEnabled(false);
+                    return;
+                }
+            }
+            if(buttonArray[2][numbersInList].getText()=="C"){
+                if (buttonArray[1][numbersInList].getText()!="C"&&
+                        buttonArray[1][numbersInList].getText()!="P"){
+                    buttonArray[1][numbersInList].setText("C");
+                    buttonArray[1][numbersInList].setEnabled(false);
+                    return;
+                }
+            }
+            numInListCounter+=1;
+            numbersInList=numberArray[numInListCounter];
+        }// end While loop
+    }//TryingToMakeMillCrossLines
 }//end of file
     
 
