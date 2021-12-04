@@ -177,11 +177,8 @@ public class PvpGameScreen extends AppCompatActivity {
     public boolean isMill() {
         //all moves on first square
         Button b00 = (Button) findViewById(R.id.pvpB00);
-        millOnBoardArray[0][0] = b00;
         Button b01 = (Button) findViewById(R.id.pvpB01);
-        millOnBoardArray[0][1] = b01;
         Button b02 = (Button) findViewById(R.id.pvpB02);
-        millOnBoardArray[0][2] = b02;
         Button b03 = (Button) findViewById(R.id.pvpB03);
         Button b04 = (Button) findViewById(R.id.pvpB04);
         Button b05 = (Button) findViewById(R.id.pvpB05);
@@ -262,6 +259,59 @@ public class PvpGameScreen extends AppCompatActivity {
         if (b06.getText().equals(lastMove) && b16.getText().equals(lastMove) && b26.getText().equals(lastMove))
             return true;
         return false;
+    }
+
+    public boolean isMill2(Button theMove){
+        Button b00 = (Button) findViewById(R.id.pvpB00);
+        millOnBoardArray[0][0] = b00;
+        Button b01 = (Button) findViewById(R.id.pvpB01);
+        millOnBoardArray[0][1] = b01;
+        Button b02 = (Button) findViewById(R.id.pvpB02);
+        millOnBoardArray[0][2] = b02;
+        Button b03 = (Button) findViewById(R.id.pvpB03);
+        millOnBoardArray[0][3] = b03;
+        Button b04 = (Button) findViewById(R.id.pvpB04);
+        millOnBoardArray[0][4] = b04;
+        Button b05 = (Button) findViewById(R.id.pvpB05);
+        millOnBoardArray[0][5] = b05;
+        Button b06 = (Button) findViewById(R.id.pvpB06);
+        millOnBoardArray[0][6] = b06;
+        Button b07 = (Button) findViewById(R.id.pvpB07);
+        millOnBoardArray[0][7] = b07;
+
+        Button b10 = (Button) findViewById(R.id.pvpB10);
+        millOnBoardArray[1][0] = b10;
+        Button b11 = (Button) findViewById(R.id.pvpB11);
+        millOnBoardArray[1][1] = b11;
+        Button b12 = (Button) findViewById(R.id.pvpB12);
+        millOnBoardArray[1][2] = b12;
+        Button b13 = (Button) findViewById(R.id.pvpB13);
+        millOnBoardArray[1][3] = b13;
+        Button b14 = (Button) findViewById(R.id.pvpB14);
+        millOnBoardArray[1][4] = b14;
+        Button b15 = (Button) findViewById(R.id.pvpB15);
+        millOnBoardArray[1][5] = b15;
+        Button b16 = (Button) findViewById(R.id.pvpB16);
+        millOnBoardArray[1][6] = b16;
+        Button b17 = (Button) findViewById(R.id.pvpB17);
+        millOnBoardArray[1][7] = b17;
+
+        Button b20 = (Button) findViewById(R.id.pvpB20);
+        millOnBoardArray[2][0] = b20;
+        Button b21 = (Button) findViewById(R.id.pvpB21);
+        millOnBoardArray[2][1] = b21;
+        Button b22 = (Button) findViewById(R.id.pvpB22);
+        millOnBoardArray[2][2] = b22;
+        Button b23 = (Button) findViewById(R.id.pvpB23);
+        millOnBoardArray[2][3] = b23;
+        Button b24 = (Button) findViewById(R.id.pvpB24);
+        millOnBoardArray[2][4] = b24;
+        Button b25 = (Button) findViewById(R.id.pvpB25);
+        millOnBoardArray[2][5] = b25;
+        Button b26 = (Button) findViewById(R.id.pvpB26);
+        millOnBoardArray[2][6] = b26;
+        Button b27 = (Button) findViewById(R.id.pvpB27);
+        millOnBoardArray[2][7] = b27;
     }
 
 }
