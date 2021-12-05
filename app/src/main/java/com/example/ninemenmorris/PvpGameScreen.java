@@ -39,7 +39,7 @@ public class PvpGameScreen extends AppCompatActivity {
             if (player1PieceOnHand > 0 && player2PieceOnHand > 0) {
                 if (lastMove=="P1"){
                     player2Turn(theMoves);
-                    if(isMill()){
+                    if(isMill(theMoves)){
                         enableP1Moves();
                         lastMove="p2RemoveTurn";
                         //removeOpponentPieceIfMill(myView);
@@ -47,7 +47,7 @@ public class PvpGameScreen extends AppCompatActivity {
                  }
                 else if (lastMove=="P2"){
                      player1Turn(theMoves);
-                     if(isMill()){
+                     if(isMill(theMoves)){
                          enableP2Moves();
                          lastMove="p1RemoveTurn";
                          //removeOpponentPieceIfMill(myView);
@@ -122,7 +122,6 @@ public class PvpGameScreen extends AppCompatActivity {
             }
             toRemove.setText("");
             player2PieceOnBoard--;
-            lastMove="P2";
 
 
         }
@@ -135,7 +134,6 @@ public class PvpGameScreen extends AppCompatActivity {
             }
             toRemove.setText("");
             player1PieceOnBoard--;
-            lastMove="P1";
 
         }
 
@@ -174,14 +172,12 @@ public class PvpGameScreen extends AppCompatActivity {
         }
     }
 
-    public boolean isMill() {
+    public boolean isMill(Button theMove) {
+        int idOfTheMove = theMove.getId();
         //all moves on first square
         Button b00 = (Button) findViewById(R.id.pvpB00);
-        millOnBoardArray[0][0] = b00;
         Button b01 = (Button) findViewById(R.id.pvpB01);
-        millOnBoardArray[0][1] = b01;
         Button b02 = (Button) findViewById(R.id.pvpB02);
-        millOnBoardArray[0][2] = b02;
         Button b03 = (Button) findViewById(R.id.pvpB03);
         Button b04 = (Button) findViewById(R.id.pvpB04);
         Button b05 = (Button) findViewById(R.id.pvpB05);
@@ -208,60 +204,108 @@ public class PvpGameScreen extends AppCompatActivity {
 
         //first outer layer
         //check first layer above
-        if (b00.getText().equals(lastMove) && b01.getText().equals(lastMove) && b02.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b00.getId())||(idOfTheMove==b01.getId())||(idOfTheMove==b02.getId())){
+            if (b00.getText().equals(lastMove) && b01.getText().equals(lastMove) && b02.getText().equals(lastMove))
+                return true;
+        }
+
         //check first layer left
-        if (b00.getText().equals(lastMove) && b03.getText().equals(lastMove) && b05.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b00.getId())||(idOfTheMove==b03.getId())||(idOfTheMove==b05.getId())){
+            if (b00.getText().equals(lastMove) && b03.getText().equals(lastMove) && b05.getText().equals(lastMove))
+                return true;
+        }
+
         //check first layer right
-        if (b02.getText().equals(lastMove) && b04.getText().equals(lastMove) && b07.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b02.getId())||(idOfTheMove==b04.getId())||(idOfTheMove==b07.getId())){
+            if (b02.getText().equals(lastMove) && b04.getText().equals(lastMove) && b07.getText().equals(lastMove))
+                return true;
+        }
         //check first layer below
-        if (b05.getText().equals(lastMove) && b06.getText().equals(lastMove) && b07.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b05.getId())||(idOfTheMove==b06.getId())||(idOfTheMove==b07.getId())){
+            if (b05.getText().equals(lastMove) && b06.getText().equals(lastMove) && b07.getText().equals(lastMove))
+                return true;
+        }
+
 
         //second inner layer
         //check second layer above
-        if (b10.getText().equals(lastMove) && b11.getText().equals(lastMove) && b12.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b10.getId())||(idOfTheMove==b11.getId())||(idOfTheMove==b12.getId())){
+            if (b10.getText().equals(lastMove) && b11.getText().equals(lastMove) && b12.getText().equals(lastMove))
+                return true;
+        }
+
         //check second layer left
-        if (b10.getText().equals(lastMove) && b13.getText().equals(lastMove) && b15.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b10.getId())||(idOfTheMove==b13.getId())||(idOfTheMove==b15.getId())){
+            if (b10.getText().equals(lastMove) && b13.getText().equals(lastMove) && b15.getText().equals(lastMove))
+                return true;
+        }
+
         //check second layer right
-        if (b12.getText().equals(lastMove) && b14.getText().equals(lastMove) && b17.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b12.getId())||(idOfTheMove==b14.getId())||(idOfTheMove==b17.getId())){
+            if (b12.getText().equals(lastMove) && b14.getText().equals(lastMove) && b17.getText().equals(lastMove))
+                return true;
+        }
+
         //check second layer below
-        if (b15.getText().equals(lastMove) && b17.getText().equals(lastMove) && b17.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b15.getId())||(idOfTheMove==b16.getId())||(idOfTheMove==b17.getId())){
+            if (b15.getText().equals(lastMove) && b16.getText().equals(lastMove) && b17.getText().equals(lastMove))
+                return true;
+        }
+
 
         //third inner layer
         //check third layer above
-        if (b20.getText().equals(lastMove) && b21.getText().equals(lastMove) && b22.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b20.getId())||(idOfTheMove==b21.getId())||(idOfTheMove==b22.getId())){
+            if (b20.getText().equals(lastMove) && b21.getText().equals(lastMove) && b22.getText().equals(lastMove))
+                return true;
+        }
+
         //check third layer left
-        if (b20.getText().equals(lastMove) && b23.getText().equals(lastMove) && b25.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b20.getId())||(idOfTheMove==b23.getId())||(idOfTheMove==b25.getId())){
+            if (b20.getText().equals(lastMove) && b23.getText().equals(lastMove) && b25.getText().equals(lastMove))
+                return true;
+        }
+
         //check third layer right
-        if (b22.getText().equals(lastMove) && b24.getText().equals(lastMove) && b27.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b22.getId())||(idOfTheMove==b24.getId())||(idOfTheMove==b27.getId())){
+            if (b22.getText().equals(lastMove) && b24.getText().equals(lastMove) && b27.getText().equals(lastMove))
+                return true;
+        }
+
         //check third layer below
-        if (b25.getText().equals(lastMove) && b26.getText().equals(lastMove) && b27.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b25.getId())||(idOfTheMove==b26.getId())||(idOfTheMove==b27.getId())){
+            if (b25.getText().equals(lastMove) && b26.getText().equals(lastMove) && b27.getText().equals(lastMove))
+                return true;
+        }
+
 
         //middles
         //check middle above
-        if (b01.getText().equals(lastMove) && b11.getText().equals(lastMove) && b21.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b01.getId())||(idOfTheMove==b11.getId())||(idOfTheMove==b21.getId())){
+            if (b01.getText().equals(lastMove) && b11.getText().equals(lastMove) && b21.getText().equals(lastMove))
+                return true;
+        }
+
         //check middle left
-        if (b03.getText().equals(lastMove) && b13.getText().equals(lastMove) && b23.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b03.getId())||(idOfTheMove==b13.getId())||(idOfTheMove==b23.getId())){
+            if (b03.getText().equals(lastMove) && b13.getText().equals(lastMove) && b23.getText().equals(lastMove))
+                return true;
+        }
+
         //check middle right
-        if (b04.getText().equals(lastMove) && b14.getText().equals(lastMove) && b24.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b04.getId())||(idOfTheMove==b14.getId())||(idOfTheMove==b24.getId())){
+            if (b04.getText().equals(lastMove) && b14.getText().equals(lastMove) && b24.getText().equals(lastMove))
+                return true;
+        }
+
         //check middle below
-        if (b06.getText().equals(lastMove) && b16.getText().equals(lastMove) && b26.getText().equals(lastMove))
-            return true;
+        if((idOfTheMove==b06.getId())||(idOfTheMove==b16.getId())||(idOfTheMove==b26.getId())){
+            if (b06.getText().equals(lastMove) && b16.getText().equals(lastMove) && b26.getText().equals(lastMove))
+                return true;
+        }
         return false;
     }
+
+
 
 }
