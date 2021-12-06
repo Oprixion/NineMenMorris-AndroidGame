@@ -4,17 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.VibrationEffect;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class PvpGameScreen extends AppCompatActivity {
+public class PvpGameScreen extends AppCompatActivity{
     String lastMove;
     private int player1PieceOnBoard=0;
     private int player1PieceOnHand=9;
     private int player2PieceOnBoard=0;
     private int player2PieceOnHand=9;
+    private int positionOfTheRemovedButton;
     private Button[] player1PieceArray = new Button[9];
     private Button[] player2PieceArray = new Button[9];
     private Button[][] millOnBoardArray = new Button[9][9];
@@ -36,13 +36,12 @@ public class PvpGameScreen extends AppCompatActivity {
         //When there are still pieces to play
         if ((player1PieceOnBoard+player1PieceOnHand > 2) || (player2PieceOnBoard+player2PieceOnHand > 2)){
             //When there are sill pieces on hand
-            if (player1PieceOnHand > 0 && player2PieceOnHand > 0) {
+            if (player1PieceOnHand > 0 || player2PieceOnHand > 0) {
                 if (lastMove=="P1"){
                     player2Turn(theMoves);
                     if(isMill(theMoves)){
                         enableP1Moves();
                         lastMove="p2RemoveTurn";
-                        //removeOpponentPieceIfMill(myView);
                     }
                  }
                 else if (lastMove=="P2"){
@@ -50,19 +49,30 @@ public class PvpGameScreen extends AppCompatActivity {
                      if(isMill(theMoves)){
                          enableP2Moves();
                          lastMove="p1RemoveTurn";
-                         //removeOpponentPieceIfMill(myView);
                      }
                  }
                 else if((lastMove=="p1RemoveTurn")||(lastMove=="p2RemoveTurn")){
                     removeOpponentPieceIfMill(myView);
                     disableP2Moves();
                     disableP1Moves();
-
                 }
             }//if
             //When there are no pieces left on hand
             if (player1PieceOnHand == 0 && player2PieceOnHand == 0){
-
+                disableAllPieces();
+                if(theMoves.isEnabled()){
+                    enableAllAdjacentButtons(theMoves);
+                }
+                else {
+                    if(lastMove=="P1"){
+                        enableP1Moves();
+                        //enableAllAdjacentButtons(theMoves);
+                    }
+                    if(lastMove=="P2"){
+                        enableP2Moves();
+                        //enableAllAdjacentButtons(theMoves);
+                    }
+                }
             }//if
         }//if
     }//placeMove
@@ -87,7 +97,7 @@ public class PvpGameScreen extends AppCompatActivity {
         updateP1PieceCounterTV();
         lastMove="P1";
         textView.setText(lastMove);
-    }
+    }//player1Turn
 
     public void player2Turn(Button theMove){
         TextView textView = (TextView) findViewById(R.id.textView2);
@@ -99,15 +109,301 @@ public class PvpGameScreen extends AppCompatActivity {
         updateP2PieceCounterTV();
         lastMove="P2";
         textView.setText(lastMove);
+    }//player1Turn
+
+    public void movePieceAdjacent(Button placeToMoveTo){
+        if(lastMove=="P1"){
+            placeToMoveTo.setText(lastMove);
+            player1PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
+            lastMove="P2";
+        }
+        if(lastMove=="P2"){
+            placeToMoveTo.setText(lastMove);
+            player2PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
+            lastMove="P1";
+        }
     }
 
-    public void movePieceAdjacent(){
-
+    public void removePieceFromArrayWhenMoving(Button chosenToBeMove){
+        if(lastMove=="P1"){
+            chosenToBeMove.setText("");
+            for(int i=0;i<player1PieceArray.length;i++){
+                if(player1PieceArray[i]==chosenToBeMove){
+                    player1PieceArray[i]=null;
+                    positionOfTheRemovedButton=i;
+                }
+            }
+        }
+        if(lastMove=="P2"){
+            chosenToBeMove.setText("");
+            for(int i=0;i<player2PieceArray.length;i++){
+                if(player2PieceArray[i]==chosenToBeMove){
+                    player2PieceArray[i]=null;
+                    positionOfTheRemovedButton=i;
+                }
+            }
+        }
     }
 
-    public Button returnAdjacentButtonId(Button mainButton){
+    public void enableAllAdjacentButtons(Button chosenToBeMove){
+        Button b00 = (Button) findViewById(R.id.pvpB00);
+        Button b01 = (Button) findViewById(R.id.pvpB01);
+        Button b02 = (Button) findViewById(R.id.pvpB02);
+        Button b03 = (Button) findViewById(R.id.pvpB03);
+        Button b04 = (Button) findViewById(R.id.pvpB04);
+        Button b05 = (Button) findViewById(R.id.pvpB05);
+        Button b06 = (Button) findViewById(R.id.pvpB06);
+        Button b07 = (Button) findViewById(R.id.pvpB07);
 
-        return mainButton;
+        Button b10 = (Button) findViewById(R.id.pvpB10);
+        Button b11 = (Button) findViewById(R.id.pvpB11);
+        Button b12 = (Button) findViewById(R.id.pvpB12);
+        Button b13 = (Button) findViewById(R.id.pvpB13);
+        Button b14 = (Button) findViewById(R.id.pvpB14);
+        Button b15 = (Button) findViewById(R.id.pvpB15);
+        Button b16 = (Button) findViewById(R.id.pvpB16);
+        Button b17 = (Button) findViewById(R.id.pvpB17);
+
+        Button b20 = (Button) findViewById(R.id.pvpB20);
+        Button b21 = (Button) findViewById(R.id.pvpB21);
+        Button b22 = (Button) findViewById(R.id.pvpB22);
+        Button b23 = (Button) findViewById(R.id.pvpB23);
+        Button b24 = (Button) findViewById(R.id.pvpB24);
+        Button b25 = (Button) findViewById(R.id.pvpB25);
+        Button b26 = (Button) findViewById(R.id.pvpB26);
+        Button b27 = (Button) findViewById(R.id.pvpB27);
+
+        //If the chosen button is in the first square
+        if(chosenToBeMove==b00){
+            if((b01.getText()!="P1")&&(b01.getText()!="P2")){
+                b01.setEnabled(true);
+            }
+            if((b03.getText()!="P1")&&(b03.getText()!="P2")){
+                b03.setEnabled(true);
+            }
+
+        }
+        if(chosenToBeMove==b01){
+            if((b11.getText()!="P1")&&(b11.getText()!="P2")){
+                b11.setEnabled(true);
+            }
+            if((b00.getText()!="P1")&&(b00.getText()!="P2")){
+                b01.setEnabled(true);
+            }
+            if((b02.getText()!="P1")&&(b02.getText()!="P2")){
+                b02.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b02){
+            if((b01.getText()!="P1")&&(b01.getText()!="P2")){
+                b01.setEnabled(true);
+            }
+            if((b04.getText()!="P1")&&(b04.getText()!="P2")){
+                b04.setEnabled(true);
+            }
+
+        }
+        if(chosenToBeMove==b03){
+            if((b00.getText()!="P1")&&(b00.getText()!="P2")){
+                b00.setEnabled(true);
+            }
+            if((b13.getText()!="P1")&&(b13.getText()!="P2")){
+                b13.setEnabled(true);
+            }
+            if((b05.getText()!="P1")&&(b05.getText()!="P2")){
+                b05.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b04){
+            if((b02.getText()!="P1")&&(b02.getText()!="P2")){
+                b02.setEnabled(true);
+            }
+            if((b14.getText()!="P1")&&(b14.getText()!="P2")){
+                b14.setEnabled(true);
+            }
+            if((b07.getText()!="P1")&&(b07.getText()!="P2")){
+                b07.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b05){
+            if((b03.getText()!="P1")&&(b03.getText()!="P2")){
+                b03.setEnabled(true);
+            }
+            if((b06.getText()!="P1")&&(b06.getText()!="P2")){
+                b06.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b06){
+            if((b05.getText()!="P1")&&(b05.getText()!="P2")){
+                b05.setEnabled(true);
+            }
+            if((b16.getText()!="P1")&&(b16.getText()!="P2")){
+                b13.setEnabled(true);
+            }
+            if((b07.getText()!="P1")&&(b07.getText()!="P2")){
+                b07.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b07){
+            if((b04.getText()!="P1")&&(b04.getText()!="P2")){
+                b04.setEnabled(true);
+            }
+            if((b06.getText()!="P1")&&(b06.getText()!="P2")){
+                b06.setEnabled(true);
+            }
+        }
+
+        //If the chosen button is in the second square
+        if(chosenToBeMove==b10){
+            if((b11.getText()!="P1")&&(b11.getText()!="P2")){
+                b11.setEnabled(true);
+            }
+            if((b13.getText()!="P1")&&(b13.getText()!="P2")){
+                b13.setEnabled(true);
+            }
+
+        }
+        if(chosenToBeMove==b11){
+            if((b21.getText()!="P1")&&(b21.getText()!="P2")){
+                b21.setEnabled(true);
+            }
+            if((b10.getText()!="P1")&&(b10.getText()!="P2")){
+                b10.setEnabled(true);
+            }
+            if((b12.getText()!="P1")&&(b12.getText()!="P2")){
+                b12.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b12){
+            if((b11.getText()!="P1")&&(b11.getText()!="P2")){
+                b01.setEnabled(true);
+            }
+            if((b14.getText()!="P1")&&(b14.getText()!="P2")){
+                b14.setEnabled(true);
+            }
+
+        }
+        if(chosenToBeMove==b13){
+            if((b10.getText()!="P1")&&(b10.getText()!="P2")){
+                b10.setEnabled(true);
+            }
+            if((b23.getText()!="P1")&&(b23.getText()!="P2")){
+                b23.setEnabled(true);
+            }
+            if((b15.getText()!="P1")&&(b15.getText()!="P2")){
+                b15.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b14){
+            if((b12.getText()!="P1")&&(b12.getText()!="P2")){
+                b12.setEnabled(true);
+            }
+            if((b24.getText()!="P1")&&(b24.getText()!="P2")){
+                b24.setEnabled(true);
+            }
+            if((b17.getText()!="P1")&&(b17.getText()!="P2")){
+                b17.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b15){
+            if((b13.getText()!="P1")&&(b13.getText()!="P2")){
+                b13.setEnabled(true);
+            }
+            if((b16.getText()!="P1")&&(b16.getText()!="P2")){
+                b16.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b16){
+            if((b15.getText()!="P1")&&(b15.getText()!="P2")){
+                b15.setEnabled(true);
+            }
+            if((b26.getText()!="P1")&&(b26.getText()!="P2")){
+                b26.setEnabled(true);
+            }
+            if((b17.getText()!="P1")&&(b17.getText()!="P2")){
+                b17.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b17){
+            if((b14.getText()!="P1")&&(b14.getText()!="P2")){
+                b14.setEnabled(true);
+            }
+            if((b16.getText()!="P1")&&(b16.getText()!="P2")){
+                b16.setEnabled(true);
+            }
+        }
+
+        //If the chosen button is in the third square
+        if(chosenToBeMove==b20){
+            if((b21.getText()!="P1")&&(b21.getText()!="P2")){
+                b21.setEnabled(true);
+            }
+            if((b23.getText()!="P1")&&(b23.getText()!="P2")){
+                b23.setEnabled(true);
+            }
+
+        }
+        if(chosenToBeMove==b21){
+            if((b20.getText()!="P1")&&(b20.getText()!="P2")){
+                b20.setEnabled(true);
+            }
+            if((b22.getText()!="P1")&&(b22.getText()!="P2")){
+                b22.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b22){
+            if((b21.getText()!="P1")&&(b21.getText()!="P2")){
+                b21.setEnabled(true);
+            }
+            if((b24.getText()!="P1")&&(b24.getText()!="P2")){
+                b24.setEnabled(true);
+            }
+
+        }
+        if(chosenToBeMove==b23){
+            if((b20.getText()!="P1")&&(b20.getText()!="P2")){
+                b25.setEnabled(true);
+            }
+            if((b25.getText()!="P1")&&(b25.getText()!="P2")){
+                b25.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b24){
+            if((b22.getText()!="P1")&&(b22.getText()!="P2")){
+                b22.setEnabled(true);
+            }
+            if((b27.getText()!="P1")&&(b27.getText()!="P2")){
+                b27.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b25){
+            if((b23.getText()!="P1")&&(b23.getText()!="P2")){
+                b23.setEnabled(true);
+            }
+            if((b26.getText()!="P1")&&(b26.getText()!="P2")){
+                b26.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b26){
+            if((b25.getText()!="P1")&&(b25.getText()!="P2")){
+                b15.setEnabled(true);
+            }
+            if((b27.getText()!="P1")&&(b27.getText()!="P2")){
+                b27.setEnabled(true);
+            }
+        }
+        if(chosenToBeMove==b27){
+            if((b24.getText()!="P1")&&(b24.getText()!="P2")){
+                b24.setEnabled(true);
+            }
+            if((b26.getText()!="P1")&&(b26.getText()!="P2")){
+                b26.setEnabled(true);
+            }
+        }
+
+
+
+
     }
 
 
@@ -122,6 +418,7 @@ public class PvpGameScreen extends AppCompatActivity {
             }
             toRemove.setText("");
             player2PieceOnBoard--;
+            lastMove="P2";
 
 
         }
@@ -134,7 +431,7 @@ public class PvpGameScreen extends AppCompatActivity {
             }
             toRemove.setText("");
             player1PieceOnBoard--;
-
+            lastMove="P1";
         }
 
     }
@@ -174,7 +471,6 @@ public class PvpGameScreen extends AppCompatActivity {
 
     public boolean isMill(Button theMove) {
         int idOfTheMove = theMove.getId();
-        //all moves on first square
         Button b00 = (Button) findViewById(R.id.pvpB00);
         Button b01 = (Button) findViewById(R.id.pvpB01);
         Button b02 = (Button) findViewById(R.id.pvpB02);
@@ -201,6 +497,7 @@ public class PvpGameScreen extends AppCompatActivity {
         Button b25 = (Button) findViewById(R.id.pvpB25);
         Button b26 = (Button) findViewById(R.id.pvpB26);
         Button b27 = (Button) findViewById(R.id.pvpB27);
+
 
         //first outer layer
         //check first layer above
@@ -304,6 +601,59 @@ public class PvpGameScreen extends AppCompatActivity {
                 return true;
         }
         return false;
+    }
+
+    public void disableAllPieces(){
+        Button b00 = (Button) findViewById(R.id.pvpB00);
+        b00.setEnabled(false);
+        Button b01 = (Button) findViewById(R.id.pvpB01);
+        b01.setEnabled(false);
+        Button b02 = (Button) findViewById(R.id.pvpB02);
+        b02.setEnabled(false);
+        Button b03 = (Button) findViewById(R.id.pvpB03);
+        b03.setEnabled(false);
+        Button b04 = (Button) findViewById(R.id.pvpB04);
+        b04.setEnabled(false);
+        Button b05 = (Button) findViewById(R.id.pvpB05);
+        b05.setEnabled(false);
+        Button b06 = (Button) findViewById(R.id.pvpB06);
+        b06.setEnabled(false);
+        Button b07 = (Button) findViewById(R.id.pvpB07);
+        b07.setEnabled(false);
+
+        Button b10 = (Button) findViewById(R.id.pvpB10);
+        b10.setEnabled(false);
+        Button b11 = (Button) findViewById(R.id.pvpB11);
+        b11.setEnabled(false);
+        Button b12 = (Button) findViewById(R.id.pvpB12);
+        b12.setEnabled(false);
+        Button b13 = (Button) findViewById(R.id.pvpB13);
+        b13.setEnabled(false);
+        Button b14 = (Button) findViewById(R.id.pvpB14);
+        b14.setEnabled(false);
+        Button b15 = (Button) findViewById(R.id.pvpB15);
+        b15.setEnabled(false);
+        Button b16 = (Button) findViewById(R.id.pvpB16);
+        b16.setEnabled(false);
+        Button b17 = (Button) findViewById(R.id.pvpB17);
+        b17.setEnabled(false);
+
+        Button b20 = (Button) findViewById(R.id.pvpB20);
+        b20.setEnabled(false);
+        Button b21 = (Button) findViewById(R.id.pvpB21);
+        b21.setEnabled(false);
+        Button b22 = (Button) findViewById(R.id.pvpB22);
+        b22.setEnabled(false);
+        Button b23 = (Button) findViewById(R.id.pvpB23);
+        b23.setEnabled(false);
+        Button b24 = (Button) findViewById(R.id.pvpB24);
+        b24.setEnabled(false);
+        Button b25 = (Button) findViewById(R.id.pvpB25);
+        b25.setEnabled(false);
+        Button b26 = (Button) findViewById(R.id.pvpB26);
+        b26.setEnabled(false);
+        Button b27 = (Button) findViewById(R.id.pvpB27);
+        b27.setEnabled(false);
     }
 
 
