@@ -406,7 +406,6 @@ public class PvpGameScreen extends AppCompatActivity{
 
     }
 
-
     public void removeOpponentPieceIfMill(View myView){
         Button toRemove = (Button) myView;
         //human's turn
@@ -435,7 +434,6 @@ public class PvpGameScreen extends AppCompatActivity{
         }
 
     }
-
 
     public void enableP2Moves(){
         for (int i = 0; i< player2PieceArray.length; i++){
@@ -655,7 +653,5 @@ public class PvpGameScreen extends AppCompatActivity{
         Button b27 = (Button) findViewById(R.id.pvpB27);
         b27.setEnabled(false);
     }
-
-
 
 }
