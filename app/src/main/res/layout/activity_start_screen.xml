@@ -11,7 +11,7 @@
         android:id="@+id/playButton"
         android:layout_width="160dp"
         android:layout_height="100dp"
-        android:background="@drawable/buttonPlay"
+        android:background="@drawable/button_play"
         android:fontFamily="@font/amatic_sc_bold"
         android:onClick="openModeSelection"
         android:textSize="36sp"
@@ -27,7 +27,7 @@
         android:layout_width="160dp"
         android:layout_height="100dp"
         android:layout_marginBottom="136dp"
-        android:background="@drawable/buttonCredits"
+        android:background="@drawable/button_credits"
         android:fontFamily="@font/amatic_sc_bold"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +40,7 @@
         android:layout_height="80dp"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="28dp"
-        android:background="@drawable/buttonHelp"
+        android:background="@drawable/button_help"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -48,11 +48,11 @@
         android:id="@+id/muteButton"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="28dp"
-        android:background="@drawable/buttonMuteOn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/settingButton" />
+        android:background="@drawable/button_mute_on"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/settingButton"
@@ -60,7 +60,7 @@
         android:layout_height="80dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="28dp"
-        android:background="@drawable/buttonSettings"
+        android:background="@drawable/button_settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -89,7 +89,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/backgroundPlanet" />
+        app:srcCompat="@drawable/background_planet" />
 
     <ImageView
         android:id="@+id/backgroundTitle"
@@ -101,6 +101,6 @@
         app:layout_constraintStart_toStartOf="@+id/background"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.412"
-        app:srcCompat="@drawable/backgroundTitle" />
+        app:srcCompat="@drawable/background_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
