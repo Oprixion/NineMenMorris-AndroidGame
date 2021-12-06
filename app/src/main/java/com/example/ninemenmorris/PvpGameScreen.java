@@ -59,23 +59,67 @@ public class PvpGameScreen extends AppCompatActivity{
             }//if
             //When there are no pieces left on hand
             if (player1PieceOnHand == 0 && player2PieceOnHand == 0){
-                disableAllPieces();
-                if(theMoves.isEnabled()){
-                    enableAllAdjacentButtons(theMoves);
-                }
-                else {
-                    if(lastMove=="P1"){
+                if(lastMove=="P2"){
+                    if(isInArray(theMoves)){
+                        if(theMoves.isEnabled()){
+                            enableEmptyAdjacentButtons(theMoves);
+                            removePieceFromArrayWhenMoving(theMoves);
+                        }else {
+                            disableAllPieces();
+                            enableP2Moves();
+                        }
+                    }else if (isInArray(theMoves)==false){
+                        moveP2PieceAdjacent(theMoves);
+                        if(isMill(theMoves)){
+                            enableP1Moves();
+                            lastMove="p2RemoveTurn";
+                        }
+                        disableP2Moves();
                         enableP1Moves();
-                        //enableAllAdjacentButtons(theMoves);
                     }
-                    if(lastMove=="P2"){
+                }else if(lastMove=="P1"){
+                    if(isInArray(theMoves)){
+                        if(theMoves.isEnabled()){
+                            enableEmptyAdjacentButtons(theMoves);
+                            removePieceFromArrayWhenMoving(theMoves);
+                        }else {
+                            disableAllPieces();
+                            enableP1Moves();
+                        }
+                    }else if (isInArray(theMoves)==false){
+                        moveP1PieceAdjacent(theMoves);
+                        if(isMill(theMoves)){
+                            enableP2Moves();
+                            lastMove="p1RemoveTurn";
+                        }
+                        disableP1Moves();
                         enableP2Moves();
-                        //enableAllAdjacentButtons(theMoves);
                     }
+                }
+                else if((lastMove=="p1RemoveTurn")||(lastMove=="p2RemoveTurn")){
+                    removeOpponentPieceIfMill(myView);
+                    disableP2Moves();
+                    disableP1Moves();
                 }
             }//if
         }//if
     }//placeMove
+    public boolean isInArray(Button theMove){
+        if(lastMove=="P1"){
+            for (int i=0; i<player1PieceArray.length; i++){
+                if(player1PieceArray[i]==theMove){
+                    return true;
+                }
+            }
+        }else if(lastMove=="P2"){
+            for (int i=0; i<player2PieceArray.length; i++){
+                if(player2PieceArray[i]==theMove){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public void updateP1PieceCounterTV(){
         TextView p1CounterTV=(TextView) findViewById(R.id.p1CounterTV);
@@ -90,10 +134,10 @@ public class PvpGameScreen extends AppCompatActivity{
     public void player1Turn(Button theMove){
         TextView textView = (TextView) findViewById(R.id.textView2);
         theMove.setText("P1");
+        theMove.setEnabled(false);
         player1PieceArray[9-player1PieceOnHand]=theMove;
         player1PieceOnHand--;
         player1PieceOnBoard++;
-        theMove.setEnabled(false);
         updateP1PieceCounterTV();
         lastMove="P1";
         textView.setText(lastMove);
@@ -102,25 +146,40 @@ public class PvpGameScreen extends AppCompatActivity{
     public void player2Turn(Button theMove){
         TextView textView = (TextView) findViewById(R.id.textView2);
         theMove.setText("P2");
+        theMove.setEnabled(false);
         player2PieceArray[9-player2PieceOnHand]=theMove;
         player2PieceOnHand--;
         player2PieceOnBoard++;
-        theMove.setEnabled(false);
         updateP2PieceCounterTV();
         lastMove="P2";
         textView.setText(lastMove);
     }//player1Turn
 
+    public void moveP1PieceAdjacent(Button placeToMoveTo){
+        TextView textView = (TextView) findViewById(R.id.textView2);
+        placeToMoveTo.setText("P1");
+        lastMove="P2";
+        player1PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
+        textView.setText(lastMove);
+    }
+    public void moveP2PieceAdjacent(Button placeToMoveTo){
+        TextView textView = (TextView) findViewById(R.id.textView2);
+        placeToMoveTo.setText("P2");
+        lastMove="P1";
+        player2PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
+        textView.setText(lastMove);
+    }
     public void movePieceAdjacent(Button placeToMoveTo){
+        TextView textView = (TextView) findViewById(R.id.textView2);
         if(lastMove=="P1"){
-            placeToMoveTo.setText(lastMove);
+            placeToMoveTo.setText("P1");
             player1PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
-            lastMove="P2";
+            textView.setText(lastMove);
         }
         if(lastMove=="P2"){
-            placeToMoveTo.setText(lastMove);
+            placeToMoveTo.setText("P2");
             player2PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
-            lastMove="P1";
+            textView.setText(lastMove);
         }
     }
 
@@ -145,7 +204,7 @@ public class PvpGameScreen extends AppCompatActivity{
         }
     }
 
-    public void enableAllAdjacentButtons(Button chosenToBeMove){
+    public void enableEmptyAdjacentButtons(Button chosenToBeMove){
         Button b00 = (Button) findViewById(R.id.pvpB00);
         Button b01 = (Button) findViewById(R.id.pvpB01);
         Button b02 = (Button) findViewById(R.id.pvpB02);
@@ -238,7 +297,7 @@ public class PvpGameScreen extends AppCompatActivity{
                 b05.setEnabled(true);
             }
             if((b16.getText()!="P1")&&(b16.getText()!="P2")){
-                b13.setEnabled(true);
+                b16.setEnabled(true);
             }
             if((b07.getText()!="P1")&&(b07.getText()!="P2")){
                 b07.setEnabled(true);
@@ -350,6 +409,9 @@ public class PvpGameScreen extends AppCompatActivity{
             if((b22.getText()!="P1")&&(b22.getText()!="P2")){
                 b22.setEnabled(true);
             }
+            if((b11.getText()!="P1")&&(b11.getText()!="P2")){
+                b11.setEnabled(true);
+            }
         }
         if(chosenToBeMove==b22){
             if((b21.getText()!="P1")&&(b21.getText()!="P2")){
@@ -367,6 +429,9 @@ public class PvpGameScreen extends AppCompatActivity{
             if((b25.getText()!="P1")&&(b25.getText()!="P2")){
                 b25.setEnabled(true);
             }
+            if((b13.getText()!="P1")&&(b13.getText()!="P2")){
+                b13.setEnabled(true);
+            }
         }
         if(chosenToBeMove==b24){
             if((b22.getText()!="P1")&&(b22.getText()!="P2")){
@@ -374,6 +439,9 @@ public class PvpGameScreen extends AppCompatActivity{
             }
             if((b27.getText()!="P1")&&(b27.getText()!="P2")){
                 b27.setEnabled(true);
+            }
+            if((b14.getText()!="P1")&&(b14.getText()!="P2")){
+                b14.setEnabled(true);
             }
         }
         if(chosenToBeMove==b25){
@@ -390,6 +458,9 @@ public class PvpGameScreen extends AppCompatActivity{
             }
             if((b27.getText()!="P1")&&(b27.getText()!="P2")){
                 b27.setEnabled(true);
+            }
+            if((b16.getText()!="P1")&&(b16.getText()!="P2")){
+                b16.setEnabled(true);
             }
         }
         if(chosenToBeMove==b27){
