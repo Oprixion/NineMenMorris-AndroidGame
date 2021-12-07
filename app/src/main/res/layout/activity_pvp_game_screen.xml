@@ -55,6 +55,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter"
             app:layout_constraintTop_toTopOf="@+id/backgroundBoardConnecter" />
 
@@ -64,6 +68,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintEnd_toStartOf="@+id/pvpB02"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toEndOf="@+id/pvpB00"
@@ -75,6 +83,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
             app:layout_constraintTop_toTopOf="@+id/backgroundBoardConnecter" />
 
@@ -84,6 +96,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/pvpB05"
             app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter"
             app:layout_constraintTop_toBottomOf="@+id/pvpB00"
@@ -95,6 +111,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/pvpB07"
             app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
             app:layout_constraintTop_toBottomOf="@+id/pvpB02"
@@ -106,6 +126,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="@+id/backgroundBoardConnecter"
             app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter" />
 
@@ -115,6 +139,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="@+id/backgroundBoardConnecter"
             app:layout_constraintEnd_toStartOf="@+id/pvpB07"
             app:layout_constraintHorizontal_bias="0.502"
@@ -126,6 +154,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="@+id/backgroundBoardConnecter"
             app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter" />
 
@@ -136,6 +168,10 @@
             android:layout_marginStart="48dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter"
             app:layout_constraintTop_toBottomOf="@+id/pvpB00" />
 
@@ -145,6 +181,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintEnd_toStartOf="@+id/pvpB12"
             app:layout_constraintStart_toEndOf="@+id/pvpB10"
             app:layout_constraintTop_toBottomOf="@+id/pvpB01" />
@@ -157,6 +197,10 @@
             android:layout_marginEnd="48dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
             app:layout_constraintTop_toBottomOf="@+id/pvpB02" />
 
@@ -166,6 +210,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/pvpB15"
             app:layout_constraintStart_toEndOf="@+id/pvpB03"
             app:layout_constraintTop_toBottomOf="@+id/pvpB10"
@@ -176,11 +224,15 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/pvpB17"
             app:layout_constraintEnd_toStartOf="@+id/pvpB04"
             app:layout_constraintTop_toBottomOf="@+id/pvpB12"
-            app:layout_constraintVertical_bias="0.506"
-            android:onClick="placeMove" />
+            app:layout_constraintVertical_bias="0.506" />
 
         <Button
             android:id="@+id/pvpB15"
@@ -189,6 +241,10 @@
             android:layout_marginStart="48dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/pvpB05"
             app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter" />
 
@@ -198,6 +254,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/pvpB06"
             app:layout_constraintEnd_toStartOf="@+id/pvpB17"
             app:layout_constraintHorizontal_bias="0.486"
@@ -210,8 +270,12 @@
             android:layout_marginEnd="56dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/pvpB07"
-            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter" />
+            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent" />
 
         <Button
             android:id="@+id/pvpB20"
@@ -221,6 +285,10 @@
             android:layout_marginTop="4dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter"
             app:layout_constraintTop_toBottomOf="@+id/pvpB10" />
 
@@ -230,6 +298,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintEnd_toStartOf="@+id/pvpB22"
             app:layout_constraintHorizontal_bias="0.486"
             app:layout_constraintStart_toEndOf="@+id/pvpB20"
@@ -242,6 +314,10 @@
             android:layout_marginEnd="104dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
             app:layout_constraintTop_toBottomOf="@+id/pvpB12" />
 
@@ -251,6 +327,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/pvpB25"
             app:layout_constraintStart_toEndOf="@+id/pvpB13"
             app:layout_constraintTop_toBottomOf="@+id/pvpB20" />
@@ -261,6 +341,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/pvpB27"
             app:layout_constraintEnd_toStartOf="@+id/pvpB14"
             app:layout_constraintTop_toBottomOf="@+id/pvpB22"
@@ -273,6 +357,10 @@
             android:layout_marginStart="100dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/pvpB15"
             app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter" />
 
@@ -282,6 +370,10 @@
             android:layout_height="50dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/pvpB16"
             app:layout_constraintEnd_toStartOf="@+id/pvpB27"
             app:layout_constraintHorizontal_bias="0.486"
@@ -294,6 +386,10 @@
             android:layout_marginEnd="104dp"
             android:background="@drawable/token_none"
             android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
             app:layout_constraintBottom_toTopOf="@+id/pvpB17"
             app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter" />
 
@@ -393,16 +489,5 @@
             app:srcCompat="@drawable/font_9" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
