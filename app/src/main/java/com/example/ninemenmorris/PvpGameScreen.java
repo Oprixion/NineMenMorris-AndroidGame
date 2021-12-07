@@ -514,6 +514,7 @@ public class PvpGameScreen extends AppCompatActivity{
         for (int i = 0; i< player2PieceArray.length; i++){
             if (player2PieceArray[i] != null){
                 player2PieceArray[i].setEnabled(true);
+                turnButtonHighlightRed(player2PieceArray[i]);
             }
         }
     }
@@ -522,6 +523,7 @@ public class PvpGameScreen extends AppCompatActivity{
         for (int i = 0; i< player1PieceArray.length; i++){
             if(player1PieceArray[i]!=null){
                 player1PieceArray[i].setEnabled(true);
+                turnButtonHighlightBlue(player1PieceArray[i]);
             }
         }
     }
@@ -530,6 +532,7 @@ public class PvpGameScreen extends AppCompatActivity{
         for (int i = 0; i< player2PieceArray.length; i++){
             if(player2PieceArray[i]!=null){
                 player2PieceArray[i].setEnabled(false);
+                turnButtonRed(player2PieceArray[i]);
             }
         }
     }
@@ -538,6 +541,7 @@ public class PvpGameScreen extends AppCompatActivity{
         for (int i = 0; i< player1PieceArray.length; i++){
             if(player1PieceArray[i]!=null) {
                 player1PieceArray[i].setEnabled(false);
+                turnButtonBlue(player1PieceArray[i]);
             }
         }
     }
@@ -772,26 +776,21 @@ public class PvpGameScreen extends AppCompatActivity{
     /*
     Below are all the basic functions that turn an input button into a specified visual
      */
-    public void turnButtonWhite(View MyView){
-        Button InputButton = (Button) MyView;
+    public void turnButtonWhite(Button InputButton){
         InputButton.setBackgroundResource(R.drawable.token_none);
     }
-    public void turnButtonBlue(View MyView){
-        Button InputButton = (Button) MyView;
+    public void turnButtonBlue(Button InputButton){
         InputButton.setBackgroundResource(R.drawable.token_blue);
     }
-    public void turnButtonRed(View MyView){
-        Button InputButton = (Button) MyView;
+    public void turnButtonRed(Button InputButton){
         InputButton.setBackgroundResource(R.drawable.token_red);
     }
 
     //Below are used for when a piece needs to be highlighted for a move
-    public void turnButtonHighlightBlue(View MyView){
-        Button InputButton = (Button) MyView;
+    public void turnButtonHighlightBlue(Button InputButton){
         InputButton.setBackgroundResource(R.drawable.token_blue_selected);
     }
-    public void turnButtonHighlightRed(View MyView){
-        Button InputButton = (Button) MyView;
+    public void turnButtonHighlightRed(Button InputButton){
         InputButton.setBackgroundResource(R.drawable.token_red_selected);
     }
 }
