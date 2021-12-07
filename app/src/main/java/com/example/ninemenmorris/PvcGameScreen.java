@@ -31,10 +31,10 @@ public class PvcGameScreen extends AppCompatActivity {
     public void flipTurnWidget(int turn){
         ImageView arrow = (ImageView) findViewById(R.id.turnWidget);
         if (turn == 0){
-            arrow.setBackgroundResource(R.drawable.turn_blue);
+            arrow.setImageResource(R.drawable.turn_blue);
         }
         else{
-            arrow.setBackgroundResource(R.drawable.turn_red);
+            arrow.setImageResource(R.drawable.turn_red);
         }
     }
     /*
@@ -56,7 +56,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 (R.drawable.font_8), (R.drawable.font_9)};
 
         //Change counter to specific number font
-        counter.setBackgroundResource(fonts[number]);
+        counter.setImageResource(fonts[number]);
     }
 
     /*
