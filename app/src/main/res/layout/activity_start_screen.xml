@@ -66,18 +66,26 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <ToggleButton
+    <Button
         android:id="@+id/muteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="88dp"
+        android:layout_height="46dp"
         android:layout_marginStart="90dp"
         android:layout_marginTop="120dp"
-        android:background="@drawable/custom_button"
+
+        android:background="@drawable/ic_baseline_volume_mute_24"
         android:fontFamily="@font/amatic_sc_bold"
-        android:text="ToggleButton"
+        android:onClick="toggleMute"
+        android:text="Off"
+        android:textAlignment="gravity"
+        android:textColor="#FFFFFF"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/settingButton"
+        app:layout_constraintHorizontal_bias="0.64"
         app:layout_constraintStart_toEndOf="@+id/htpButton"
-        app:layout_constraintTop_toBottomOf="@+id/creditsButton" />
+        app:layout_constraintTop_toBottomOf="@+id/creditsButton"
+        app:layout_constraintVertical_bias="0.482"
+        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
