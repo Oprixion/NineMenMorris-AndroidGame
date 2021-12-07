@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NineMenMorris">
+        <activity android:name=".RestartScreen"></activity>
         <activity
             android:name=".SettingScreen"
             android:exported="true" />
