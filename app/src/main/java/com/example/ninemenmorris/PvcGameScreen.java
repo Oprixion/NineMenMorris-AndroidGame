@@ -9,10 +9,13 @@ import java.util.Random;
 
 public class PvcGameScreen extends AppCompatActivity {
     public int playerPieceOnHand = 9;
-    public int player1PieceOnBoard = 0;
+    public int playerPieceOnBoard = 0;
+    public int computerPieceOnBoard = 0;
+    public int computerPieceOnHand = 9;
     public int indexOfPlayerPieceToRemove=0;
      Button[][] buttonArray = new Button [8][8];
-     Button[] playerHand = new Button[10];
+     Button[] playerPiecesArray = new Button[10];
+     Button[] computerPiecesArray = new Button[10];
      String playerPiece;
     int numOfRd;
     @Override
@@ -22,10 +25,6 @@ public class PvcGameScreen extends AppCompatActivity {
         playerPiece= "P";
         numOfRd=0;
         buttonsBoard(buttonArray);
-
-
-
-
 
     }
     public void buttonsBoard(Button [][] gameBoard) {
@@ -91,6 +90,15 @@ public class PvcGameScreen extends AppCompatActivity {
         Button playerMove = (Button) myView;
         if(numOfPlayerPieces()<=9 && numOfPlayerPieces()<=9 ) {
             playerTurn(playerMove);
+            if(isMillCrossLines1("P")||isMillFirstOp("P")
+                    ||isMillSecondOp("P")){
+                if(playerMove.getText()=="P"){
+                    return;
+                }
+                disableAllButtons();
+                enableComputerMove();
+                removeIfMill(playerMove);
+            }
             if (playerPiece.equals("P")){
                 if(numOfRd<=9) {
                     computerTurn();
@@ -118,12 +126,12 @@ public class PvcGameScreen extends AppCompatActivity {
         if(numOfRd<=9) {
             playerMove.setText("P");
             playerMove.setEnabled(false);
-            playerHand[9 - playerPieceOnHand] = playerMove;
+            playerPiecesArray[9 - playerPieceOnHand] = playerMove;
             if (playerPieceOnHand > 0) {
                 playerPieceOnHand--;
             }
-            if (player1PieceOnBoard < 9) {
-                player1PieceOnBoard++;
+            if (playerPieceOnBoard < 9) {
+                playerPieceOnBoard++;
             }
             playerPiece = "P";
         }
@@ -167,17 +175,14 @@ public class PvcGameScreen extends AppCompatActivity {
             }
         }
         else if(isTryingToMakeMillCorners()||isTryingToMakeMillMiddleHorizonal()
-                ||isTryingToMakeMillMiddleVertical()){
-            if(isTryingToMakeMillMiddleHorizonal()){
+                ||isTryingToMakeMillMiddleVertical()) {
+            if (isTryingToMakeMillMiddleHorizonal()) {
                 tryingToMakeMillMiddleHorizonal();
-            }
-           else if(isTryingToMakeMillMiddleVertical()){
+            } else if (isTryingToMakeMillMiddleVertical()) {
                 tryingToMakeMillMiddleVertical();
-            }
-            else if(isTryingToMakeMillCorners()){
+            } else if (isTryingToMakeMillCorners()) {
                 tryingToMakeMillCorners();
-            }
-            else if(isTryingToMakeMillCrossLines()){
+            } else if (isTryingToMakeMillCrossLines()) {
                 tryingToMakeMillCrossLines();
             }
         }
@@ -193,8 +198,8 @@ public class PvcGameScreen extends AppCompatActivity {
 
     public void enableAllPlayerPieces(){
         for(int i= 0; i<=8; i++){
-            if(playerHand[i].getText()!=null) {
-                playerHand[i].setEnabled(true);
+            if(playerPiecesArray[i].getText()!=null) {
+                playerPiecesArray[i].setEnabled(true);
             }
         }
     }//disableAllButtons
@@ -835,9 +840,30 @@ public class PvcGameScreen extends AppCompatActivity {
             numbersInList=numberArray[numInListCounter];
         }// end While loop
     }//TryingToMakeMillCrossLines
+    public void disableComputerMove(){
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 7; j++) {
+                if(buttonArray[i][j].getText()=="C"){
+                    buttonArray[i][j].setEnabled(false);
+                }
+            }
+        }
+    }
+    public void enableComputerMove(){
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 7; j++) {
+                if(buttonArray[i][j].getText()=="C"){
+                    buttonArray[i][j].setEnabled(true);
+                }
+            }
+        }
+    }
+    public void removeIfMill(Button removedButton){
+       removedButton.setText(null);
+    }
     public void removePlayerPieceWhenMoving(Button playerMove){
         for(int i= 0 ; i<=8 ; i++){
-            if(playerHand[i]==playerMove){
+            if(playerPiecesArray[i]==playerMove){
                 indexOfPlayerPieceToRemove=i;
                 return;
             }
@@ -846,8 +872,8 @@ public class PvcGameScreen extends AppCompatActivity {
     public void movePlayerPiece(Button playerMove){
         if(playerMove.getText()!="P" && playerMove.getText()!="C"){
             playerMove.setText("P");
-            playerHand[indexOfPlayerPieceToRemove].setText(null);
-            playerHand[indexOfPlayerPieceToRemove]=playerMove;
+            playerPiecesArray[indexOfPlayerPieceToRemove].setText(null);
+            playerPiecesArray[indexOfPlayerPieceToRemove]=playerMove;
         }
     }
     public void enableAdjacentButtons(Button playerMove){
@@ -1089,8 +1115,71 @@ public class PvcGameScreen extends AppCompatActivity {
             }
         }
     }
-    public void isMill(){
+    public int countMills(){
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 7; j++) {
+                if (buttonArray[i][j].getText() == "C") {
+                    buttonArray[i][j].setEnabled(true);
+                }
+            }
+        }
+    }
+    ///////////////////////////////// NEWWWW PART //////////////////////////////
+    public boolean isMillFirstOp(String playerOrComputerPiece){
+        for(int i = 0 ; i<=2 ; i++) {
+            if (buttonArray[i][0].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][1].getText() == playerOrComputerPiece) {
+                    if(buttonArray[i][2].getText()== playerOrComputerPiece){
+                       return true;
+                    }
+                }
+            }
 
+            if(buttonArray[i][7].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][6].getText() == playerOrComputerPiece) {
+                    if(buttonArray[i][5].getText()== playerOrComputerPiece){
+                       return true;
+                    }
+                }
+            }
+        }//for loop
+        return false;
+    }//blockMoveReturnCols
+    public boolean isMillSecondOp(String playerOrComputerPiece){
+        for(int i = 0 ; i<=2 ; i++) {
+            if (buttonArray[i][0].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][3].getText() == playerOrComputerPiece) {
+                    if(buttonArray[i][5].getText()== playerOrComputerPiece){
+                        return true;
+                    }
+                }
+            }
+            if (buttonArray[i][2].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][4].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][7].getText() ==playerOrComputerPiece) {
+                        return true;
+                    }
+                }
+            }
+        }//for loop
+        return false;
+    }//isblockmove
+    public boolean isMillCrossLines1(String playerOrComputerPiece){
+        int[] numberArray = {1,3,4,6,0};
+        int numInListCounter= 0;
+        int numbersInList= numberArray[numInListCounter];
+        while(numInListCounter<4){
+            if(buttonArray[0][numbersInList].getText()==playerOrComputerPiece){
+                if(buttonArray[1][numbersInList].getText()==playerOrComputerPiece) {
+                    if(buttonArray[2][numbersInList].getText()==playerOrComputerPiece){
+                        return true;
+                    }
+                }
+            }
+            numInListCounter+=1;
+            numbersInList=numberArray[numInListCounter];
+        }//while loop
+        return false;
     }
 }//end of file
     
