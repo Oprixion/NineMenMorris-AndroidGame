@@ -15,7 +15,7 @@ import android.widget.Button;
 public class ModeSelectionScreen extends AppCompatActivity {
     public int gameMode=2;
     public int gameDifficulty=2;
-    MediaPlayer disco;
+    MediaPlayer haunt;
     private String onOff;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,19 +27,19 @@ public class ModeSelectionScreen extends AppCompatActivity {
         onOff = onOffValue.getString("myInfo");
 
         Button muteButton = (Button) findViewById(R.id.muteButton);
-        disco = MediaPlayer.create(this, R.raw.disco);
-        disco.setLooping(true);
+        haunt = MediaPlayer.create(this, R.raw.haunt);
+        haunt.setLooping(true);
     }
 
     public void toggleMute(View myView){
         Button muteButton = (Button) myView;
         muteButton.setText(onOff);
         if(onOff.equals("On")) {
-            disco.start();
+            haunt.start();
             onOff = "Off";
         }
-        else if(onOff.equals("Off") && disco.isPlaying()){
-            disco.pause();
+        else if(onOff.equals("Off") && haunt.isPlaying()){
+            haunt.pause();
             onOff = "On";
         }
         else if (onOff.equals("Off")){
@@ -101,8 +101,8 @@ public class ModeSelectionScreen extends AppCompatActivity {
             toGameScreen = new Intent(this, PvcGameScreen.class);
         }
         toGameScreen.putExtra("myInfo", onOff);
-        disco.release();
-        disco = null;
+        haunt.release();
+        haunt = null;
         startActivity(toGameScreen);
     }
 
@@ -139,8 +139,8 @@ public class ModeSelectionScreen extends AppCompatActivity {
 
     public void quitModeSelect(View myView){
         Intent toStartScreen = new Intent(this, StartScreen.class);
-        disco.release();
-        disco = null;
+        haunt.release();
+        haunt = null;
         startActivity(toStartScreen);
         this.finish();
     }

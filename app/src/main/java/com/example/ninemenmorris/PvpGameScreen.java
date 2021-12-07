@@ -17,7 +17,7 @@ public class PvpGameScreen extends AppCompatActivity {
     private int player2PieceOnHand=9;
     private Button[] player1PieceArray = new Button[9];
     private Button[] player2PieceArray = new Button[9];
-    MediaPlayer disco;
+    MediaPlayer haunt;
     private String onOff;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +29,18 @@ public class PvpGameScreen extends AppCompatActivity {
         onOff = onOffValue.getString("myInfo");
 
         Button muteButton = (Button) findViewById(R.id.muteButton);
-        disco = MediaPlayer.create(this, R.raw.disco);
-        disco.setLooping(true);
+        haunt = MediaPlayer.create(this, R.raw.haunt);
+        haunt.setLooping(true);
     }
     public void toggleMute(View myView){
         Button muteButton = (Button) myView;
         muteButton.setText(onOff);
         if(onOff.equals("On")) {
-            disco.start();
+            haunt.start();
             onOff = "Off";
         }
-        else if(onOff.equals("Off") && disco.isPlaying()){
-            disco.pause();
+        else if(onOff.equals("Off") && haunt.isPlaying()){
+            haunt.pause();
             onOff = "On";
         }
         else if (onOff.equals("Off")){
@@ -49,8 +49,8 @@ public class PvpGameScreen extends AppCompatActivity {
     }
     public void toModeSelection(View myView){
         Intent modeSelection = new Intent(this, ModeSelectionScreen.class);
-        disco.release();
-        disco = null;
+        haunt.release();
+        haunt = null;
         startActivity(modeSelection);
         this.finish();
     }

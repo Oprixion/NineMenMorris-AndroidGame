@@ -11,7 +11,7 @@ import android.widget.Button;
 
 
 public class StartScreen extends AppCompatActivity {
-    public static MediaPlayer disco;
+    public static MediaPlayer haunt;
     private String onOff;
 
     @Override
@@ -22,8 +22,8 @@ public class StartScreen extends AppCompatActivity {
         onOff = "On";
 
         Button muteButton = (Button) findViewById(R.id.muteButton);
-        disco = MediaPlayer.create(StartScreen.this,R.raw.disco);
-        disco.setLooping(true);
+        haunt = MediaPlayer.create(StartScreen.this,R.raw.haunt);
+        haunt.setLooping(true);
     }
 
 
@@ -31,40 +31,40 @@ public class StartScreen extends AppCompatActivity {
         Button muteButton = (Button) myView;
         muteButton.setText(onOff);
         if(onOff.equals("On")) {
-            disco.start();
+            haunt.start();
             onOff = "Off";
         }
         else if(onOff.equals("Off")){
-            disco.pause();
+            haunt.pause();
             onOff = "On";
         }
     }
 
     public void openModeSelection(View myView){
         Intent toModeSelect = new Intent(this, ModeSelectionScreen.class);
-        disco.release();
-        disco = null;
+        haunt.release();
+        haunt = null;
         toModeSelect.putExtra("myInfo", onOff);
         startActivity(toModeSelect);
     }
     public void openCreditsScreen(View myView){
         Intent toCreditsScreen = new Intent(this, CreditsScreen.class);
-        disco.release();
-        disco = null;
+        haunt.release();
+        haunt = null;
         toCreditsScreen.putExtra("myInfo", onOff);
         startActivity(toCreditsScreen);
     }
     public void openSettingsScreen(View myView){
         Intent toSettingScreen = new Intent(this, SettingScreen.class);
-        disco.release();
-        disco = null;
+        haunt.release();
+        haunt = null;
         toSettingScreen.putExtra("myInfo", onOff);
         startActivity(toSettingScreen);
     }
     public void openHelpScreen(View myView){
         Intent toHelpScreen = new Intent(this, HelpScreen.class);
-        disco.release();
-        disco = null;
+        haunt.release();
+        haunt = null;
         toHelpScreen.putExtra("myInfo", onOff);
         startActivity(toHelpScreen);
     }

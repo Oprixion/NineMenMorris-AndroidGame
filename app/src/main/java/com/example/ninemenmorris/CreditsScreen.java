@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class CreditsScreen extends AppCompatActivity {
-    public static MediaPlayer disco;
+    public static MediaPlayer haunt;
     private String onOff;
 
     @Override
@@ -21,18 +21,18 @@ public class CreditsScreen extends AppCompatActivity {
         onOff = onOffValue.getString("myInfo");
 
         Button muteButton = (Button) findViewById(R.id.muteButton);
-        disco = MediaPlayer.create(CreditsScreen.this,R.raw.disco);
-        disco.setLooping(true);
+        haunt = MediaPlayer.create(CreditsScreen.this,R.raw.haunt);
+        haunt.setLooping(true);
     }
     public void toggleMute(View myView){
         Button muteButton = (Button) myView;
         muteButton.setText(onOff);
         if(onOff.equals("On")) {
-            disco.start();
+            haunt.start();
             onOff = "Off";
         }
-        else if(onOff.equals("Off") && disco.isPlaying()){
-            disco.pause();
+        else if(onOff.equals("Off") && haunt.isPlaying()){
+            haunt.pause();
             onOff = "On";
         }
         else if (onOff.equals("Off")){
@@ -41,8 +41,8 @@ public class CreditsScreen extends AppCompatActivity {
     }
     public void goBackHome(View myView){
         Intent goHome = new Intent(this, StartScreen.class);
-        disco.release();
-        disco = null;
+        haunt.release();
+        haunt = null;
         startActivity(goHome);
         this.finish();
     }
