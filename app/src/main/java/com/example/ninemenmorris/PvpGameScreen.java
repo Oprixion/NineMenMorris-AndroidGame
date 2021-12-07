@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class PvpGameScreen extends AppCompatActivity{
@@ -165,58 +166,57 @@ public class PvpGameScreen extends AppCompatActivity{
     }
 
     public void updateP1PieceCounterTV(){
-        TextView p1CounterTV=(TextView) findViewById(R.id.p1CounterTV);
-        p1CounterTV.setText(String.valueOf(player1PieceOnHand));
+        changeCounterNumber(0, player1PieceOnHand);
     }//updateP1PieceCounterTV
 
     public void updateP2PieceCounterTV(){
-        TextView p2CounterTV=(TextView) findViewById(R.id.p2CounterTV);
-        p2CounterTV.setText(String.valueOf(player2PieceOnHand));
+        changeCounterNumber(1, player2PieceOnHand);
     }//updateP2PieceCounterTV
 
     public void player1Turn(Button theMove){
-        TextView textView = (TextView) findViewById(R.id.textView2);
         theMove.setText("P1");
+        turnButtonBlue(theMove);
         theMove.setEnabled(false);
         player1PieceArray[9-player1PieceOnHand]=theMove;
         player1PieceOnHand--;
         player1PieceOnBoard++;
         updateP1PieceCounterTV();
         lastMove="P1";
-        textView.setText(lastMove);
+        flipTurnWidget(1);
     }//player1Turn
 
     public void player2Turn(Button theMove){
-        TextView textView = (TextView) findViewById(R.id.textView2);
         theMove.setText("P2");
+        turnButtonRed(theMove);
         theMove.setEnabled(false);
         player2PieceArray[9-player2PieceOnHand]=theMove;
         player2PieceOnHand--;
         player2PieceOnBoard++;
         updateP2PieceCounterTV();
         lastMove="P2";
-        textView.setText(lastMove);
+        flipTurnWidget(0);
     }//player1Turn
 
     public void moveP1PieceAdjacent(Button placeToMoveTo){
-        TextView textView = (TextView) findViewById(R.id.textView2);
         placeToMoveTo.setText("P1");
+        turnButtonBlue(placeToMoveTo);
         player1PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
         lastMove="P2";
-        textView.setText(lastMove);
+        flipTurnWidget(0);
     }
 
     public void moveP2PieceAdjacent(Button placeToMoveTo){
-        TextView textView = (TextView) findViewById(R.id.textView2);
         placeToMoveTo.setText("P2");
+        turnButtonRed(placeToMoveTo);
         player2PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
         lastMove="P1";
-        textView.setText(lastMove);
+        flipTurnWidget(1);
     }
 
     public void removePieceFromArrayWhenMoving(Button chosenToBeMove){
         if(lastMove=="P1"){
             chosenToBeMove.setText("");
+            turnButtonWhite(chosenToBeMove);
             for(int i=0;i<player1PieceArray.length;i++){
                 if(player1PieceArray[i]==chosenToBeMove){
                     player1PieceArray[i]=null;
@@ -226,6 +226,7 @@ public class PvpGameScreen extends AppCompatActivity{
         }
         if(lastMove=="P2"){
             chosenToBeMove.setText("");
+            turnButtonWhite(chosenToBeMove);
             for(int i=0;i<player2PieceArray.length;i++){
                 if(player2PieceArray[i]==chosenToBeMove){
                     player2PieceArray[i]=null;
@@ -595,6 +596,7 @@ public class PvpGameScreen extends AppCompatActivity{
                 }
             }
             toRemove.setText("");
+            turnButtonWhite(toRemove);
             player2PieceOnBoard--;
             lastMove="P2";
 
@@ -607,6 +609,7 @@ public class PvpGameScreen extends AppCompatActivity{
                 }
             }
             toRemove.setText("");
+            turnButtonWhite(toRemove);
             player1PieceOnBoard--;
             lastMove="P1";
         }
@@ -617,6 +620,7 @@ public class PvpGameScreen extends AppCompatActivity{
         for (int i = 0; i< player2PieceArray.length; i++){
             if (player2PieceArray[i] != null){
                 player2PieceArray[i].setEnabled(true);
+                turnButtonHighlightRed(player2PieceArray[i]);
             }
         }
     }
@@ -625,6 +629,7 @@ public class PvpGameScreen extends AppCompatActivity{
         for (int i = 0; i< player1PieceArray.length; i++){
             if(player1PieceArray[i]!=null){
                 player1PieceArray[i].setEnabled(true);
+                turnButtonHighlightBlue(player1PieceArray[i]);
             }
         }
     }
@@ -633,6 +638,7 @@ public class PvpGameScreen extends AppCompatActivity{
         for (int i = 0; i< player2PieceArray.length; i++){
             if(player2PieceArray[i]!=null){
                 player2PieceArray[i].setEnabled(false);
+                turnButtonRed(player2PieceArray[i]);
             }
         }
     }
@@ -641,6 +647,7 @@ public class PvpGameScreen extends AppCompatActivity{
         for (int i = 0; i< player1PieceArray.length; i++){
             if(player1PieceArray[i]!=null) {
                 player1PieceArray[i].setEnabled(false);
+                turnButtonBlue(player1PieceArray[i]);
             }
         }
     }
@@ -832,4 +839,64 @@ public class PvpGameScreen extends AppCompatActivity{
         b27.setEnabled(false);
     }
 
+    //////////////////////////////////
+    //      VISUAL BELOW            //
+    //////////////////////////////////
+
+    /*
+    Changes the turn arrow depending on input turn
+    0 - Blue
+    1 - Red
+     */
+    public void flipTurnWidget(int turn){
+        ImageView arrow = (ImageView) findViewById(R.id.turnWidget);
+        if (turn == 0){
+            arrow.setImageResource(R.drawable.turn_blue);
+        }
+        else{
+            arrow.setImageResource(R.drawable.turn_red);
+        }
+    }
+    /*
+    Changes the counter depending on the number and player
+    int player 0 - Blue, 1 - Red
+    int number 0-9
+     */
+    public void changeCounterNumber(int player, int number) {
+        //By default blue
+        ImageView counter= (ImageView) findViewById(R.id.playerBlueCounter);
+
+        if(player == 1) {
+            counter = (ImageView) findViewById(R.id.playerRedCounter);
+        }
+
+        //Int array that contains the font ids in order
+        int[] fonts = {(R.drawable.font_0), (R.drawable.font_1), (R.drawable.font_2), (R.drawable.font_3),
+                (R.drawable.font_4), (R.drawable.font_5), (R.drawable.font_6), (R.drawable.font_7),
+                (R.drawable.font_8), (R.drawable.font_9)};
+
+        //Change counter to specific number font
+        counter.setImageResource(fonts[number]);
+    }
+
+    /*
+    Below are all the basic functions that turn an input button into a specified visual
+     */
+    public void turnButtonWhite(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_none);
+    }
+    public void turnButtonBlue(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_blue);
+    }
+    public void turnButtonRed(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_red);
+    }
+
+    //Below are used for when a piece needs to be highlighted for a move
+    public void turnButtonHighlightBlue(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_blue_selected);
+    }
+    public void turnButtonHighlightRed(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_red_selected);
+    }
 }
