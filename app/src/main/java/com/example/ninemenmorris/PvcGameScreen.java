@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class PvcGameScreen extends AppCompatActivity {
      Button[][] buttonArray = new Button [8][8];
+     Button[] playerHand = new Button[9];
      String playerPiece;
     int numOfRd;
     @Override
@@ -18,6 +19,7 @@ public class PvcGameScreen extends AppCompatActivity {
         playerPiece= "P";
         numOfRd=0;
         buttonsBoard(buttonArray);
+
 
 
 
@@ -88,14 +90,21 @@ public class PvcGameScreen extends AppCompatActivity {
             myButton.setText(playerPiece);
             myButton.setEnabled(false);
             if (playerPiece.equals("P")){
-                computerTurn();
+                if(numOfRd<=9) {
+                    computerTurn();
+                    setAllPlayerPieces(myButton);
+                }
             }
-            if(numOfRd>=9){
+            if(numOfRd>=9) {
                 disableAllButtons();
-               enableAdjacentButtons(myButton);
+                enableAllPlayerPieces();
+                if (myButton.getText() == "P") {
+                    enableAdjacentButtons(myButton);
+                }
             }
         }
     }
+
 
     public void computerTurn(){
         if(numOfRd==1) {
@@ -156,6 +165,27 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int j = 0; j <= 7; j++) {
                 buttonArray[i][j].setEnabled(false);
             }
+        }
+    }//disableAllButtons
+    public void setAllPlayerPieces(Button playerPiece) {
+        int buttonCounter = 0;
+        int arrayIndex= 0;
+        while(buttonCounter<9){
+            if(playerHand[arrayIndex].getText()=="P"){
+              arrayIndex+=1;
+            }
+            else{
+                playerHand[arrayIndex]=playerPiece;
+                return;
+            }
+            buttonCounter+=1;
+        }
+    }
+
+
+    public void enableAllPlayerPieces(){
+        for(int i= 0; i<=8; i++){
+            playerHand[i].setEnabled(true);
         }
     }//disableAllButtons
         public void enableAllButtons(Button[][] gameBoard){
@@ -816,220 +846,220 @@ public class PvcGameScreen extends AppCompatActivity {
             }
         }
         if(playerMove==buttonArray[0][2]){
-            if((buttonArray[0][1].getText()!="P1")&&(buttonArray[0][1].getText()!="P2")){
+            if((buttonArray[0][1].getText()!="C")&&(buttonArray[0][1].getText()!="P")){
                 buttonArray[0][1].setEnabled(true);
             }
-            if((buttonArray[0][4].getText()!="P1")&&(buttonArray[0][4].getText()!="P2")){
+            if((buttonArray[0][4].getText()!="C")&&(buttonArray[0][4].getText()!="P")){
                 buttonArray[0][4].setEnabled(true);
             }
 
         }
         if(playerMove== buttonArray[0][3]){
-            if((buttonArray[0][0].getText()!="P1")&&(buttonArray[0][0].getText()!="P2")){
+            if((buttonArray[0][0].getText()!="C")&&(buttonArray[0][0].getText()!="P")){
                 buttonArray[0][0].setEnabled(true);
             }
-            if((buttonArray[1][3].getText()!="P1")&&(buttonArray[1][3].getText()!="P2")){
+            if((buttonArray[1][3].getText()!="C")&&(buttonArray[1][3].getText()!="P")){
                 buttonArray[1][3].setEnabled(true);
             }
-            if((buttonArray[0][5].getText()!="P1")&&(buttonArray[0][5].getText()!="P2")){
+            if((buttonArray[0][5].getText()!="C")&&(buttonArray[0][5].getText()!="P")){
                 buttonArray[0][5].setEnabled(true);
             }
         }
         if(playerMove== buttonArray[0][4]){
-            if((buttonArray[0][2].getText()!="P1")&&(buttonArray[0][2].getText()!="P2")){
+            if((buttonArray[0][2].getText()!="C")&&(buttonArray[0][2].getText()!="P")){
                 buttonArray[0][2].setEnabled(true);
             }
-            if((buttonArray[1][4].getText()!="P1")&&(buttonArray[1][4].getText()!="P2")){
+            if((buttonArray[1][4].getText()!="C")&&(buttonArray[1][4].getText()!="P")){
                 buttonArray[1][4].setEnabled(true);
             }
-            if((buttonArray[0][7].getText()!="P1")&&( buttonArray[0][7].getText()!="P2")){
+            if((buttonArray[0][7].getText()!="C")&&( buttonArray[0][7].getText()!="P")){
                 buttonArray[0][7].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[0][5]){
-            if((buttonArray[0][3].getText()!="P1")&&(buttonArray[0][3].getText()!="P2")){
+            if((buttonArray[0][3].getText()!="C")&&(buttonArray[0][3].getText()!="P")){
                 buttonArray[0][3].setEnabled(true);
             }
-            if((buttonArray[0][6].getText()!="P1")&&(buttonArray[0][6].getText()!="P2")){
+            if((buttonArray[0][6].getText()!="C")&&(buttonArray[0][6].getText()!="P")){
                 buttonArray[0][6].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[0][6]){
-            if((buttonArray[0][5].getText()!="P1")&&(buttonArray[0][5].getText()!="P2")){
+            if((buttonArray[0][5].getText()!="C")&&(buttonArray[0][5].getText()!="P")){
                 buttonArray[0][5].setEnabled(true);
             }
-            if((buttonArray[1][6].getText()!="P1")&&(buttonArray[1][6].getText()!="P2")){
+            if((buttonArray[1][6].getText()!="C")&&(buttonArray[1][6].getText()!="P")){
                 buttonArray[1][6].setEnabled(true);
             }
-            if((buttonArray[0][7].getText()!="P1")&&(buttonArray[0][7].getText()!="P2")){
+            if((buttonArray[0][7].getText()!="C")&&(buttonArray[0][7].getText()!="P")){
                 buttonArray[0][7].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[0][7]){
-            if((buttonArray[0][4].getText()!="P1")&&(buttonArray[0][4].getText()!="P2")){
+            if((buttonArray[0][4].getText()!="C")&&(buttonArray[0][4].getText()!="P")){
                 buttonArray[0][4].setEnabled(true);
             }
-            if((buttonArray[0][6].getText()!="P1")&&(buttonArray[0][6].getText()!="P2")){
+            if((buttonArray[0][6].getText()!="C")&&(buttonArray[0][6].getText()!="P")){
                 buttonArray[0][6].setEnabled(true);
             }
         }
 
         //If the chosen button is in the second square
         if(playerMove==buttonArray[1][0]){
-            if((buttonArray[1][1].getText()!="P1")&&(buttonArray[1][1].getText()!="P2")){
+            if((buttonArray[1][1].getText()!="C")&&(buttonArray[1][1].getText()!="P")){
                 buttonArray[1][1].setEnabled(true);
             }
-            if((buttonArray[1][3].getText()!="P1")&&(buttonArray[1][3].getText()!="P2")){
+            if((buttonArray[1][3].getText()!="C")&&(buttonArray[1][3].getText()!="P")){
                 buttonArray[1][3].setEnabled(true);
             }
 
         }
         if(playerMove==buttonArray[1][1]){
-            if((buttonArray[2][1].getText()!="P1")&&(buttonArray[2][1].getText()!="P2")){
+            if((buttonArray[2][1].getText()!="C")&&(buttonArray[2][1].getText()!="P")){
                 buttonArray[2][1].setEnabled(true);
             }
-            if((buttonArray[0][1].getText()!="P1")&&(buttonArray[0][1].getText()!="P2")){
+            if((buttonArray[0][1].getText()!="C")&&(buttonArray[0][1].getText()!="P")){
                 buttonArray[0][1].setEnabled(true);
             }
-            if((buttonArray[1][2].getText()!="P1")&&(buttonArray[1][2].getText()!="P2")){
+            if((buttonArray[1][2].getText()!="C")&&(buttonArray[1][2].getText()!="P")){
                 buttonArray[1][2].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[1][2]){
-            if((buttonArray[1][1].getText()!="P1")&&(buttonArray[1][1].getText()!="P2")){
+            if((buttonArray[1][1].getText()!="C")&&(buttonArray[1][1].getText()!="P")){
                 buttonArray[1][1].setEnabled(true);
             }
-            if((buttonArray[1][4].getText()!="P1")&&(buttonArray[1][4].getText()!="P2")){
+            if((buttonArray[1][4].getText()!="C")&&(buttonArray[1][4].getText()!="P")){
                 buttonArray[1][4].setEnabled(true);
             }
 
         }
         if(playerMove==buttonArray[1][3]){
-            if((buttonArray[1][0].getText()!="P1")&&(buttonArray[1][0].getText()!="P2")){
+            if((buttonArray[1][0].getText()!="C")&&(buttonArray[1][0].getText()!="P")){
                 buttonArray[1][0].setEnabled(true);
             }
-            if((buttonArray[2][3].getText()!="P1")&&(buttonArray[2][3].getText()!="P2")){
+            if((buttonArray[2][3].getText()!="C")&&(buttonArray[2][3].getText()!="P")){
                 buttonArray[2][3].setEnabled(true);
             }
-            if((buttonArray[1][5].getText()!="P1")&&(buttonArray[1][5].getText()!="P2")){
+            if((buttonArray[1][5].getText()!="C")&&(buttonArray[1][5].getText()!="P")){
                 buttonArray[1][5].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[1][4]){
-            if((buttonArray[1][2].getText()!="P1")&&(buttonArray[1][2].getText()!="P2")){
+            if((buttonArray[1][2].getText()!="C")&&(buttonArray[1][2].getText()!="P")){
                 buttonArray[1][2].setEnabled(true);
             }
-            if((buttonArray[2][4].getText()!="P1")&&(buttonArray[2][4].getText()!="P2")){
+            if((buttonArray[2][4].getText()!="C")&&(buttonArray[2][4].getText()!="P")){
                 buttonArray[2][4].setEnabled(true);
             }
-            if((buttonArray[1][7].getText()!="P1")&&(buttonArray[1][7].getText()!="P2")){
+            if((buttonArray[1][7].getText()!="C")&&(buttonArray[1][7].getText()!="P")){
                 buttonArray[1][7].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[1][5]){
-            if((buttonArray[1][3].getText()!="P1")&&(buttonArray[1][3].getText()!="P2")){
+            if((buttonArray[1][3].getText()!="C")&&(buttonArray[1][3].getText()!="P")){
                 buttonArray[1][3].setEnabled(true);
             }
-            if((buttonArray[1][6].getText()!="P1")&&(buttonArray[1][6].getText()!="P2")){
+            if((buttonArray[1][6].getText()!="C")&&(buttonArray[1][6].getText()!="P")){
                 buttonArray[1][6].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[1][6]){
-            if((buttonArray[1][5].getText()!="P1")&&(buttonArray[1][5].getText()!="P2")){
+            if((buttonArray[1][5].getText()!="C")&&(buttonArray[1][5].getText()!="P")){
                 buttonArray[1][5].setEnabled(true);
             }
-            if((buttonArray[2][6].getText()!="P1")&&(buttonArray[2][6].getText()!="P2")){
+            if((buttonArray[2][6].getText()!="C")&&(buttonArray[2][6].getText()!="P")){
                 buttonArray[2][6].setEnabled(true);
             }
-            if((buttonArray[1][7].getText()!="P1")&&(buttonArray[1][7].getText()!="P2")){
+            if((buttonArray[1][7].getText()!="C")&&(buttonArray[1][7].getText()!="P")){
                 buttonArray[1][7].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[1][7]){
-            if((buttonArray[1][4].getText()!="P1")&&(buttonArray[1][4].getText()!="P2")){
+            if((buttonArray[1][4].getText()!="C")&&(buttonArray[1][4].getText()!="P")){
                 buttonArray[1][4].setEnabled(true);
             }
-            if((buttonArray[1][6].getText()!="P1")&&(buttonArray[1][6].getText()!="P2")){
+            if((buttonArray[1][6].getText()!="C")&&(buttonArray[1][6].getText()!="P")){
                 buttonArray[1][6].setEnabled(true);
             }
         }
 
         //If the chosen button is in the third square
         if(playerMove==buttonArray[2][0]){
-            if((buttonArray[2][1].getText()!="P1")&&(buttonArray[2][1].getText()!="P2")){
+            if((buttonArray[2][1].getText()!="C")&&(buttonArray[2][1].getText()!="P")){
                 buttonArray[2][1].setEnabled(true);
             }
-            if((buttonArray[2][3].getText()!="P1")&&(buttonArray[2][3].getText()!="P2")){
+            if((buttonArray[2][3].getText()!="C")&&(buttonArray[2][3].getText()!="P")){
                 buttonArray[2][3].setEnabled(true);
             }
 
         }
         if(playerMove==buttonArray[2][1]){
-            if((buttonArray[2][0].getText()!="P1")&&(buttonArray[2][0].getText()!="P2")){
+            if((buttonArray[2][0].getText()!="C")&&(buttonArray[2][0].getText()!="P")){
                 buttonArray[2][0].setEnabled(true);
             }
-            if((buttonArray[2][2].getText()!="P1")&&(buttonArray[2][2].getText()!="P2")){
+            if((buttonArray[2][2].getText()!="C")&&(buttonArray[2][2].getText()!="P")){
                 buttonArray[2][2].setEnabled(true);
             }
-            if((buttonArray[1][1].getText()!="P1")&&(buttonArray[1][1].getText()!="P2")){
+            if((buttonArray[1][1].getText()!="C")&&(buttonArray[1][1].getText()!="P")){
                 buttonArray[1][1].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[2][2]){
-            if((buttonArray[2][1].getText()!="P1")&&(buttonArray[2][1].getText()!="P2")){
+            if((buttonArray[2][1].getText()!="C")&&(buttonArray[2][1].getText()!="P")){
                 buttonArray[2][1].setEnabled(true);
             }
-            if((buttonArray[2][4].getText()!="P1")&&(buttonArray[2][4].getText()!="P2")){
+            if((buttonArray[2][4].getText()!="C")&&(buttonArray[2][4].getText()!="P")){
                 buttonArray[2][4].setEnabled(true);
             }
 
         }
         if(playerMove==buttonArray[2][3]){
-            if((buttonArray[2][0].getText()!="P1")&&(buttonArray[2][0].getText()!="P2")){
+            if((buttonArray[2][0].getText()!="C")&&(buttonArray[2][0].getText()!="P")){
                 buttonArray[2][0].setEnabled(true);
             }
-            if((buttonArray[2][5].getText()!="P1")&&(buttonArray[2][5].getText()!="P2")){
+            if((buttonArray[2][5].getText()!="C")&&(buttonArray[2][5].getText()!="P")){
                 buttonArray[2][5].setEnabled(true);
             }
-            if((buttonArray[1][3].getText()!="P1")&&(buttonArray[1][3].getText()!="P2")){
+            if((buttonArray[1][3].getText()!="C")&&(buttonArray[1][3].getText()!="P")){
                 buttonArray[1][3].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[2][4]){
-            if((buttonArray[2][2].getText()!="P1")&&(buttonArray[2][2].getText()!="P2")){
+            if((buttonArray[2][2].getText()!="C")&&(buttonArray[2][2].getText()!="P")){
                 buttonArray[2][2].setEnabled(true);
             }
-            if((buttonArray[2][7].getText()!="P1")&&(buttonArray[2][7].getText()!="P2")){
+            if((buttonArray[2][7].getText()!="C")&&(buttonArray[2][7].getText()!="P")){
                 buttonArray[2][7].setEnabled(true);
             }
-            if((buttonArray[1][4].getText()!="P1")&&(buttonArray[1][4].getText()!="P2")){
+            if((buttonArray[1][4].getText()!="C")&&(buttonArray[1][4].getText()!="P")){
                 buttonArray[1][4].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[2][5]){
-            if((buttonArray[2][3].getText()!="P1")&&(buttonArray[2][3].getText()!="P2")){
+            if((buttonArray[2][3].getText()!="C")&&(buttonArray[2][3].getText()!="P")){
                 buttonArray[2][3].setEnabled(true);
             }
-            if((buttonArray[2][6].getText()!="P1")&&(buttonArray[2][6].getText()!="P2")){
+            if((buttonArray[2][6].getText()!="C")&&(buttonArray[2][6].getText()!="P")){
                 buttonArray[2][6].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[2][3]){
-            if((buttonArray[2][5].getText()!="P1")&&(buttonArray[2][5].getText()!="P2")){
+            if((buttonArray[2][5].getText()!="C")&&(buttonArray[2][5].getText()!="P")){
                 buttonArray[2][5].setEnabled(true);
             }
-            if((buttonArray[2][7].getText()!="P1")&&(buttonArray[2][7].getText()!="P2")){
+            if((buttonArray[2][7].getText()!="C")&&(buttonArray[2][7].getText()!="P")){
                 buttonArray[2][7].setEnabled(true);
             }
-            if((buttonArray[1][6].getText()!="P1")&&(buttonArray[1][6].getText()!="P2")){
+            if((buttonArray[1][6].getText()!="C")&&(buttonArray[1][6].getText()!="P")){
                 buttonArray[1][6].setEnabled(true);
             }
         }
         if(playerMove==buttonArray[2][6]){
-            if((buttonArray[2][4].getText()!="P1")&&(buttonArray[2][4].getText()!="P2")){
+            if((buttonArray[2][4].getText()!="C")&&(buttonArray[2][4].getText()!="P")){
                 buttonArray[2][4].setEnabled(true);
             }
-            if((buttonArray[2][6].getText()!="P1")&&(buttonArray[2][6].getText()!="P2")){
+            if((buttonArray[2][6].getText()!="C")&&(buttonArray[2][6].getText()!="P")){
                 buttonArray[2][6].setEnabled(true);
             }
         }
