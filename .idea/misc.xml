@@ -11,10 +11,12 @@
         <entry key="..\:/Users/Pig/AndroidStudioProjects/Team5NineMorris/app/src/main/res/layout/activity_pvp_game_screen.xml" value="0.2957427536231884" />
         <entry key="..\:/Users/Pig/AndroidStudioProjects/Team5NineMorris/app/src/main/res/layout/activity_setting_screen.xml" value="0.2015625" />
         <entry key="..\:/Users/Pig/AndroidStudioProjects/Team5NineMorris/app/src/main/res/layout/activity_start_screen.xml" value="0.25" />
+        <entry key="..\:/Users/sonla/AndroidStudioProjects/Team5NineMorris/app/src/main/res/layout/activity_pvc_game_screen.xml" value="0.215625" />
+        <entry key="..\:/Users/sonla/AndroidStudioProjects/Team5NineMorris/app/src/main/res/layout/activity_pvp_game_screen.xml" value="0.215625" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

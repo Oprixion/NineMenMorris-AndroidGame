@@ -28,11 +28,10 @@ public class PvpGameScreen extends AppCompatActivity{
         Intent modeSelection = new Intent(this, ModeSelectionScreen.class);
         startActivity(modeSelection);
         this.finish();
-    }
+    }//toModeSelection
 
     public void placeMove(View myView){
         Button theMove = (Button) myView;
-        TextView tv = (TextView) findViewById(R.id.textView2);
         //When there are still pieces to play
         if ((player1PieceOnBoard+player1PieceOnHand > 2) && (player2PieceOnBoard+player2PieceOnHand > 2)){
             //When there are sill pieces on hand
@@ -52,14 +51,18 @@ public class PvpGameScreen extends AppCompatActivity{
             if (player1PieceOnHand > 0 || player2PieceOnHand > 0) {
                 if (lastMove=="P1"){
                     player2Turn(theMove);
+                    flipTurnWidget(0);
                     if(isMill(theMove)){
+                        flipTurnWidget(1);
                         enableP1Moves();
                         lastMove="p2RemoveTurn";
                     }
                  }
                 else if (lastMove=="P2"){
+                    flipTurnWidget(1);
                      player1Turn(theMove);
                      if(isMill(theMove)){
+                         flipTurnWidget(0);
                          enableP2Moves();
                          lastMove="p1RemoveTurn";
                      }
@@ -70,18 +73,26 @@ public class PvpGameScreen extends AppCompatActivity{
                     disableP1Moves();
                 }
             }//if
+
             //When there are no pieces left on hand
             //Game loop for this stage:
             // 1.Check the last move to determine whose turn it is
             //      1.1. If it's players' turn then go to(2).
-            //      1.2. If it's remove turn then go to ().
+            //      1.2. If it's remove turn then go to (5).
             // 2.Check to see if the move is in the corresponding array
-            //      2.1. If it's got to (3).
-            //      2.2.
+            //      2.1. If it's go to (3).
+            //      2.2. If it's not that means it has already been selected so go to (4)
             // 3.Check to see if the move is already enable (selecting the button to be moved)
-            //      3.1. If the move is enable select it by removing it and saving its index and
+            //      3.1. If the move is enable and select it by removing it and saving its index
+            //           while also enabling it neighbours
+            //      3.2 If not it hasn't been selected
+            // 4.Move the selected piece to an adjacent button and check if it make a mill
+            //      4.1 If mill then change last move to remove turn, go to (1.2)
+            //      4.2 If not mill then switch back to the other player turn.
+            // 5.Remove a chosen piece of board and the corresponding array.
             if (player1PieceOnHand == 0 && player2PieceOnHand == 0){
                 if(lastMove=="P2"){
+                    flipTurnWidget(1);
                     if(isInArray(theMove)){
                         if(theMove.isEnabled()){
                             enableEmptyAdjacentButtons(theMove);
@@ -96,13 +107,14 @@ public class PvpGameScreen extends AppCompatActivity{
                         moveP2PieceAdjacent(theMove);
                         if(isMill(theMove)){
                             lastMove="p2RemoveTurn";
+                            flipTurnWidget(1);
                             enableP1Moves();
-                            tv.setText(lastMove);
                         }
                         disableAllPieces();
                         enableP1Moves();
                     }
                 }else if(lastMove=="P1"){
+                    flipTurnWidget(0);
                     if(isInArray(theMove)){
                         if(theMove.isEnabled()){
                             enableEmptyAdjacentButtons(theMove);
@@ -117,8 +129,8 @@ public class PvpGameScreen extends AppCompatActivity{
                         moveP1PieceAdjacent(theMove);
                         if(isMill(theMove)){
                             lastMove="p1RemoveTurn";
+                            flipTurnWidget(0);
                             enableP2Moves();
-                            tv.setText(lastMove);
 
                         }
                         disableAllPieces();
@@ -128,12 +140,14 @@ public class PvpGameScreen extends AppCompatActivity{
                 else if((lastMove=="p1RemoveTurn")||(lastMove=="p2RemoveTurn")){
                     if(lastMove=="p2RemoveTurn"){
                         removeOpponentPieceIfMill(theMove);
+                        theMove.setEnabled(false);
                         disableP2Moves();
                         enableP1Moves();
                         lastMove="P1";
                     }
                     else if(lastMove=="p1RemoveTurn"){
                         removeOpponentPieceIfMill(theMove);
+                        theMove.setEnabled(false);
                         disableP1Moves();
                         enableP2Moves();
                         lastMove="P2";
@@ -163,7 +177,7 @@ public class PvpGameScreen extends AppCompatActivity{
             }
         }
         return false;
-    }
+    }//isInArray
 
     public void updateP1PieceCounterTV(){
         changeCounterNumber(0, player1PieceOnHand);
@@ -182,7 +196,7 @@ public class PvpGameScreen extends AppCompatActivity{
         player1PieceOnBoard++;
         updateP1PieceCounterTV();
         lastMove="P1";
-        flipTurnWidget(1);
+
     }//player1Turn
 
     public void player2Turn(Button theMove){
@@ -194,7 +208,7 @@ public class PvpGameScreen extends AppCompatActivity{
         player2PieceOnBoard++;
         updateP2PieceCounterTV();
         lastMove="P2";
-        flipTurnWidget(0);
+
     }//player1Turn
 
     public void moveP1PieceAdjacent(Button placeToMoveTo){
@@ -202,16 +216,16 @@ public class PvpGameScreen extends AppCompatActivity{
         turnButtonBlue(placeToMoveTo);
         player1PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
         lastMove="P2";
-        flipTurnWidget(0);
-    }
+        flipTurnWidget(1);
+    }//moveP1PieceAdjacent
 
     public void moveP2PieceAdjacent(Button placeToMoveTo){
         placeToMoveTo.setText("P2");
         turnButtonRed(placeToMoveTo);
         player2PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
         lastMove="P1";
-        flipTurnWidget(1);
-    }
+        flipTurnWidget(0);
+    }//moveP2PieceAdjacent
 
     public void removePieceFromArrayWhenMoving(Button chosenToBeMove){
         if(lastMove=="P1"){
@@ -235,7 +249,7 @@ public class PvpGameScreen extends AppCompatActivity{
             }
         }
         chosenToBeMove.setEnabled(false);
-    }
+    }//removePieceFromArrayWhenMoving
 
     public void enableEmptyAdjacentButtons(Button chosenToBeMove){
         Button b00 = (Button) findViewById(R.id.pvpB00);
@@ -584,7 +598,7 @@ public class PvpGameScreen extends AppCompatActivity{
                 b27.setEnabled(false);
             }
         }
-    }
+    }//enableEmptyAdjacentButtons
 
     public void removeOpponentPieceIfMill(Button toRemove){
         //Button toRemove = (Button) myView;
@@ -597,6 +611,7 @@ public class PvpGameScreen extends AppCompatActivity{
             }
             toRemove.setText("");
             turnButtonWhite(toRemove);
+            flipTurnWidget(0);
             player2PieceOnBoard--;
             lastMove="P2";
 
@@ -610,11 +625,12 @@ public class PvpGameScreen extends AppCompatActivity{
             }
             toRemove.setText("");
             turnButtonWhite(toRemove);
+            flipTurnWidget(1);
             player1PieceOnBoard--;
             lastMove="P1";
         }
 
-    }
+    }//removeOpponentPieceIfMill
 
     public void enableP2Moves(){
         for (int i = 0; i< player2PieceArray.length; i++){
@@ -623,7 +639,7 @@ public class PvpGameScreen extends AppCompatActivity{
                 turnButtonHighlightRed(player2PieceArray[i]);
             }
         }
-    }
+    }//enableP2Moves
 
     public void enableP1Moves(){
         for (int i = 0; i< player1PieceArray.length; i++){
@@ -632,7 +648,7 @@ public class PvpGameScreen extends AppCompatActivity{
                 turnButtonHighlightBlue(player1PieceArray[i]);
             }
         }
-    }
+    }//enableP1Moves
 
     public void disableP2Moves(){
         for (int i = 0; i< player2PieceArray.length; i++){
@@ -641,7 +657,7 @@ public class PvpGameScreen extends AppCompatActivity{
                 turnButtonRed(player2PieceArray[i]);
             }
         }
-    }
+    }//disableP2Moves
 
     public void disableP1Moves(){
         for (int i = 0; i< player1PieceArray.length; i++){
@@ -650,7 +666,7 @@ public class PvpGameScreen extends AppCompatActivity{
                 turnButtonBlue(player1PieceArray[i]);
             }
         }
-    }
+    }//disableP1Moves
 
     public boolean isMill(Button theMove) {
         int idOfTheMove = theMove.getId();
@@ -784,60 +800,94 @@ public class PvpGameScreen extends AppCompatActivity{
                 return true;
         }
         return false;
-    }
+    }//isMill
 
     public void disableAllPieces(){
+        //first square
         Button b00 = (Button) findViewById(R.id.pvpB00);
         b00.setEnabled(false);
+        changeVisualDisable(b00);
         Button b01 = (Button) findViewById(R.id.pvpB01);
         b01.setEnabled(false);
+        changeVisualDisable(b01);
         Button b02 = (Button) findViewById(R.id.pvpB02);
         b02.setEnabled(false);
+        changeVisualDisable(b02);
         Button b03 = (Button) findViewById(R.id.pvpB03);
         b03.setEnabled(false);
+        changeVisualDisable(b03);
         Button b04 = (Button) findViewById(R.id.pvpB04);
         b04.setEnabled(false);
+        changeVisualDisable(b04);
         Button b05 = (Button) findViewById(R.id.pvpB05);
         b05.setEnabled(false);
+        changeVisualDisable(b05);
         Button b06 = (Button) findViewById(R.id.pvpB06);
         b06.setEnabled(false);
+        changeVisualDisable(b06);
         Button b07 = (Button) findViewById(R.id.pvpB07);
         b07.setEnabled(false);
+        changeVisualDisable(b07);
+
 
         Button b10 = (Button) findViewById(R.id.pvpB10);
         b10.setEnabled(false);
+        changeVisualDisable(b10);
         Button b11 = (Button) findViewById(R.id.pvpB11);
         b11.setEnabled(false);
+        changeVisualDisable(b11);
         Button b12 = (Button) findViewById(R.id.pvpB12);
         b12.setEnabled(false);
+        changeVisualDisable(b12);
         Button b13 = (Button) findViewById(R.id.pvpB13);
         b13.setEnabled(false);
+        changeVisualDisable(b13);
         Button b14 = (Button) findViewById(R.id.pvpB14);
         b14.setEnabled(false);
+        changeVisualDisable(b14);
         Button b15 = (Button) findViewById(R.id.pvpB15);
         b15.setEnabled(false);
+        changeVisualDisable(b15);
         Button b16 = (Button) findViewById(R.id.pvpB16);
         b16.setEnabled(false);
+        changeVisualDisable(b16);
         Button b17 = (Button) findViewById(R.id.pvpB17);
         b17.setEnabled(false);
+        changeVisualDisable(b17);
 
         Button b20 = (Button) findViewById(R.id.pvpB20);
         b20.setEnabled(false);
+        changeVisualDisable(b20);
         Button b21 = (Button) findViewById(R.id.pvpB21);
         b21.setEnabled(false);
+        changeVisualDisable(b21);
         Button b22 = (Button) findViewById(R.id.pvpB22);
         b22.setEnabled(false);
+        changeVisualDisable(b22);
         Button b23 = (Button) findViewById(R.id.pvpB23);
         b23.setEnabled(false);
+        changeVisualDisable(b23);
         Button b24 = (Button) findViewById(R.id.pvpB24);
         b24.setEnabled(false);
+        changeVisualDisable(b24);
         Button b25 = (Button) findViewById(R.id.pvpB25);
         b25.setEnabled(false);
+        changeVisualDisable(b25);
         Button b26 = (Button) findViewById(R.id.pvpB26);
         b26.setEnabled(false);
+        changeVisualDisable(b26);
         Button b27 = (Button) findViewById(R.id.pvpB27);
         b27.setEnabled(false);
-    }
+        changeVisualDisable(b27);
+    }//disableAllPieces
+    public void changeVisualDisable(Button toBeDisabled){
+        if(toBeDisabled.getText()=="P2"){
+            turnButtonRed(toBeDisabled);
+        }
+        else if(toBeDisabled.getText()=="P1"){
+            turnButtonBlue(toBeDisabled);
+        }
+    }//changeVisualDisable
 
     //////////////////////////////////
     //      VISUAL BELOW            //
@@ -856,7 +906,7 @@ public class PvpGameScreen extends AppCompatActivity{
         else{
             arrow.setImageResource(R.drawable.turn_red);
         }
-    }
+    }//flipTurnWidget
     /*
     Changes the counter depending on the number and player
     int player 0 - Blue, 1 - Red
@@ -877,26 +927,26 @@ public class PvpGameScreen extends AppCompatActivity{
 
         //Change counter to specific number font
         counter.setImageResource(fonts[number]);
-    }
+    }//changeCounterNumber
 
     /*
     Below are all the basic functions that turn an input button into a specified visual
      */
     public void turnButtonWhite(Button InputButton){
         InputButton.setBackgroundResource(R.drawable.token_none);
-    }
+    }//turnButtonWhite
     public void turnButtonBlue(Button InputButton){
         InputButton.setBackgroundResource(R.drawable.token_blue);
-    }
+    }//turnButtonBlue
     public void turnButtonRed(Button InputButton){
         InputButton.setBackgroundResource(R.drawable.token_red);
-    }
+    }//turnButtonRed
 
     //Below are used for when a piece needs to be highlighted for a move
     public void turnButtonHighlightBlue(Button InputButton){
         InputButton.setBackgroundResource(R.drawable.token_blue_selected);
-    }
+    }//turnButtonHighlightBLue
     public void turnButtonHighlightRed(Button InputButton){
         InputButton.setBackgroundResource(R.drawable.token_red_selected);
-    }
+    }//turnButtonHighlightRed
 }
