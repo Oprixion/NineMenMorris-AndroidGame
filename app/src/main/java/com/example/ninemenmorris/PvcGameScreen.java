@@ -8,8 +8,11 @@ import android.widget.Button;
 import java.util.Random;
 
 public class PvcGameScreen extends AppCompatActivity {
+    public int playerPieceOnHand = 9;
+    public int player1PieceOnBoard = 0;
+    public int indexOfPlayerPieceToRemove=0;
      Button[][] buttonArray = new Button [8][8];
-     Button[] playerHand = new Button[9];
+     Button[] playerHand = new Button[10];
      String playerPiece;
     int numOfRd;
     @Override
@@ -85,27 +88,46 @@ public class PvcGameScreen extends AppCompatActivity {
     }
     public void playerOrComputer(View myView){
         numOfRd+=1;
-        Button myButton = (Button) myView;
+        Button playerMove = (Button) myView;
         if(numOfPlayerPieces()<=9 && numOfPlayerPieces()<=9 ) {
-            myButton.setText(playerPiece);
-            myButton.setEnabled(false);
+            playerTurn(playerMove);
             if (playerPiece.equals("P")){
                 if(numOfRd<=9) {
                     computerTurn();
-                    setAllPlayerPieces(myButton);
                 }
             }
             if(numOfRd>=9) {
                 disableAllButtons();
                 enableAllPlayerPieces();
-                if (myButton.getText() == "P") {
-                    enableAdjacentButtons(myButton);
+            }
+            if(numOfRd>=10) {
+                if (playerMove.getText() == "P") {
+                    enableAdjacentButtons(playerMove);
+                    removePlayerPieceWhenMoving(playerMove);
                 }
+                else{
+                    movePlayerPiece(playerMove);
+                }
+
             }
         }
     }
 
 
+    public void playerTurn(Button playerMove){
+        if(numOfRd<=9) {
+            playerMove.setText("P");
+            playerMove.setEnabled(false);
+            playerHand[9 - playerPieceOnHand] = playerMove;
+            if (playerPieceOnHand > 0) {
+                playerPieceOnHand--;
+            }
+            if (player1PieceOnBoard < 9) {
+                player1PieceOnBoard++;
+            }
+            playerPiece = "P";
+        }
+    }//player1Turn
     public void computerTurn(){
         if(numOfRd==1) {
             firstComputerTurn();
@@ -167,25 +189,13 @@ public class PvcGameScreen extends AppCompatActivity {
             }
         }
     }//disableAllButtons
-    public void setAllPlayerPieces(Button playerPiece) {
-        int buttonCounter = 0;
-        int arrayIndex= 0;
-        while(buttonCounter<9){
-            if(playerHand[arrayIndex].getText()=="P"){
-              arrayIndex+=1;
-            }
-            else{
-                playerHand[arrayIndex]=playerPiece;
-                return;
-            }
-            buttonCounter+=1;
-        }
-    }
 
 
     public void enableAllPlayerPieces(){
         for(int i= 0; i<=8; i++){
-            playerHand[i].setEnabled(true);
+            if(playerHand[i].getText()!=null) {
+                playerHand[i].setEnabled(true);
+            }
         }
     }//disableAllButtons
         public void enableAllButtons(Button[][] gameBoard){
@@ -825,6 +835,21 @@ public class PvcGameScreen extends AppCompatActivity {
             numbersInList=numberArray[numInListCounter];
         }// end While loop
     }//TryingToMakeMillCrossLines
+    public void removePlayerPieceWhenMoving(Button playerMove){
+        for(int i= 0 ; i<=8 ; i++){
+            if(playerHand[i]==playerMove){
+                indexOfPlayerPieceToRemove=i;
+                return;
+            }
+        }
+    }
+    public void movePlayerPiece(Button playerMove){
+        if(playerMove.getText()!="P" && playerMove.getText()!="C"){
+            playerMove.setText("P");
+            playerHand[indexOfPlayerPieceToRemove].setText(null);
+            playerHand[indexOfPlayerPieceToRemove]=playerMove;
+        }
+    }
     public void enableAdjacentButtons(Button playerMove){
         if(playerMove==buttonArray[0][0]){
             if((buttonArray[0][1].getText()!="C")&&(buttonArray[0][1].getText()!="P")){
@@ -1044,7 +1069,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 buttonArray[2][6].setEnabled(true);
             }
         }
-        if(playerMove==buttonArray[2][3]){
+        if(playerMove==buttonArray[2][6]){
             if((buttonArray[2][5].getText()!="C")&&(buttonArray[2][5].getText()!="P")){
                 buttonArray[2][5].setEnabled(true);
             }
@@ -1055,7 +1080,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 buttonArray[1][6].setEnabled(true);
             }
         }
-        if(playerMove==buttonArray[2][6]){
+        if(playerMove==buttonArray[2][7]){
             if((buttonArray[2][4].getText()!="C")&&(buttonArray[2][4].getText()!="P")){
                 buttonArray[2][4].setEnabled(true);
             }
@@ -1063,6 +1088,8 @@ public class PvcGameScreen extends AppCompatActivity {
                 buttonArray[2][6].setEnabled(true);
             }
         }
+    }
+    public void isMill(){
 
     }
 }//end of file
