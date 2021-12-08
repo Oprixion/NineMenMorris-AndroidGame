@@ -30,6 +30,12 @@ public class PvpGameScreen extends AppCompatActivity{
         this.finish();
     }//toModeSelection
 
+    /**
+     * Main method assigned to every button on the game board that go through the game loop and
+     * making moves
+     * Thai Son Nghiem
+     * @param myView
+     */
     public void placeMove(View myView){
         Button theMove = (Button) myView;
         //When there are still pieces to play
@@ -668,6 +674,12 @@ public class PvpGameScreen extends AppCompatActivity{
         }
     }//disableP1Moves
 
+    /**
+     * Checking for mill around the move that has just been placed
+     * James Mendozas, Thai Son Nghiem
+     * @param theMove
+     * @return true if mill, else false
+     */
     public boolean isMill(Button theMove) {
         int idOfTheMove = theMove.getId();
         Button b00 = (Button) findViewById(R.id.pvpB00);
@@ -889,9 +901,13 @@ public class PvpGameScreen extends AppCompatActivity{
         }
     }//changeVisualDisable
 
-    //////////////////////////////////
-    //      VISUAL BELOW            //
-    //////////////////////////////////
+    /**
+     *     //////////////////////////////////
+     *     //      VISUAL BELOW            //
+     *     //////////////////////////////////
+     *     Cole Cloutier
+     * @param turn
+     */
 
     /*
     Changes the turn arrow depending on input turn
