@@ -12,22 +12,24 @@ public class PvcGameScreen extends AppCompatActivity {
     public int playerPieceOnBoard = 0;
     public int computerPieceOnBoard = 0;
     public int computerPieceOnHand = 9;
-    public int indexOfPlayerPieceToRemove=0;
-     Button[][] buttonArray = new Button [8][8];
-     Button[] playerPiecesArray = new Button[10];
-     Button[] computerPiecesArray = new Button[10];
-     String playerPiece;
+    public int indexOfPlayerPieceToRemove = 0;
+    Button[][] buttonArray = new Button[8][8];
+    Button[] playerPiecesArray = new Button[10];
+    Button[] computerPiecesArray = new Button[10];
+    String playerPiece;
     int numOfRd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pvc_game_screen);
-        playerPiece= "P";
-        numOfRd=0;
+        playerPiece = "notP";
+        numOfRd = 0;
         buttonsBoard(buttonArray);
 
     }
-    public void buttonsBoard(Button [][] gameBoard) {
+
+    public void buttonsBoard(Button[][] gameBoard) {
         //outer board
         Button b00 = (Button) findViewById(R.id.button00);
         Button b01 = (Button) findViewById(R.id.button01);
@@ -85,35 +87,55 @@ public class PvcGameScreen extends AppCompatActivity {
         gameBoard[2][6] = b26;
         gameBoard[2][7] = b27;
     }
-    public void playerOrComputer(View myView){
-        numOfRd+=1;
+
+    public void playerOrComputer(View myView) {
+        numOfRd += 1;
         Button playerMove = (Button) myView;
-        if(numOfPlayerPieces()<=9 && numOfPlayerPieces()<=9 ) {
-            playerTurn(playerMove);
-            if(isMillCrossLines1("P")||isMillFirstOp("P")
-                    ||isMillSecondOp("P")){
-                if(playerMove.getText()=="P"){
-                    return;
-                }
+        if (numOfPlayerPieces() <= 9 && numOfPlayerPieces() <= 9) {
+            if(playerPiece.equals("notRemover")){
+                playerPiece="P";
+            }
+            if(playerPiece.equals("Remover")){
+                removeIfMill(playerMove);
+                enableAllButtons(buttonArray);
+                disableComputerMove();
+                disablePlayerMove();
+                playerPiece= "notRemover";
+            }
+
+            if(playerPiece.equals("notP")) {
+                playerTurn(playerMove);
+                playerPiece="P";
+            }
+            if (isMillCrossLines1("P", playerMove)
+                    || isMillFirstOp("P", playerMove)
+                    || isMillSecondOp("P", playerMove)) {
                 disableAllButtons();
                 enableComputerMove();
-                removeIfMill(playerMove);
+                playerPiece="Remover";
             }
-            if (playerPiece.equals("P")){
-                if(numOfRd<=9) {
+
+
+            if (playerPiece.equals("P")) {
+                if (numOfRd <= 9) {
                     computerTurn();
+                    if(isMillComputerCrossLines1("C")
+                            || isMillComputerFirstOp("C")
+                            || isMillComputerSecondOp("C")){
+                        removePlayerPiece();
+                    }
+                    playerPiece="notP";
                 }
             }
-            if(numOfRd>=9) {
+            if (numOfRd >= 9) {
                 disableAllButtons();
                 enableAllPlayerPieces();
             }
-            if(numOfRd>=10) {
+            if (numOfRd >= 10) {
                 if (playerMove.getText() == "P") {
                     enableAdjacentButtons(playerMove);
                     removePlayerPieceWhenMoving(playerMove);
-                }
-                else{
+                } else {
                     movePlayerPiece(playerMove);
                 }
 
@@ -122,8 +144,8 @@ public class PvcGameScreen extends AppCompatActivity {
     }
 
 
-    public void playerTurn(Button playerMove){
-        if(numOfRd<=9) {
+    public void playerTurn(Button playerMove) {
+        if (numOfRd <= 9) {
             playerMove.setText("P");
             playerMove.setEnabled(false);
             playerPiecesArray[9 - playerPieceOnHand] = playerMove;
@@ -136,19 +158,19 @@ public class PvcGameScreen extends AppCompatActivity {
             playerPiece = "P";
         }
     }//player1Turn
-    public void computerTurn(){
-        if(numOfRd==1) {
+
+    public void computerTurn() {
+        if (numOfRd == 1) {
             firstComputerTurn();
-        }
-        else if(isBlockOrMillFirstOp("P") || isBlockOrMillSecondOp("P") ||
+        } else if (isBlockOrMillFirstOp("P") || isBlockOrMillSecondOp("P") ||
                 isBlockOrMillCrossLines1("P") || isBlockOrMillCrossLines2("P")
                 || isBlockOrMillCrossLinesInBetween("P") || isBlockOrMillInBetween("P")) {
             if (isBlockOrMillFirstOp("P")) {
-               blockOrMillFirstOp("P");
+                blockOrMillFirstOp("P");
             } else if (isBlockOrMillSecondOp("P")) {
                 blockOrMillSecondOp("P");
             } else if (isBlockOrMillCrossLines1("P")) {
-               blockOrMillCrossLines1("P");
+                blockOrMillCrossLines1("P");
             } else if (isBlockOrMillCrossLines2("P")) {
                 blockOrMillCrossLines2("P");
             } else if (isBlockOrMillInBetween("P")) {
@@ -156,8 +178,7 @@ public class PvcGameScreen extends AppCompatActivity {
             } else if (isBlockOrMillCrossLinesInBetween("P")) {
                 blockOrMillCrossLinesInBetween("P");
             }
-        }
-        else if(isBlockOrMillFirstOp("C") || isBlockOrMillSecondOp("C") ||
+        } else if (isBlockOrMillFirstOp("C") || isBlockOrMillSecondOp("C") ||
                 isBlockOrMillCrossLines1("C") || isBlockOrMillCrossLines2("C")
                 || isBlockOrMillCrossLinesInBetween("C") || isBlockOrMillInBetween("C")) {
             if (isBlockOrMillFirstOp("C")) {
@@ -173,9 +194,8 @@ public class PvcGameScreen extends AppCompatActivity {
             } else if (isBlockOrMillCrossLinesInBetween("C")) {
                 blockOrMillCrossLinesInBetween("C");
             }
-        }
-        else if(isTryingToMakeMillCorners()||isTryingToMakeMillMiddleHorizonal()
-                ||isTryingToMakeMillMiddleVertical()) {
+        } else if (isTryingToMakeMillCorners() || isTryingToMakeMillMiddleHorizonal()
+                || isTryingToMakeMillMiddleVertical()) {
             if (isTryingToMakeMillMiddleHorizonal()) {
                 tryingToMakeMillMiddleHorizonal();
             } else if (isTryingToMakeMillMiddleVertical()) {
@@ -187,7 +207,8 @@ public class PvcGameScreen extends AppCompatActivity {
             }
         }
     }
-    public void disableAllButtons( ) {
+
+    public void disableAllButtons() {
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
                 buttonArray[i][j].setEnabled(false);
@@ -196,33 +217,42 @@ public class PvcGameScreen extends AppCompatActivity {
     }//disableAllButtons
 
 
-    public void enableAllPlayerPieces(){
-        for(int i= 0; i<=8; i++){
-            if(playerPiecesArray[i].getText()!=null) {
+    public void enableAllPlayerPieces() {
+        for (int i = 0; i <= 8; i++) {
+            if (playerPiecesArray[i].getText() != null) {
                 playerPiecesArray[i].setEnabled(true);
             }
         }
     }//disableAllButtons
-        public void enableAllButtons(Button[][] gameBoard){
-            for (int i = 0; i <= 2; i++) {
-                for (int j = 0; j <= 7; j++) {
-                    gameBoard[i][j].setEnabled(true);
-                }
+   public void disableAllPlayerPieces(){
+       for (int i = 0; i <= 8; i++) {
+           if (playerPiecesArray[i].getText() != null) {
+               playerPiecesArray[i].setEnabled(false);
+           }
+       }
+   }//disableAllButtons
+    public void enableAllButtons(Button[][] gameBoard) {
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 7; j++) {
+                gameBoard[i][j].setEnabled(true);
             }
-        }//enableAllButtons
-    public void firstComputerTurn(){
-        int[] numberArray = {0,2,5,7};
+        }
+    }//enableAllButtons
+
+    public void firstComputerTurn() {
+        int[] numberArray = {0, 2, 5, 7};
         Random random = new Random();
-        int  randomNumber= random.nextInt(4);
+        int randomNumber = random.nextInt(4);
         int cpuFirstPosition = numberArray[randomNumber];
-        while(buttonArray[0][cpuFirstPosition].getText()=="P"){
+        while (buttonArray[0][cpuFirstPosition].getText() == "P") {
             randomNumber = random.nextInt(4);
-            cpuFirstPosition=numberArray[randomNumber];
+            cpuFirstPosition = numberArray[randomNumber];
         }
         buttonArray[0][cpuFirstPosition].setText("C");
         buttonArray[0][cpuFirstPosition].setEnabled(false);
 
     }
+
     public int numOfPlayerPieces() {
         int numberOfPlayerPieces = 0;
         for (int i = 0; i <= 2; i++) {
@@ -234,8 +264,9 @@ public class PvcGameScreen extends AppCompatActivity {
         }// outer for loop
         return numberOfPlayerPieces;
     }//isCompterFirstTurn
+
     public int numOfComputerPieces() {
-        int numberOfComputerPieces= 0;
+        int numberOfComputerPieces = 0;
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
                 if (buttonArray[i][j].getText() == ("P")) {
@@ -246,51 +277,52 @@ public class PvcGameScreen extends AppCompatActivity {
         return numberOfComputerPieces;
     }//isCompterFirstTurn
 
-        public void blockOrMillFirstOp(String playerOrComputerPiece){
-            for(int i = 0 ; i<=2 ; i++) {
-                if (buttonArray[i][0].getText() == playerOrComputerPiece) {
-                    if (buttonArray[i][1].getText() == playerOrComputerPiece) {
-                        if(buttonArray[i][2].getText() !="C" && buttonArray[i][2].getText()!="P"){
-                            buttonArray[i][2].setText("C");
-                            buttonArray[i][2].setEnabled(false);
-                            return;
-                        }
+    public void blockOrMillFirstOp(String playerOrComputerPiece) {
+        for (int i = 0; i <= 2; i++) {
+            if (buttonArray[i][0].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][1].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
+                        buttonArray[i][2].setText("C");
+                        buttonArray[i][2].setEnabled(false);
+                        return;
                     }
                 }
-                if (buttonArray[i][2].getText() == playerOrComputerPiece) {
-                    if (buttonArray[i][1].getText() == playerOrComputerPiece) {
-                        if(buttonArray[i][0].getText() !="C" && buttonArray[i][0].getText()!="P"){
-                            buttonArray[i][0].setText("C");
-                            buttonArray[i][0].setEnabled(false);
-                            return;
-                        }
+            }
+            if (buttonArray[i][2].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][1].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
+                        buttonArray[i][0].setText("C");
+                        buttonArray[i][0].setEnabled(false);
+                        return;
                     }
                 }
-                if(buttonArray[i][7].getText() == playerOrComputerPiece) {
-                    if (buttonArray[i][6].getText() == playerOrComputerPiece) {
-                        if(buttonArray[i][5].getText() !="C" && buttonArray[i][5].getText()!="P"){
-                            buttonArray[i][5].setText("C");
-                            buttonArray[i][5].setEnabled(false);
-                            return;
-                        }
+            }
+            if (buttonArray[i][7].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][6].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
+                        buttonArray[i][5].setText("C");
+                        buttonArray[i][5].setEnabled(false);
+                        return;
                     }
                 }
-                if (buttonArray[i][5].getText() == playerOrComputerPiece) {
-                    if (buttonArray[i][6].getText() == playerOrComputerPiece) {
-                        if(buttonArray[i][7].getText() !="C" && buttonArray[i][7].getText()!="P"){
-                            buttonArray[i][7].setText("C");
-                            buttonArray[i][7].setEnabled(false);
-                            return;
-                        }
+            }
+            if (buttonArray[i][5].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][6].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
+                        buttonArray[i][7].setText("C");
+                        buttonArray[i][7].setEnabled(false);
+                        return;
                     }
                 }
+            }
         }//for loop
-       }//blockMoveReturnCols
-    public void blockOrMillSecondOp(String playerOrComputerPiece){
-        for(int i = 0 ; i<=2 ; i++) {
+    }//blockMoveReturnCols
+
+    public void blockOrMillSecondOp(String playerOrComputerPiece) {
+        for (int i = 0; i <= 2; i++) {
             if (buttonArray[i][0].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][3].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][5].getText() !="C" && buttonArray[i][5].getText()!="P"){
+                    if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                         buttonArray[i][5].setText("C");
                         buttonArray[i][5].setEnabled(false);
                         return;
@@ -299,28 +331,28 @@ public class PvcGameScreen extends AppCompatActivity {
             }
             if (buttonArray[i][2].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][4].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][7].getText() !="C" && buttonArray[i][7].getText()!="P"){
+                    if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
                         buttonArray[i][7].setText("C");
                         buttonArray[i][7].setEnabled(false);
-                        return;
+                        return ;
                     }
                 }
             }
-            if(buttonArray[i][7].getText() == playerOrComputerPiece) {
+            if (buttonArray[i][7].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][4].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][2].getText() !="C" && buttonArray[i][2].getText()!="P"){
+                    if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                         buttonArray[i][2].setText("C");
                         buttonArray[i][2].setEnabled(false);
-                        return;
+                        return ;
                     }
                 }
             }
             if (buttonArray[i][5].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][3].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][0].getText() !="C" && buttonArray[i][0].getText()!="P"){
+                    if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                         buttonArray[i][0].setText("C");
-                        buttonArray[i][2].setEnabled(false);
-                        return;
+                        buttonArray[i][0].setEnabled(false);
+                        return ;
                     }
                 }
             }
@@ -328,32 +360,32 @@ public class PvcGameScreen extends AppCompatActivity {
     }//blockMoveReturnCols
 
 
-    public boolean isBlockOrMillFirstOp(String playerOrComputerPiece){
-        for(int i = 0 ; i<=2 ; i++) {
+    public boolean isBlockOrMillFirstOp(String playerOrComputerPiece) {
+        for (int i = 0; i <= 2; i++) {
             if (buttonArray[i][0].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][1].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][2].getText() !="C" && buttonArray[i][2].getText()!="P"){
+                    if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                         return true;
                     }
                 }
             }
             if (buttonArray[i][2].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][1].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][0].getText() !="C" && buttonArray[i][0].getText()!="P"){
+                    if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                         return true;
                     }
                 }
             }
-            if(buttonArray[i][7].getText() == playerOrComputerPiece) {
+            if (buttonArray[i][7].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][6].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][5].getText() !="C" && buttonArray[i][5].getText()!="P"){
+                    if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                         return true;
                     }
                 }
             }
             if (buttonArray[i][5].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][6].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][7].getText() !="C" && buttonArray[i][7].getText()!="P"){
+                    if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
                         return true;
                     }
                 }
@@ -361,11 +393,12 @@ public class PvcGameScreen extends AppCompatActivity {
         }//for loop
         return false;
     }//isblockmove
-    public boolean isBlockOrMillSecondOp(String playerOrComputerPiece){
-        for(int i = 0 ; i<=2 ; i++) {
+
+    public boolean isBlockOrMillSecondOp(String playerOrComputerPiece) {
+        for (int i = 0; i <= 2; i++) {
             if (buttonArray[i][0].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][3].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][5].getText() !="C" && buttonArray[i][5].getText()!="P"){
+                    if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                         return true;
                     }
                 }
@@ -377,16 +410,16 @@ public class PvcGameScreen extends AppCompatActivity {
                     }
                 }
             }
-            if(buttonArray[i][7].getText() == playerOrComputerPiece) {
+            if (buttonArray[i][7].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][4].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][2].getText() !="C" && buttonArray[i][2].getText()!="P"){
+                    if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                         return true;
                     }
                 }
             }
             if (buttonArray[i][5].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][3].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][0].getText() !="C" && buttonArray[i][0].getText()!="P"){
+                    if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                         return true;
                     }
                 }
@@ -394,107 +427,111 @@ public class PvcGameScreen extends AppCompatActivity {
         }//for loop
         return false;
     }//isblockmove
-   public boolean isBlockOrMillCrossLines1(String playerOrComputerPiece){
-        int[] numberArray = {1,3,4,6,0};
-        int numInListCounter= 0;
-        int numbersInList= numberArray[numInListCounter];
-        while(numInListCounter<4){
-            if(buttonArray[0][numbersInList].getText()==playerOrComputerPiece){
-               if(buttonArray[1][numbersInList].getText()==playerOrComputerPiece) {
-                 if(buttonArray[2][numbersInList].getText()!= "C" && buttonArray[2]
-                         [numbersInList].getText()!="P"){
-                     return true;
-                 }
-               }
+
+    public boolean isBlockOrMillCrossLines1(String playerOrComputerPiece) {
+        int[] numberArray = {1, 3, 4, 6, 0};
+        int numInListCounter = 0;
+        int numbersInList = numberArray[numInListCounter];
+        while (numInListCounter < 4) {
+            if (buttonArray[0][numbersInList].getText() == playerOrComputerPiece) {
+                if (buttonArray[1][numbersInList].getText() == playerOrComputerPiece) {
+                    if (buttonArray[2][numbersInList].getText() != "C" && buttonArray[2]
+                            [numbersInList].getText() != "P") {
+                        return true;
+                    }
+                }
             }
-            numInListCounter+=1;
-            numbersInList=numberArray[numInListCounter];
+            numInListCounter += 1;
+            numbersInList = numberArray[numInListCounter];
         }//while loop
-       return false;
-   }
-    public void blockOrMillCrossLines1(String playerOrComputerPiece){
-        int[] numberArray = {1,3,4,6,0};
-        int numInListCounter= 0;
-        int numbersInList= numberArray[numInListCounter];
-        while(numInListCounter<4){
-            if(buttonArray[0][numbersInList].getText()==playerOrComputerPiece){
-                if(buttonArray[1][numbersInList].getText()==playerOrComputerPiece) {
-                    if(buttonArray[2][numbersInList].getText()!= "C" && buttonArray[2]
-                            [numbersInList].getText()!="P"){
+        return false;
+    }
+
+    public void blockOrMillCrossLines1(String playerOrComputerPiece) {
+        int[] numberArray = {1, 3, 4, 6, 0};
+        int numInListCounter = 0;
+        int numbersInList = numberArray[numInListCounter];
+        while (numInListCounter < 4) {
+            if (buttonArray[0][numbersInList].getText() == playerOrComputerPiece) {
+                if (buttonArray[1][numbersInList].getText() == playerOrComputerPiece) {
+                    if (buttonArray[2][numbersInList].getText() != "C" && buttonArray[2]
+                            [numbersInList].getText() != "P") {
                         buttonArray[2][numbersInList].setText("C");
                         buttonArray[2][numbersInList].setEnabled(false);
                         return;
                     }
                 }
             }
-            numInListCounter+=1;
-            numbersInList=numberArray[numInListCounter];
+            numInListCounter += 1;
+            numbersInList = numberArray[numInListCounter];
         }//while loop
     }
-    public boolean isBlockOrMillCrossLines2(String playerOrComputerPiece){
-        int[] numberArray = {0,1,3,4,6,0};
-        int numInListCounter= 3;
-        int numbersInList= numberArray[numInListCounter];
-        while(numInListCounter>=1){
-            if(buttonArray[2][numbersInList].getText()==playerOrComputerPiece){
-                if(buttonArray[1][numbersInList].getText()==playerOrComputerPiece) {
-                    if(buttonArray[0][numbersInList].getText()!= "C" && buttonArray[0]
-                            [numbersInList].getText()!="P"){
+
+    public boolean isBlockOrMillCrossLines2(String playerOrComputerPiece) {
+        int[] numberArray = {0, 1, 3, 4, 6, 0};
+        int numInListCounter = 3;
+        int numbersInList = numberArray[numInListCounter];
+        while (numInListCounter >= 1) {
+            if (buttonArray[2][numbersInList].getText() == playerOrComputerPiece) {
+                if (buttonArray[1][numbersInList].getText() == playerOrComputerPiece) {
+                    if (buttonArray[0][numbersInList].getText() != "C" && buttonArray[0]
+                            [numbersInList].getText() != "P") {
                         return true;
                     }
                 }
             }
-            numInListCounter-=1;
-            numbersInList=numberArray[numInListCounter];
+            numInListCounter -= 1;
+            numbersInList = numberArray[numInListCounter];
         }//while loop
         return false;
     }
-    public void blockOrMillCrossLines2(String playerOrComputerPiece){
-        int[] numberArray = {0,1,3,4,6,0};
-        int numInListCounter= 4;
-        int numbersInList= numberArray[numInListCounter];
-        while(numInListCounter>=1){
-            if(buttonArray[2][numbersInList].getText()==playerOrComputerPiece){
-                if(buttonArray[1][numbersInList].getText()==playerOrComputerPiece) {
-                    if(buttonArray[0][numbersInList].getText()!= "C" && buttonArray[0]
-                            [numbersInList].getText()!="P"){
+
+    public void blockOrMillCrossLines2(String playerOrComputerPiece) {
+        int[] numberArray = {0, 1, 3, 4, 6, 0};
+        int numInListCounter = 4;
+        int numbersInList = numberArray[numInListCounter];
+        while (numInListCounter >= 1) {
+            if (buttonArray[2][numbersInList].getText() == playerOrComputerPiece) {
+                if (buttonArray[1][numbersInList].getText() == playerOrComputerPiece) {
+                    if (buttonArray[0][numbersInList].getText() != "C" && buttonArray[0]
+                            [numbersInList].getText() != "P") {
                         buttonArray[0][numbersInList].setText("C");
                         buttonArray[0][numbersInList].setEnabled(false);
                         return;
                     }
                 }
             }
-            numInListCounter-=1;
-            numbersInList=numberArray[numInListCounter];
+            numInListCounter -= 1;
+            numbersInList = numberArray[numInListCounter];
         }//while loop
     }
 
-    public boolean isBlockOrMillInBetween(String playerOrComputerPiece){
-        for(int i = 0 ; i<=2 ; i++) {
+    public boolean isBlockOrMillInBetween(String playerOrComputerPiece) {
+        for (int i = 0; i <= 2; i++) {
             if (buttonArray[i][0].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][2].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][1].getText() !="C" && buttonArray[i][1].getText()!="P"){
+                    if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
                         return true;
                     }
                 }
             }
             if (buttonArray[i][0].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][5].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][3].getText() !="C" && buttonArray[i][3].getText()!="P"){
+                    if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
                         return true;
                     }
                 }
             }
-            if(buttonArray[i][7].getText() == playerOrComputerPiece) {
+            if (buttonArray[i][7].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][2].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][4].getText() !="C" && buttonArray[i][4].getText()!="P"){
+                    if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
                         return true;
                     }
                 }
             }
             if (buttonArray[i][5].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][7].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][6].getText() !="C" && buttonArray[i][6].getText()!="P"){
+                    if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
                         return true;
                     }
                 }
@@ -502,11 +539,12 @@ public class PvcGameScreen extends AppCompatActivity {
         }//for loop
         return false;
     }//isblockMoveInBetween
-    public void blockOrMillInBetween(String playerOrComputerPiece){
-        for(int i = 0 ; i<=2 ; i++) {
+
+    public void blockOrMillInBetween(String playerOrComputerPiece) {
+        for (int i = 0; i <= 2; i++) {
             if (buttonArray[i][0].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][2].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][1].getText() !="C" && buttonArray[i][1].getText()!="P"){
+                    if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
                         buttonArray[i][1].setText("C");
                         buttonArray[i][1].setEnabled(false);
                         return;
@@ -515,16 +553,16 @@ public class PvcGameScreen extends AppCompatActivity {
             }
             if (buttonArray[i][0].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][5].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][3].getText() !="C" && buttonArray[i][3].getText()!="P"){
+                    if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
                         buttonArray[i][3].setText("C");
                         buttonArray[i][3].setEnabled(false);
                         return;
                     }
                 }
             }
-            if(buttonArray[i][7].getText() == playerOrComputerPiece) {
+            if (buttonArray[i][7].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][2].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][4].getText() !="C" && buttonArray[i][4].getText()!="P"){
+                    if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
                         buttonArray[i][4].setText("C");
                         buttonArray[i][4].setEnabled(false);
                         return;
@@ -533,7 +571,7 @@ public class PvcGameScreen extends AppCompatActivity {
             }
             if (buttonArray[i][5].getText() == playerOrComputerPiece) {
                 if (buttonArray[i][7].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][6].getText() !="C" && buttonArray[i][6].getText()!="P"){
+                    if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
                         buttonArray[i][6].setText("C");
                         buttonArray[i][6].setEnabled(false);
                         return;
@@ -543,86 +581,84 @@ public class PvcGameScreen extends AppCompatActivity {
         }//for loop
     }//blockMoveInBetweenReturnCols
 
-    public boolean isBlockOrMillCrossLinesInBetween(String playerOrComputerPiece){
-        int[] numberArray = {1,3,4,6,0};
-        int numInListCounter= 0;
-        int numbersInList= numberArray[numInListCounter];
-        while(numInListCounter<4){
-            if(buttonArray[0][numbersInList].getText()==playerOrComputerPiece){
-                if(buttonArray[2][numbersInList].getText()==playerOrComputerPiece) {
-                    if(buttonArray[1][numbersInList].getText()!= "C" && buttonArray[1]
-                            [numbersInList].getText()!="P"){
+    public boolean isBlockOrMillCrossLinesInBetween(String playerOrComputerPiece) {
+        int[] numberArray = {1, 3, 4, 6, 0};
+        int numInListCounter = 0;
+        int numbersInList = numberArray[numInListCounter];
+        while (numInListCounter < 4) {
+            if (buttonArray[0][numbersInList].getText() == playerOrComputerPiece) {
+                if (buttonArray[2][numbersInList].getText() == playerOrComputerPiece) {
+                    if (buttonArray[1][numbersInList].getText() != "C" && buttonArray[1]
+                            [numbersInList].getText() != "P") {
                         return true;
                     }
                 }
             }
-            numInListCounter+=1;
-            numbersInList=numberArray[numInListCounter];
+            numInListCounter += 1;
+            numbersInList = numberArray[numInListCounter];
         }//while loop
         return false;
     }
-    public void blockOrMillCrossLinesInBetween(String playerOrComputerPiece){
-        int[] numberArray = {1,3,4,6,0};
-        int numInListCounter= 0;
-        int numbersInList= numberArray[numInListCounter];
-        while(numInListCounter<4){
-            if(buttonArray[0][numbersInList].getText()==playerOrComputerPiece){
-                if(buttonArray[2][numbersInList].getText()==playerOrComputerPiece) {
-                    if(buttonArray[1][numbersInList].getText()!= "C" && buttonArray[1]
-                            [numbersInList].getText()!="P"){
+
+    public void blockOrMillCrossLinesInBetween(String playerOrComputerPiece) {
+        int[] numberArray = {1, 3, 4, 6, 0};
+        int numInListCounter = 0;
+        int numbersInList = numberArray[numInListCounter];
+        while (numInListCounter < 4) {
+            if (buttonArray[0][numbersInList].getText() == playerOrComputerPiece) {
+                if (buttonArray[2][numbersInList].getText() == playerOrComputerPiece) {
+                    if (buttonArray[1][numbersInList].getText() != "C" && buttonArray[1]
+                            [numbersInList].getText() != "P") {
                         buttonArray[1][numbersInList].setText("C");
                         buttonArray[1][numbersInList].setEnabled(false);
                         return;
                     }
                 }
             }
-            numInListCounter+=1;
-            numbersInList=numberArray[numInListCounter];
+            numInListCounter += 1;
+            numbersInList = numberArray[numInListCounter];
         }//while loop
     }//blockMoveCrossLinesInBetweenReturnCol
 
-   public boolean isTryingToMakeMillMiddleHorizonal() {
+    public boolean isTryingToMakeMillMiddleHorizonal() {
         for (int i = 0; i < 3; i++) {
             if (buttonArray[i][1].getText() == "C") {
-                if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText()!="P") {
+                if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                     return true;
-                }
-                else if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText()!="P"){
+                } else if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                     return true;
                 }
             }
-            if(buttonArray[i][6].getText() == "C") {
-                if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText()!="P") {
+            if (buttonArray[i][6].getText() == "C") {
+                if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                     return true;
-                }
-                else if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText()!="P"){
+                } else if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
                     return true;
                 }
             }
         }
         return false;
     }
+
     public void tryingToMakeMillMiddleHorizonal() {
         for (int i = 0; i < 3; i++) {
             if (buttonArray[i][1].getText() == "C") {
-                if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText()!="P") {
+                if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                     buttonArray[i][0].setText("C");
                     buttonArray[i][0].setEnabled(false);
                     return;
-                }
-                else if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText()!="P"){
+                } else if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                     buttonArray[i][2].setText("C");
                     buttonArray[i][2].setEnabled(false);
                     return;
                 }
             }
-            if(buttonArray[i][6].getText() == "C") {
-                if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText()!="P") {
+            if (buttonArray[i][6].getText() == "C") {
+                if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                     buttonArray[i][5].setText("C");
                     buttonArray[i][5].setEnabled(false);
                     return;
-                }
-                else if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText()!="P"){
+                } else if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
                     buttonArray[i][7].setText("C");
                     buttonArray[i][7].setEnabled(false);
                     return;
@@ -630,48 +666,46 @@ public class PvcGameScreen extends AppCompatActivity {
             }
         }
     }
-    public boolean isTryingToMakeMillMiddleVertical(){
+
+    public boolean isTryingToMakeMillMiddleVertical() {
         for (int i = 0; i < 3; i++) {
             if (buttonArray[i][3].getText() == "C") {
-                if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText()!="P") {
+                if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                     return true;
-                }
-                else if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText()!="P"){
+                } else if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                     return true;
                 }
             }
-             if(buttonArray[i][4].getText() == "C") {
-                if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText()!="P") {
+            if (buttonArray[i][4].getText() == "C") {
+                if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                     return true;
-                }
-                else if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText()!="P"){
-                   return true;
+                } else if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
+                    return true;
                 }
             }
         }
         return false;
     }
-    public void tryingToMakeMillMiddleVertical(){
+
+    public void tryingToMakeMillMiddleVertical() {
         for (int i = 0; i < 3; i++) {
             if (buttonArray[i][3].getText() == "C") {
-                if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText()!="P") {
+                if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                     buttonArray[i][0].setText("C");
                     buttonArray[i][0].setEnabled(false);
                     return;
-                }
-                else if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText()!="P"){
+                } else if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                     buttonArray[i][5].setText("C");
                     buttonArray[i][5].setEnabled(false);
                     return;
                 }
             }
-            if(buttonArray[i][4].getText() == "C") {
-                if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText()!="P") {
+            if (buttonArray[i][4].getText() == "C") {
+                if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                     buttonArray[i][2].setText("C");
                     buttonArray[i][2].setEnabled(false);
                     return;
-                }
-                else if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText()!="P"){
+                } else if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
                     buttonArray[i][7].setText("C");
                     buttonArray[i][7].setEnabled(false);
                     return;
@@ -679,89 +713,83 @@ public class PvcGameScreen extends AppCompatActivity {
             }
         }
     }
-    public boolean isTryingToMakeMillCorners(){
+
+    public boolean isTryingToMakeMillCorners() {
         for (int i = 0; i < 3; i++) {
             if (buttonArray[i][0].getText() == "C") {
-                if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText()!="P") {
+                if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
                     return true;
-                }
-                else if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText()!="P"){
-                   return true;
-                }
-            }
-            if(buttonArray[i][2].getText() == "C") {
-                if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText()!="P") {
-                    return true;
-                }
-                else if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText()!="P"){
-                   return true;
-                }
-            }
-            if(buttonArray[i][5].getText() == "C") {
-                if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText()!="P") {
-                    return true;
-                }
-                else if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText()!="P"){
+                } else if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
                     return true;
                 }
             }
-            if(buttonArray[i][7].getText() == "C") {
-                if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText()!="P") {
-                   return true;
+            if (buttonArray[i][2].getText() == "C") {
+                if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
+                    return true;
+                } else if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
+                    return true;
                 }
-                else if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText()!="P"){
+            }
+            if (buttonArray[i][5].getText() == "C") {
+                if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
+                    return true;
+                } else if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
+                    return true;
+                }
+            }
+            if (buttonArray[i][7].getText() == "C") {
+                if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
+                    return true;
+                } else if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
                     return true;
                 }
             }
         }// for loop
         return false;
     }
-    public void tryingToMakeMillCorners(){
+
+    public void tryingToMakeMillCorners() {
         for (int i = 0; i < 3; i++) {
             if (buttonArray[i][0].getText() == "C") {
-                if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText()!="P") {
+                if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
                     buttonArray[i][1].setText("C");
                     buttonArray[i][1].setEnabled(false);
                     return;
-                }
-                else if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText()!="P"){
+                } else if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
                     buttonArray[i][3].setText("C");
                     buttonArray[i][3].setEnabled(false);
                     return;
                 }
             }
-            if(buttonArray[i][2].getText() == "C") {
-                if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText()!="P") {
+            if (buttonArray[i][2].getText() == "C") {
+                if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
                     buttonArray[i][1].setText("C");
                     buttonArray[i][1].setEnabled(false);
                     return;
-                }
-                else if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText()!="P"){
+                } else if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
                     buttonArray[i][4].setText("C");
                     buttonArray[i][4].setEnabled(false);
                     return;
                 }
             }
-            if(buttonArray[i][5].getText() == "C") {
-                if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText()!="P") {
+            if (buttonArray[i][5].getText() == "C") {
+                if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
                     buttonArray[i][3].setText("C");
                     buttonArray[i][3].setEnabled(false);
                     return;
-                }
-                else if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText()!="P"){
+                } else if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
                     buttonArray[i][6].setText("C");
                     buttonArray[i][6].setEnabled(false);
                     return;
                 }
             }
-            if(buttonArray[i][7].getText() == "C") {
-                if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText()!="P") {
+            if (buttonArray[i][7].getText() == "C") {
+                if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
                     buttonArray[i][6].setText("C");
                     buttonArray[i][6].setEnabled(false);
                     return;
 
-                }
-                else if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText()!="P"){
+                } else if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
                     buttonArray[i][4].setText("C");
                     buttonArray[i][4].setEnabled(false);
                     return;
@@ -769,97 +797,312 @@ public class PvcGameScreen extends AppCompatActivity {
             }
         }// for loop
     }
-    public boolean isTryingToMakeMillCrossLines(){
-        int[] numberArray = {1,3,4,6,0};
-        int numInListCounter= 0;
-        int numbersInList= numberArray[numInListCounter];
-        while (numInListCounter<4){
-            if (buttonArray[0][numbersInList].getText()=="C"){
-                if (buttonArray[1][numbersInList].getText()!="C"&&
-                        buttonArray[1][numbersInList].getText()!="P"){
+
+    public boolean isTryingToMakeMillCrossLines() {
+        int[] numberArray = {1, 3, 4, 6, 0};
+        int numInListCounter = 0;
+        int numbersInList = numberArray[numInListCounter];
+        while (numInListCounter < 4) {
+            if (buttonArray[0][numbersInList].getText() == "C") {
+                if (buttonArray[1][numbersInList].getText() != "C" &&
+                        buttonArray[1][numbersInList].getText() != "P") {
                     return true;
                 }
             }
-            if(buttonArray[1][numbersInList].getText()=="C"){
-                if (buttonArray[0][numbersInList].getText()!="C"&&
-                        buttonArray[0][numbersInList].getText()!="P"){
+            if (buttonArray[1][numbersInList].getText() == "C") {
+                if (buttonArray[0][numbersInList].getText() != "C" &&
+                        buttonArray[0][numbersInList].getText() != "P") {
                     return true;
                 }
-                if (buttonArray[2][numbersInList].getText()!="C"&&
-                        buttonArray[2][numbersInList].getText()!="P"){
-                    return true;
-                }
-            }
-            if(buttonArray[2][numbersInList].getText()=="C"){
-                if (buttonArray[1][numbersInList].getText()!="C"&&
-                        buttonArray[1][numbersInList].getText()!="P"){
+                if (buttonArray[2][numbersInList].getText() != "C" &&
+                        buttonArray[2][numbersInList].getText() != "P") {
                     return true;
                 }
             }
-            numInListCounter+=1;
-            numbersInList=numberArray[numInListCounter];
+            if (buttonArray[2][numbersInList].getText() == "C") {
+                if (buttonArray[1][numbersInList].getText() != "C" &&
+                        buttonArray[1][numbersInList].getText() != "P") {
+                    return true;
+                }
+            }
+            numInListCounter += 1;
+            numbersInList = numberArray[numInListCounter];
         }// end While loop
         return false;
     }//isTryingToMakeMillCrossLines
-    public void tryingToMakeMillCrossLines(){
-        int[] numberArray = {1,3,4,6,0};
-        int numInListCounter= 0;
-        int numbersInList= numberArray[numInListCounter];
-        while (numInListCounter<4){
-            if (buttonArray[0][numbersInList].getText()=="C"){
-                if (buttonArray[1][numbersInList].getText()!="C"&&
-                        buttonArray[1][numbersInList].getText()!="P"){
+
+    public void tryingToMakeMillCrossLines() {
+        int[] numberArray = {1, 3, 4, 6, 0};
+        int numInListCounter = 0;
+        int numbersInList = numberArray[numInListCounter];
+        while (numInListCounter < 4) {
+            if (buttonArray[0][numbersInList].getText() == "C") {
+                if (buttonArray[1][numbersInList].getText() != "C" &&
+                        buttonArray[1][numbersInList].getText() != "P") {
                     buttonArray[1][numbersInList].setText("C");
                     buttonArray[1][numbersInList].setEnabled(false);
                     return;
                 }
             }
-            if(buttonArray[1][numbersInList].getText()=="C"){
-                if (buttonArray[0][numbersInList].getText()!="C"&&
-                        buttonArray[0][numbersInList].getText()!="P"){
+            if (buttonArray[1][numbersInList].getText() == "C") {
+                if (buttonArray[0][numbersInList].getText() != "C" &&
+                        buttonArray[0][numbersInList].getText() != "P") {
                     buttonArray[0][numbersInList].setText("C");
                     buttonArray[0][numbersInList].setEnabled(false);
                     return;
-                }
-                else if (buttonArray[2][numbersInList].getText()!="C"&&
-                        buttonArray[2][numbersInList].getText()!="P"){
+                } else if (buttonArray[2][numbersInList].getText() != "C" &&
+                        buttonArray[2][numbersInList].getText() != "P") {
                     buttonArray[2][numbersInList].setText("C");
                     buttonArray[2][numbersInList].setEnabled(false);
                     return;
                 }
             }
-            if(buttonArray[2][numbersInList].getText()=="C"){
-                if (buttonArray[1][numbersInList].getText()!="C"&&
-                        buttonArray[1][numbersInList].getText()!="P"){
+            if (buttonArray[2][numbersInList].getText() == "C") {
+                if (buttonArray[1][numbersInList].getText() != "C" &&
+                        buttonArray[1][numbersInList].getText() != "P") {
                     buttonArray[1][numbersInList].setText("C");
                     buttonArray[1][numbersInList].setEnabled(false);
                     return;
                 }
             }
-            numInListCounter+=1;
-            numbersInList=numberArray[numInListCounter];
+            numInListCounter += 1;
+            numbersInList = numberArray[numInListCounter];
         }// end While loop
     }//TryingToMakeMillCrossLines
-    public void disableComputerMove(){
+
+    public void disableComputerMove() {
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
-                if(buttonArray[i][j].getText()=="C"){
+                if (buttonArray[i][j].getText() == "C") {
                     buttonArray[i][j].setEnabled(false);
                 }
             }
         }
     }
-    public void enableComputerMove(){
+public void removePlayerPiece(){
+        if(isBlockOrMillCrossLines1("P")){
+            removePlayerPieceIfMillCrossLines1("P");
+        }
+        else if( isBlockOrMillCrossLines2("P")){
+                  removePlayerPieceIfMillCrossLines2("P");
+        }
+        else if( isBlockOrMillFirstOp("P")){
+            removePlayerPieceIfMillFirstOp("P");
+        }
+        else if(isBlockOrMillSecondOp("P")){
+            removePlayerPieceIfMillSecondOp("P");
+        }
+        else if(isBlockOrMillInBetween("P")){
+            removePlayerPieceIfMillInBetween("P");
+        }
+        else if(isBlockOrMillCrossLinesInBetween("P")){
+            removePlayerPieceIfMillCrossLinesInBetween("P");
+        }
+        else{
+            for (int i = 0; i <= 2; i++) {
+                for (int j = 0; j <= 7; j++) {
+                    if (buttonArray[i][j].getText() == "P") {
+                        buttonArray[i][j].setText(null);
+                        return;
+                    }
+                }
+            }
+        }
+}
+    public void removePlayerPieceIfMillFirstOp(String playerOrComputerPiece) {
+        for (int i = 0; i <= 2; i++) {
+            if (buttonArray[i][0].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][1].getText() == playerOrComputerPiece) {
+                    if(buttonArray[i][2].getText()!= "C" && buttonArray[i][2].getText()!="P") {
+                         buttonArray[i][0].setText(null);
+                        return;
+                    }
+                }
+            }
+            if (buttonArray[i][2].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][1].getText() == playerOrComputerPiece) {
+                    if(buttonArray[i][0].getText()!= "C" && buttonArray[i][0].getText()!="P") {
+                        buttonArray[i][2].setText(null);
+                        return;
+                    }
+                }
+            }
+            if (buttonArray[i][7].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][6].getText() == playerOrComputerPiece) {
+                    if(buttonArray[i][5].getText()!= "C" && buttonArray[i][5].getText()!="P") {
+                         buttonArray[i][7].setText(null);
+                        return;
+                    }
+                }
+            }
+            if (buttonArray[i][5].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][6].getText() == playerOrComputerPiece) {
+                    if(buttonArray[i][7].getText()!= "C" && buttonArray[i][7].getText()!="P") {
+                         buttonArray[i][5].setText(null);
+                         return;
+                    }
+                }
+            }
+        }//for loop
+    }//blockMoveReturnCols
+    public void removePlayerPieceIfMillSecondOp(String playerOrComputerPiece) {
+        for (int i = 0; i <= 2; i++) {
+            if (buttonArray[i][0].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][3].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
+                         buttonArray[i][0].setText(null);
+                         return;
+                    }
+                }
+            }
+            if (buttonArray[i][2].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][4].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
+                        buttonArray[i][2].setText(null);
+                        return;
+                    }
+                }
+            }
+            if (buttonArray[i][7].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][4].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
+                         buttonArray[i][7].setText(null);
+                         return;
+                    }
+                }
+            }
+            if (buttonArray[i][5].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][3].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
+                        buttonArray[i][5].setText(null);
+                        return;
+                    }
+                }
+            }
+        }//for loop
+    }//isblockmove
+    public void removePlayerPieceIfMillCrossLines1(String playerOrComputerPiece) {
+        int[] numberArray = {1, 3, 4, 6, 0};
+        int numInListCounter = 0;
+        int numbersInList = numberArray[numInListCounter];
+        while (numInListCounter < 4) {
+            if (buttonArray[0][numbersInList].getText() == playerOrComputerPiece) {
+                if (buttonArray[1][numbersInList].getText() == playerOrComputerPiece) {
+                    if (buttonArray[2][numbersInList].getText() != "C" && buttonArray[2]
+                            [numbersInList].getText() != "P") {
+                        buttonArray[0][numbersInList].setText(null);
+                        return;
+                    }
+                }
+            }
+            numInListCounter += 1;
+            numbersInList = numberArray[numInListCounter];
+        }//while loop
+    }
+    public void removePlayerPieceIfMillCrossLines2(String playerOrComputerPiece) {
+        int[] numberArray = {0, 1, 3, 4, 6, 0};
+        int numInListCounter = 3;
+        int numbersInList = numberArray[numInListCounter];
+        while (numInListCounter >= 1) {
+            if (buttonArray[2][numbersInList].getText() == playerOrComputerPiece) {
+                if (buttonArray[1][numbersInList].getText() == playerOrComputerPiece) {
+                    if (buttonArray[0][numbersInList].getText() != "C" && buttonArray[0]
+                            [numbersInList].getText() != "P") {
+                        buttonArray[2][numbersInList].setText(null);
+                        return;
+                    }
+                }
+            }
+            numInListCounter -= 1;
+            numbersInList = numberArray[numInListCounter];
+        }//while loop
+    }
+    public void removePlayerPieceIfMillInBetween(String playerOrComputerPiece) {
+        for (int i = 0; i <= 2; i++) {
+            if (buttonArray[i][0].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][2].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
+                         buttonArray[i][0].setText(null);
+                         return;
+                    }
+                }
+            }
+            if (buttonArray[i][0].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][5].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
+                         buttonArray[i][0].setText(null);
+                         return;
+                    }
+                }
+            }
+            if (buttonArray[i][7].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][2].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
+                        buttonArray[i][7].setText(null);
+                        return;
+                    }
+                }
+            }
+            if (buttonArray[i][5].getText() == playerOrComputerPiece) {
+                if (buttonArray[i][7].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
+                        buttonArray[i][5].setText(null);
+                        return;
+                    }
+                }
+            }
+        }//for loop
+    }//isblockMoveInBetween
+    public void removePlayerPieceIfMillCrossLinesInBetween(String playerOrComputerPiece) {
+        int[] numberArray = {1, 3, 4, 6, 0};
+        int numInListCounter = 0;
+        int numbersInList = numberArray[numInListCounter];
+        while (numInListCounter < 4) {
+            if (buttonArray[0][numbersInList].getText() == playerOrComputerPiece) {
+                if (buttonArray[2][numbersInList].getText() == playerOrComputerPiece) {
+                    if (buttonArray[1][numbersInList].getText() != "C" && buttonArray[1]
+                            [numbersInList].getText() != "P") {
+                        buttonArray[0][numbersInList].setText(null);
+                        return;
+                    }
+                }
+            }
+            numInListCounter += 1;
+            numbersInList = numberArray[numInListCounter];
+        }//while loop
+
+    }
+
+    public void enableComputerMove() {
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
-                if(buttonArray[i][j].getText()=="C"){
+                if (buttonArray[i][j].getText() == "C") {
                     buttonArray[i][j].setEnabled(true);
+                }
+            }
+        }
+    }
+    public void enablePlayerMove() {
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 7; j++) {
+                if (buttonArray[i][j].getText() == "P") {
+                    buttonArray[i][j].setEnabled(true);
+                }
+            }
+        }
+    }
+    public void disablePlayerMove() {
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 7; j++) {
+                if (buttonArray[i][j].getText() == "P") {
+                    buttonArray[i][j].setEnabled(false);
                 }
             }
         }
     }
     public void removeIfMill(Button removedButton){
        removedButton.setText(null);
+       removedButton.setEnabled(false);
     }
     public void removePlayerPieceWhenMoving(Button playerMove){
         for(int i= 0 ; i<=8 ; i++){
@@ -1115,72 +1358,238 @@ public class PvcGameScreen extends AppCompatActivity {
             }
         }
     }
-    public int countMills(){
-        for (int i = 0; i <= 2; i++) {
-            for (int j = 0; j <= 7; j++) {
-                if (buttonArray[i][j].getText() == "C") {
-                    buttonArray[i][j].setEnabled(true);
-                }
-            }
-        }
-    }
+
     ///////////////////////////////// NEWWWW PART //////////////////////////////
-    public boolean isMillFirstOp(String playerOrComputerPiece){
+    public boolean isMillFirstOp(String playerOrComputerPiece, Button playerMove){
         for(int i = 0 ; i<=2 ; i++) {
-            if (buttonArray[i][0].getText() == playerOrComputerPiece) {
-                if (buttonArray[i][1].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][2].getText()== playerOrComputerPiece){
-                       return true;
+            if(playerMove==buttonArray[i][0]||
+                    playerMove==buttonArray[i][1]||playerMove==buttonArray[i][2]) {
+                if (buttonArray[i][0].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][1].getText() == playerOrComputerPiece) {
+                        if (buttonArray[i][2].getText() == playerOrComputerPiece) {
+                            return true;
+                        }
                     }
                 }
             }
-
-            if(buttonArray[i][7].getText() == playerOrComputerPiece) {
-                if (buttonArray[i][6].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][5].getText()== playerOrComputerPiece){
-                       return true;
+            if(playerMove==buttonArray[i][7]||
+                    playerMove==buttonArray[i][6]||playerMove==buttonArray[i][5]) {
+                if (buttonArray[i][7].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][6].getText() == playerOrComputerPiece) {
+                        if (buttonArray[i][5].getText() == playerOrComputerPiece) {
+                            return true;
+                        }
                     }
                 }
             }
         }//for loop
         return false;
     }//blockMoveReturnCols
-    public boolean isMillSecondOp(String playerOrComputerPiece){
+    public boolean isMillSecondOp(String playerOrComputerPiece, Button playerMove){
         for(int i = 0 ; i<=2 ; i++) {
-            if (buttonArray[i][0].getText() == playerOrComputerPiece) {
-                if (buttonArray[i][3].getText() == playerOrComputerPiece) {
-                    if(buttonArray[i][5].getText()== playerOrComputerPiece){
-                        return true;
+            if(playerMove==buttonArray[i][0]||playerMove==buttonArray[i][3]||
+                    playerMove==buttonArray[i][5]) {
+                if (buttonArray[i][0].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][3].getText() == playerOrComputerPiece) {
+                        if (buttonArray[i][5].getText() == playerOrComputerPiece) {
+                            return true;
+                        }
                     }
                 }
             }
-            if (buttonArray[i][2].getText() == playerOrComputerPiece) {
-                if (buttonArray[i][4].getText() == playerOrComputerPiece) {
-                    if (buttonArray[i][7].getText() ==playerOrComputerPiece) {
-                        return true;
+            if(playerMove==buttonArray[i][2]||playerMove==buttonArray[i][4]
+                    ||playerMove==buttonArray[i][7]) {
+                if (buttonArray[i][2].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][4].getText() == playerOrComputerPiece) {
+                        if (buttonArray[i][7].getText() == playerOrComputerPiece) {
+                            return true;
+                        }
                     }
                 }
             }
         }//for loop
         return false;
     }//isblockmove
-    public boolean isMillCrossLines1(String playerOrComputerPiece){
+    public boolean isMillCrossLines1(String playerOrComputerPiece, Button playerMove){
         int[] numberArray = {1,3,4,6,0};
         int numInListCounter= 0;
         int numbersInList= numberArray[numInListCounter];
-        while(numInListCounter<4){
-            if(buttonArray[0][numbersInList].getText()==playerOrComputerPiece){
-                if(buttonArray[1][numbersInList].getText()==playerOrComputerPiece) {
-                    if(buttonArray[2][numbersInList].getText()==playerOrComputerPiece){
-                        return true;
+        while(numInListCounter<4) {
+            if (playerMove==buttonArray[0][numbersInList] || playerMove==buttonArray[1]
+                    [numbersInList]||playerMove==buttonArray[2][numbersInList]){
+                if (buttonArray[0][numbersInList].getText() == playerOrComputerPiece) {
+                    if (buttonArray[1][numbersInList].getText() == playerOrComputerPiece) {
+                        if (buttonArray[2][numbersInList].getText() == playerOrComputerPiece) {
+                            return true;
+                        }
                     }
                 }
-            }
+             }
             numInListCounter+=1;
             numbersInList=numberArray[numInListCounter];
         }//while loop
         return false;
     }
+    /////////////////////////////  computer
+    public boolean isMillComputerFirstOp(String playerOrComputerPiece){
+        for(int i = 0 ; i<=2 ; i++) {
+            if (buttonArray[i][0].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][1].getText() == playerOrComputerPiece) {
+                        if (buttonArray[i][2].getText() == playerOrComputerPiece) {
+                            return true;
+                        }
+                    }
+            }
+            if (buttonArray[i][7].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][6].getText() == playerOrComputerPiece) {
+                        if (buttonArray[i][5].getText() == playerOrComputerPiece) {
+                            return true;
+                        }
+                    }
+            }
+        }//for loop
+        return false;
+    }//blockMoveReturnCols
+    public boolean isMillComputerSecondOp(String playerOrComputerPiece){
+        for(int i = 0 ; i<=2 ; i++) {
+                if (buttonArray[i][0].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][3].getText() == playerOrComputerPiece) {
+                        if (buttonArray[i][5].getText() == playerOrComputerPiece) {
+                            return true;
+                        }
+                    }
+                }
+
+                if (buttonArray[i][2].getText() == playerOrComputerPiece) {
+                    if (buttonArray[i][4].getText() == playerOrComputerPiece) {
+                        if (buttonArray[i][7].getText() == playerOrComputerPiece) {
+                            return true;
+                        }
+                    }
+                }
+        }//for loop
+        return false;
+    }//isblockmove
+    public boolean isMillComputerCrossLines1(String playerOrComputerPiece){
+        int[] numberArray = {1,3,4,6,0};
+        int numInListCounter= 0;
+        int numbersInList= numberArray[numInListCounter];
+        while(numInListCounter<4) {
+                if (buttonArray[0][numbersInList].getText() == playerOrComputerPiece) {
+                    if (buttonArray[1][numbersInList].getText() == playerOrComputerPiece) {
+                        if (buttonArray[2][numbersInList].getText() == playerOrComputerPiece) {
+                            return true;
+                        }
+                    }
+                }
+            numInListCounter+=1;
+            numbersInList=numberArray[numInListCounter];
+        }//while loop
+        return false;
+    }
+
+    public Button getComputerButtonVert(){
+        for(int i = 0 ; i<=2 ; i++){
+            if(buttonArray[i][0].getText()=="C" && buttonArray[i][1].getText()=="C" &&
+                    buttonArray[i][2].getText()!="C" && buttonArray[i][2].getText()!="P"){
+
+            }
+            if(buttonArray[i][0].getText()=="C" && buttonArray[i][2].getText()=="C" &&
+                    buttonArray[i][1].getText()!="C" && buttonArray[i][1].getText()!="P"){
+
+            }
+            if(buttonArray[i][2].getText()=="C" && buttonArray[i][1].getText()=="C" &&
+                    buttonArray[i][0].getText()!="C" && buttonArray[i][0].getText()!="P"){
+
+            }
+            if(buttonArray[i][2].getText()=="C" && buttonArray[i][0].getText()=="C" &&
+                    buttonArray[i][1].getText()!="C" && buttonArray[i][1].getText()!="P"){
+
+            }
+            if(buttonArray[i][5].getText()=="C" && buttonArray[i][6].getText()=="C" &&
+                    buttonArray[i][7].getText()!="C" && buttonArray[i][7].getText()!="P"){
+
+            }
+            if(buttonArray[i][5].getText()=="C" && buttonArray[i][7].getText()=="C" &&
+                    buttonArray[i][6].getText()!="C" && buttonArray[i][6].getText()!="P"){
+
+            }
+            if(buttonArray[i][7].getText()=="C" && buttonArray[i][6].getText()=="C" &&
+                    buttonArray[i][5].getText()!="C" && buttonArray[i][5].getText()!="P"){
+
+            }
+            if(buttonArray[i][7].getText()=="C" && buttonArray[i][5].getText()=="C" &&
+                    buttonArray[i][6].getText()!="C" && buttonArray[i][6].getText()!="P"){
+
+            }
+        }
+        return null;
+    }
+    public Button getComputerButtonHort(){
+        for(int i = 0 ; i<=2 ; i++){
+            if(buttonArray[i][0].getText()=="C" && buttonArray[i][3].getText()=="C" &&
+                    buttonArray[i][5].getText()!="C" && buttonArray[i][5].getText()!="P"){
+
+            }
+            if(buttonArray[i][0].getText()=="C" && buttonArray[i][5].getText()=="C" &&
+                    buttonArray[i][3].getText()!="C" && buttonArray[i][3].getText()!="P"){
+
+            }
+            if(buttonArray[i][5].getText()=="C" && buttonArray[i][3].getText()=="C" &&
+                    buttonArray[i][0].getText()!="C" && buttonArray[i][0].getText()!="P"){
+
+            }
+            if(buttonArray[i][5].getText()=="C" && buttonArray[i][0].getText()=="C" &&
+                    buttonArray[i][3].getText()!="C" && buttonArray[i][3].getText()!="P"){
+
+            }
+            if(buttonArray[i][2].getText()=="C" && buttonArray[i][4].getText()=="C" &&
+                    buttonArray[i][7].getText()!="C" && buttonArray[i][7].getText()!="P"){
+
+            }
+            if(buttonArray[i][2].getText()=="C" && buttonArray[i][7].getText()=="C" &&
+                    buttonArray[i][4].getText()!="C" && buttonArray[i][4].getText()!="P"){
+
+            }
+            if(buttonArray[i][7].getText()=="C" && buttonArray[i][4].getText()=="C" &&
+                    buttonArray[i][2].getText()!="C" && buttonArray[i][2].getText()!="P"){
+
+            }
+            if(buttonArray[i][7].getText()=="C" && buttonArray[i][2].getText()=="C" &&
+                    buttonArray[i][4].getText()!="C" && buttonArray[i][4].getText()!="P"){
+
+            }
+        }
+        return null;
+    }
+    public Button getComputerButtonCrossLines(){
+        int[] numberArray = {1,3,4,6,0};
+        int numInListCounter= 0;
+        int numbersInList= numberArray[numInListCounter];
+        while(numInListCounter<4) {
+            if(buttonArray[0][numbersInList].getText()=="C" && buttonArray[1][numbersInList].getText()=="C" &&
+                    buttonArray[2][numbersInList].getText()!="C" && buttonArray[2][numbersInList].getText()!="P"){
+
+            }
+            if(buttonArray[0][numbersInList].getText()=="C" && buttonArray[2][numbersInList].getText()=="C" &&
+                    buttonArray[1][numbersInList].getText()!="C" && buttonArray[1][numbersInList].getText()!="P"){
+
+            }
+            if(buttonArray[2][numbersInList].getText()=="C" && buttonArray[1][numbersInList].getText()=="C" &&
+                    buttonArray[0][numbersInList].getText()!="C" && buttonArray[0][numbersInList].getText()!="P"){
+
+            }
+            if(buttonArray[2][numbersInList].getText()=="C" && buttonArray[0][numbersInList].getText()=="C" &&
+                    buttonArray[1][numbersInList].getText()!="C" && buttonArray[1][numbersInList].getText()!="P"){
+
+            }
+
+            numInListCounter+=1;
+            numbersInList=numberArray[numInListCounter];
+        }//while loop
+        return null;
+    }
+
 }//end of file
     
 
