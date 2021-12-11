@@ -4,87 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#232323"
     tools:context=".ModeSelectionScreen">
 
     <Button
         android:id="@+id/pvpButton"
-        android:layout_width="135dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="220dp"
-        android:background="@drawable/custom_button"
+        android:layout_width="144dp"
+        android:layout_height="85dp"
+        android:background="@drawable/button_pvp_off"
         android:fontFamily="@font/amatic_sc_bold"
         android:onClick="updateGameModePvp"
-        android:text="PVP"
         android:textSize="36sp"
-        app:layout_constraintEnd_toStartOf="@+id/pvcButton"
+        app:layout_constraintBottom_toBottomOf="@+id/pvcButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias=".2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/pvcButton" />
 
     <Button
         android:id="@+id/pvcButton"
-        android:layout_width="135dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="220dp"
-        android:layout_marginEnd="56dp"
+        android:layout_width="144dp"
+        android:layout_height="85dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/button_pvc_on"
+        android:fontFamily="@font/amatic_sc_bold"
         android:onClick="updateGameModePvc"
-        android:text="PVC"
         android:textSize="36sp"
-        android:background="@drawable/custom_button"
-        android:fontFamily="@font/amatic_sc_bold"
+        app:layout_constraintBottom_toTopOf="@+id/mediumButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/easyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:background="@drawable/custom_button"
-        android:fontFamily="@font/amatic_sc_bold"
-        android:onClick="updateGameDifEasy"
-        android:text="Easy"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="@+id/mediumButton"
+        app:layout_constraintHorizontal_bias=".8"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        android:id="@+id/easyButton"
+        android:layout_width="130dp"
+        android:layout_height="80dp"
+        android:background="@drawable/button_easy_on"
+        android:fontFamily="@font/amatic_sc_bold"
+        android:onClick="updateGameDifEasy"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="@+id/mediumButton"
+        app:layout_constraintEnd_toStartOf="@+id/mediumButton"
+        app:layout_constraintTop_toTopOf="@+id/mediumButton" />
+
+    <Button
         android:id="@+id/mediumButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="176dp"
-        android:background="@drawable/custom_button"
+        android:layout_width="130dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/button_med_on"
         android:fontFamily="@font/amatic_sc_bold"
         android:onClick="updateGameMedium"
-        android:text="Medium"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/startGameButton"
-        app:layout_constraintEnd_toStartOf="@+id/hardButton"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toEndOf="@+id/easyButton" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/hardButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:background="@drawable/custom_button"
+        android:layout_width="130dp"
+        android:layout_height="80dp"
+        android:background="@drawable/button_hard_on"
         android:fontFamily="@font/amatic_sc_bold"
         android:onClick="updateGameHard"
-        android:text="Hard"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="@+id/mediumButton"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/mediumButton"
+        app:layout_constraintTop_toTopOf="@+id/mediumButton" />
 
     <Button
         android:id="@+id/startGameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="148dp"
-        android:onClick="startGame"
-        android:text="Start"
-        android:textSize="36sp"
-        android:background="@drawable/custom_button"
+        android:layout_width="144dp"
+        android:layout_height="85dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/button_start"
         android:fontFamily="@font/amatic_sc_bold"
+        android:onClick="startGame"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -92,29 +88,47 @@
 
     <Button
         android:id="@+id/quitModeSelect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="quitModeSelect"
-        android:text="Quit"
-        android:textSize="36sp"
-        android:background="@drawable/custom_button"
+        android:layout_width="144dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_quit"
         android:fontFamily="@font/amatic_sc_bold"
+        android:onClick="quitModeSelect"
+        android:textSize="36sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button5" />
+        android:id="@+id/mute"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button_mute_on"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <ImageView
+        android:id="@+id/bluePortrait"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mute"
+        app:srcCompat="@drawable/blue_human" />
+
+    <ImageView
+        android:id="@+id/redPortrait"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bluePortrait"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="@+id/bluePortrait"
+        app:layout_constraintTop_toTopOf="@+id/bluePortrait"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/red_alien" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
