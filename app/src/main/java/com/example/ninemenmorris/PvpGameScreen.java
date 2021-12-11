@@ -176,18 +176,7 @@ public class PvpGameScreen extends AppCompatActivity{
                 }
             }//if
         }//if
-        else if((player1PieceOnBoard+player1PieceOnHand ==3)||(player2PieceOnBoard+player2PieceOnHand==3)){
-            if(player2PieceOnBoard==3){
-                enableAllPieces();
-                disableP2Moves();
-                disableP1Moves();
-            }
-            if(player1PieceOnBoard==3){
-                enableAllPieces();
-                disableP2Moves();
-                disableP1Moves();
-            }
-        }
+
         if ((player1PieceOnBoard+player1PieceOnHand <= 2) || (player2PieceOnBoard+player2PieceOnHand <= 2)) {
             Intent toRestartGame = new Intent(this, RestartScreen.class);
             startActivity(toRestartGame);
@@ -321,6 +310,7 @@ public class PvpGameScreen extends AppCompatActivity{
             if((b03.getText()!="P1")&&(b03.getText()!="P2")){
                 b03.setEnabled(true);
             }
+            else b00.setEnabled(false);
 
         }
         if(chosenToBeMove==b01){
@@ -333,6 +323,7 @@ public class PvpGameScreen extends AppCompatActivity{
             if((b02.getText()!="P1")&&(b02.getText()!="P2")){
                 b02.setEnabled(true);
             }
+            else b01.setEnabled(false);
         }
         if(chosenToBeMove==b02){
             if((b01.getText()!="P1")&&(b01.getText()!="P2")){
@@ -443,7 +434,7 @@ public class PvpGameScreen extends AppCompatActivity{
         }
         if(chosenToBeMove==b12){
             if((b11.getText()!="P1")&&(b11.getText()!="P2")){
-                b01.setEnabled(true);
+                b11.setEnabled(true);
             }
             if((b14.getText()!="P1")&&(b14.getText()!="P2")){
                 b14.setEnabled(true);
@@ -867,134 +858,134 @@ public class PvpGameScreen extends AppCompatActivity{
 
         //first square
         b00.setEnabled(false);
-        changeVisualDisable(b00);
+        changeVisualUnselected(b00);
         b01.setEnabled(false);
-        changeVisualDisable(b01);
+        changeVisualUnselected(b01);
         b02.setEnabled(false);
-        changeVisualDisable(b02);
+        changeVisualUnselected(b02);
         b03.setEnabled(false);
-        changeVisualDisable(b03);
+        changeVisualUnselected(b03);
         b04.setEnabled(false);
-        changeVisualDisable(b04);
+        changeVisualUnselected(b04);
         b05.setEnabled(false);
-        changeVisualDisable(b05);
+        changeVisualUnselected(b05);
         b06.setEnabled(false);
-        changeVisualDisable(b06);
+        changeVisualUnselected(b06);
         b07.setEnabled(false);
-        changeVisualDisable(b07);
+        changeVisualUnselected(b07);
 
         b10.setEnabled(false);
-        changeVisualDisable(b10);
+        changeVisualUnselected(b10);
         b11.setEnabled(false);
-        changeVisualDisable(b11);
+        changeVisualUnselected(b11);
         b12.setEnabled(false);
-        changeVisualDisable(b12);
+        changeVisualUnselected(b12);
         b13.setEnabled(false);
-        changeVisualDisable(b13);
+        changeVisualUnselected(b13);
         b14.setEnabled(false);
-        changeVisualDisable(b14);
+        changeVisualUnselected(b14);
         b15.setEnabled(false);
-        changeVisualDisable(b15);
+        changeVisualUnselected(b15);
         b16.setEnabled(false);
-        changeVisualDisable(b16);
+        changeVisualUnselected(b16);
         b17.setEnabled(false);
-        changeVisualDisable(b17);
+        changeVisualUnselected(b17);
 
         b20.setEnabled(false);
-        changeVisualDisable(b20);
+        changeVisualUnselected(b20);
         b21.setEnabled(false);
-        changeVisualDisable(b21);
+        changeVisualUnselected(b21);
         b22.setEnabled(false);
-        changeVisualDisable(b22);
+        changeVisualUnselected(b22);
         b23.setEnabled(false);
-        changeVisualDisable(b23);
+        changeVisualUnselected(b23);
         b24.setEnabled(false);
-        changeVisualDisable(b24);
+        changeVisualUnselected(b24);
         b25.setEnabled(false);
-        changeVisualDisable(b25);
+        changeVisualUnselected(b25);
         b26.setEnabled(false);
-        changeVisualDisable(b26);
+        changeVisualUnselected(b26);
         b27.setEnabled(false);
-        changeVisualDisable(b27);
+        changeVisualUnselected(b27);
     }//disableAllPieces
 
     public void enableAllPieces(){
         //first square
         Button b00 = (Button) findViewById(R.id.pvpB00);
         b00.setEnabled(true);
-        changeVisualDisable(b00);
+        changeVisualUnselected(b00);
         Button b01 = (Button) findViewById(R.id.pvpB01);
         b01.setEnabled(true);
-        changeVisualDisable(b01);
+        changeVisualUnselected(b01);
         Button b02 = (Button) findViewById(R.id.pvpB02);
         b02.setEnabled(true);
-        changeVisualDisable(b02);
+        changeVisualUnselected(b02);
         Button b03 = (Button) findViewById(R.id.pvpB03);
         b03.setEnabled(true);
-        changeVisualDisable(b03);
+        changeVisualUnselected(b03);
         Button b04 = (Button) findViewById(R.id.pvpB04);
         b04.setEnabled(true);
-        changeVisualDisable(b04);
+        changeVisualUnselected(b04);
         Button b05 = (Button) findViewById(R.id.pvpB05);
         b05.setEnabled(true);
-        changeVisualDisable(b05);
+        changeVisualUnselected(b05);
         Button b06 = (Button) findViewById(R.id.pvpB06);
         b06.setEnabled(true);
-        changeVisualDisable(b06);
+        changeVisualUnselected(b06);
         Button b07 = (Button) findViewById(R.id.pvpB07);
         b07.setEnabled(true);
-        changeVisualDisable(b07);
+        changeVisualUnselected(b07);
 
 
         Button b10 = (Button) findViewById(R.id.pvpB10);
         b10.setEnabled(true);
-        changeVisualDisable(b10);
+        changeVisualUnselected(b10);
         Button b11 = (Button) findViewById(R.id.pvpB11);
         b11.setEnabled(true);
-        changeVisualDisable(b11);
+        changeVisualUnselected(b11);
         Button b12 = (Button) findViewById(R.id.pvpB12);
         b12.setEnabled(true);
-        changeVisualDisable(b12);
+        changeVisualUnselected(b12);
         Button b13 = (Button) findViewById(R.id.pvpB13);
         b13.setEnabled(true);
-        changeVisualDisable(b13);
+        changeVisualUnselected(b13);
         Button b14 = (Button) findViewById(R.id.pvpB14);
         b14.setEnabled(true);
-        changeVisualDisable(b14);
+        changeVisualUnselected(b14);
         Button b15 = (Button) findViewById(R.id.pvpB15);
         b15.setEnabled(true);
-        changeVisualDisable(b15);
+        changeVisualUnselected(b15);
         Button b16 = (Button) findViewById(R.id.pvpB16);
         b16.setEnabled(true);
-        changeVisualDisable(b16);
+        changeVisualUnselected(b16);
         Button b17 = (Button) findViewById(R.id.pvpB17);
         b17.setEnabled(true);
-        changeVisualDisable(b17);
+        changeVisualUnselected(b17);
 
         Button b20 = (Button) findViewById(R.id.pvpB20);
         b20.setEnabled(true);
-        changeVisualDisable(b20);
+        changeVisualUnselected(b20);
         Button b21 = (Button) findViewById(R.id.pvpB21);
         b21.setEnabled(true);
-        changeVisualDisable(b21);
+        changeVisualUnselected(b21);
         Button b22 = (Button) findViewById(R.id.pvpB22);
         b22.setEnabled(true);
-        changeVisualDisable(b22);
+        changeVisualUnselected(b22);
         Button b23 = (Button) findViewById(R.id.pvpB23);
         b23.setEnabled(true);
-        changeVisualDisable(b23);
+        changeVisualUnselected(b23);
         Button b24 = (Button) findViewById(R.id.pvpB24);
         b24.setEnabled(true);
-        changeVisualDisable(b24);
+        changeVisualUnselected(b24);
         Button b25 = (Button) findViewById(R.id.pvpB25);
         b25.setEnabled(true);
-        changeVisualDisable(b25);
+        changeVisualUnselected(b25);
         Button b26 = (Button) findViewById(R.id.pvpB26);
         b26.setEnabled(true);
-        changeVisualDisable(b26);
+        changeVisualUnselected(b26);
         Button b27 = (Button) findViewById(R.id.pvpB27);
         b27.setEnabled(true);
-        changeVisualDisable(b27);
+        changeVisualUnselected(b27);
     }//enableAllPieces
 
     public void disableBlockedButtons(){
@@ -1029,117 +1020,117 @@ public class PvpGameScreen extends AppCompatActivity{
         //first square
         if((b01.getText()!="")&&(b03.getText()!="")) {
             b00.setEnabled(false);
-            changeVisualDisable(b00);
+            changeVisualUnselected(b00);
         }
         if((b11.getText()!="")&&(b00.getText()!="")&&(b02.getText()!="")) {
             b01.setEnabled(false);
-            changeVisualDisable(b01);
+            changeVisualUnselected(b01);
         }
         if ((b01.getText()!="")&&(b04.getText()!="")) {
             b02.setEnabled(false);
-            changeVisualDisable(b02);
+            changeVisualUnselected(b02);
         }
         if ((b00.getText()!="")&&(b13.getText()!="")&&(b05.getText()!="")) {
             b03.setEnabled(false);
-            changeVisualDisable(b03);
+            changeVisualUnselected(b03);
         }
         if ((b02.getText()!="")&&(b14.getText()!="")&&(b07.getText()!="")) {
             b04.setEnabled(false);
-            changeVisualDisable(b04);
+            changeVisualUnselected(b04);
         }
         if ((b03.getText()!="")&&(b06.getText()!="")) {
             b05.setEnabled(false);
-            changeVisualDisable(b05);
+            changeVisualUnselected(b05);
         }
         if ((b05.getText()!="")&&(b16.getText()!="")&&(b07.getText()!="")) {
             b06.setEnabled(false);
-            changeVisualDisable(b06);
+            changeVisualUnselected(b06);
         }
         if ((b04.getText()!="")&&(b06.getText()!="")) {
             b07.setEnabled(false);
-            changeVisualDisable(b07);
+            changeVisualUnselected(b07);
         }
 
         //second square
         if((b11.getText()!="")&&(b13.getText()!="")) {
             b10.setEnabled(false);
-            changeVisualDisable(b10);
+            changeVisualUnselected(b10);
         }
         if((b21.getText()!="")&&(b01.getText()!="")&&(b12.getText()!="")&&(b10.getText()!="")) {
             b11.setEnabled(false);
-            changeVisualDisable(b11);
+            changeVisualUnselected(b11);
         }
         if ((b11.getText()!="")&&(b14.getText()!="")) {
             b12.setEnabled(false);
-            changeVisualDisable(b12);
+            changeVisualUnselected(b12);
         }
         if ((b03.getText()!="")&&(b23.getText()!="")&&(b15.getText()!="")&&(b10.getText()!="")) {
             b13.setEnabled(false);
-            changeVisualDisable(b13);
+            changeVisualUnselected(b13);
         }
         if ((b12.getText()!="")&&(b24.getText()!="")&&(b17.getText()!="")&&(b04.getText()!="")) {
             b14.setEnabled(false);
-            changeVisualDisable(b14);
+            changeVisualUnselected(b14);
         }
         if ((b13.getText()!="P1")&&(b16.getText()!="")) {
             b15.setEnabled(false);
-            changeVisualDisable(b15);
+            changeVisualUnselected(b15);
         }
         if ((b15.getText()!="")&&(b26.getText()!="")&&(b17.getText()!="")&&(b06.getText()!="")) {
             b16.setEnabled(false);
-            changeVisualDisable(b16);
+            changeVisualUnselected(b16);
         }
         if ((b14.getText()!="")&&(b16.getText()!="")) {
             b17.setEnabled(false);
-            changeVisualDisable(b17);
+            changeVisualUnselected(b17);
         }
 
         //third square
         if((b21.getText()!="")&&(b23.getText()!="")) {
             b20.setEnabled(false);
-            changeVisualDisable(b20);
+            changeVisualUnselected(b20);
         }
         if((b11.getText()!="")&&(b20.getText()!="")&&(b22.getText()!="")) {
             b21.setEnabled(false);
-            changeVisualDisable(b21);
+            changeVisualUnselected(b21);
         }
         if ((b21.getText()!="")&&(b24.getText()!="")) {
             b22.setEnabled(false);
-            changeVisualDisable(b22);
+            changeVisualUnselected(b22);
         }
         if ((b20.getText()!="")&&(b13.getText()!="")&&(b25.getText()!="")) {
             b23.setEnabled(false);
-            changeVisualDisable(b23);
+            changeVisualUnselected(b23);
         }
         if ((b22.getText()!="")&&(b14.getText()!="")&&(b27.getText()!="")) {
+            changeVisualUnselected(b24);
             b24.setEnabled(false);
-            changeVisualDisable(b24);
         }
         if ((b23.getText()!="")&&(b26.getText()!="")) {
             b25.setEnabled(false);
-            changeVisualDisable(b25);
+            changeVisualUnselected(b25);
         }
         if ((b25.getText()!="")&&(b16.getText()!="")&&(b27.getText()!="")) {
             b26.setEnabled(false);
-            changeVisualDisable(b26);
+            changeVisualUnselected(b26);
         }
         if ((b24.getText()!="")&&(b26.getText()!="")) {
             b27.setEnabled(false);
-            changeVisualDisable(b27);
+            changeVisualUnselected(b27);
         }
 
 
 
     }//disableBlockedButtons
 
-    public void changeVisualDisable(Button toBeDisabled){
+    public void changeVisualUnselected(Button toBeDisabled){
         if(toBeDisabled.getText()=="P2"){
             turnButtonRed(toBeDisabled);
         }
         else if(toBeDisabled.getText()=="P1"){
             turnButtonBlue(toBeDisabled);
         }
-    }//changeVisualDisable
+    }//changeVisualUnselected
 
     //////////////////////////////////
     //      VISUAL BELOW            //
