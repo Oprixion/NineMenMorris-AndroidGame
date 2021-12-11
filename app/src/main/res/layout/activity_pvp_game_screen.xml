@@ -4,344 +4,493 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/capture"
     tools:context=".PvpGameScreen">
 
-    <Button
-        android:id="@+id/muteButton2"
-        android:layout_width="88dp"
-        android:layout_height="46dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#232323"
+        tools:context=".PvcGameScreen">
 
-        android:layout_marginStart="325dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="@drawable/ic_baseline_volume_mute_24"
-        android:fontFamily="@font/amatic_sc_bold"
-        android:onClick="toggleMute"
-        android:textAlignment="gravity"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        <ImageView
+            android:id="@+id/backgroundStars"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/background" />
 
-    <Button
-        android:id="@+id/pvpB00"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="272dp"
-        android:onClick="placeMove"
-        android:text="b00"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/backgroundPlanet"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            app:layout_constraintBottom_toBottomOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintTop_toTopOf="@+id/backgroundBoardConnecter"
+            app:srcCompat="@drawable/background_planet" />
 
-    <Button
-        android:id="@+id/pvpB01"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="272dp"
-        android:onClick="placeMove"
-        android:text="B01"
-        app:layout_constraintEnd_toStartOf="@+id/pvpB02"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toEndOf="@+id/pvpB00"
-        app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/backgroundBoardConnecter"
+            android:layout_width="380dp"
+            android:layout_height="380dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".65"
+            app:srcCompat="@drawable/background_board_connect" />
 
-    <Button
-        android:id="@+id/pvpB02"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="272dp"
-        android:layout_marginEnd="20dp"
-        android:onClick="placeMove"
-        android:text="B02"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/pvpB00"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintTop_toTopOf="@+id/backgroundBoardConnecter" />
 
-    <Button
-        android:id="@+id/pvpB03"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:onClick="placeMove"
-        android:text="B03"
-        app:layout_constraintBottom_toTopOf="@+id/pvpB05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pvpB00"
-        app:layout_constraintVertical_bias="0.444" />
+        <Button
+            android:id="@+id/pvpB01"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/pvpB02"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toEndOf="@+id/pvpB00"
+            app:layout_constraintTop_toTopOf="@+id/backgroundBoardConnecter" />
 
-    <Button
-        android:id="@+id/pvpB05"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="76dp"
-        android:onClick="placeMove"
-        android:text="B05"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/pvpB02"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintTop_toTopOf="@+id/backgroundBoardConnecter" />
 
-    <Button
-        android:id="@+id/pvpB06"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="80dp"
-        android:onClick="placeMove"
-        android:text="B06"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/pvpB07"
-        app:layout_constraintHorizontal_bias="0.471"
-        app:layout_constraintStart_toEndOf="@+id/pvpB05" />
+        <Button
+            android:id="@+id/pvpB03"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB05"
+            app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintTop_toBottomOf="@+id/pvpB00"
+            app:layout_constraintVertical_bias="0.503" />
 
-    <Button
-        android:id="@+id/pvpB07"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="80dp"
-        android:onClick="placeMove"
-        android:text="B07"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <Button
+            android:id="@+id/pvpB04"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB07"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintTop_toBottomOf="@+id/pvpB02"
+            app:layout_constraintVertical_bias="0.51" />
 
-    <Button
-        android:id="@+id/pvpB04"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="20dp"
-        android:onClick="placeMove"
-        android:text="B04"
-        app:layout_constraintBottom_toTopOf="@+id/pvpB07"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pvpB02"
-        app:layout_constraintVertical_bias="0.452" />
+        <Button
+            android:id="@+id/pvpB05"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter" />
 
-    <Button
-        android:id="@+id/pvpB10"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="4dp"
-        android:onClick="placeMove"
-        android:text="B10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pvpB00" />
+        <Button
+            android:id="@+id/pvpB06"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintEnd_toStartOf="@+id/pvpB07"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toEndOf="@+id/pvpB05" />
 
-    <Button
-        android:id="@+id/pvpB11"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="4dp"
-        android:onClick="placeMove"
-        android:text="B11"
-        app:layout_constraintEnd_toStartOf="@+id/pvpB12"
-        app:layout_constraintHorizontal_bias="0.432"
-        app:layout_constraintStart_toEndOf="@+id/pvpB10"
-        app:layout_constraintTop_toBottomOf="@+id/pvpB01" />
+        <Button
+            android:id="@+id/pvpB07"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter" />
 
-    <Button
-        android:id="@+id/pvpB12"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="72dp"
-        android:onClick="placeMove"
-        android:text="B12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pvpB02" />
+        <Button
+            android:id="@+id/pvpB10"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintTop_toBottomOf="@+id/pvpB00" />
 
-    <Button
-        android:id="@+id/pvpB13"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="1dp"
-        android:onClick="placeMove"
-        android:text="B13"
-        app:layout_constraintBottom_toTopOf="@+id/pvpB15"
-        app:layout_constraintStart_toEndOf="@+id/pvpB03"
-        app:layout_constraintTop_toBottomOf="@+id/pvpB10"
-        app:layout_constraintVertical_bias="0.413" />
+        <Button
+            android:id="@+id/pvpB11"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/pvpB12"
+            app:layout_constraintStart_toEndOf="@+id/pvpB10"
+            app:layout_constraintTop_toBottomOf="@+id/pvpB01" />
 
-    <Button
-        android:id="@+id/pvpB15"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginBottom="4dp"
-        android:onClick="placeMove"
-        android:text="B15"
-        app:layout_constraintBottom_toTopOf="@+id/pvpB05"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/pvpB12"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="48dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintTop_toBottomOf="@+id/pvpB02" />
 
-    <Button
-        android:id="@+id/pvpB14"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="1dp"
-        android:onClick="placeMove"
-        android:text="B14"
-        app:layout_constraintBottom_toTopOf="@+id/pvpB17"
-        app:layout_constraintEnd_toStartOf="@+id/pvpB04"
-        app:layout_constraintTop_toBottomOf="@+id/pvpB12"
-        app:layout_constraintVertical_bias="0.413" />
+        <Button
+            android:id="@+id/pvpB13"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB15"
+            app:layout_constraintStart_toEndOf="@+id/pvpB03"
+            app:layout_constraintTop_toBottomOf="@+id/pvpB10"
+            app:layout_constraintVertical_bias="0.492" />
 
-    <Button
-        android:id="@+id/pvpB17"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="72dp"
-        android:layout_marginBottom="4dp"
-        android:onClick="placeMove"
-        android:text="B17"
-        app:layout_constraintBottom_toTopOf="@+id/pvpB07"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <Button
+            android:id="@+id/pvpB14"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB17"
+            app:layout_constraintEnd_toStartOf="@+id/pvpB04"
+            app:layout_constraintTop_toBottomOf="@+id/pvpB12"
+            app:layout_constraintVertical_bias="0.506" />
 
-    <Button
-        android:id="@+id/pvpB16"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="4dp"
-        android:onClick="placeMove"
-        android:text="B16"
-        app:layout_constraintBottom_toTopOf="@+id/pvpB06"
-        app:layout_constraintEnd_toStartOf="@+id/pvpB17"
-        app:layout_constraintHorizontal_bias="0.442"
-        app:layout_constraintStart_toEndOf="@+id/pvpB15" />
+        <Button
+            android:id="@+id/pvpB15"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="48dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB05"
+            app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter" />
 
-    <Button
-        android:id="@+id/pvpB20"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="8dp"
-        android:onClick="placeMove"
-        android:text="B20"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pvpB10" />
+        <Button
+            android:id="@+id/pvpB16"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB06"
+            app:layout_constraintEnd_toStartOf="@+id/pvpB17"
+            app:layout_constraintHorizontal_bias="0.486"
+            app:layout_constraintStart_toEndOf="@+id/pvpB15" />
 
-    <Button
-        android:id="@+id/pvpB21"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:onClick="placeMove"
-        android:text="B21"
-        app:layout_constraintEnd_toStartOf="@+id/pvpB22"
-        app:layout_constraintHorizontal_bias="0.136"
-        app:layout_constraintStart_toEndOf="@+id/pvpB20"
-        app:layout_constraintTop_toBottomOf="@+id/pvpB11" />
+        <Button
+            android:id="@+id/pvpB17"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="56dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB07"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent" />
 
-    <Button
-        android:id="@+id/pvpB22"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="120dp"
-        android:onClick="placeMove"
-        android:text="B22"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pvpB12" />
+        <Button
+            android:id="@+id/pvpB20"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintTop_toBottomOf="@+id/pvpB10" />
 
-    <Button
-        android:id="@+id/pvpB23"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:onClick="placeMove"
-        android:text="B23"
-        app:layout_constraintBottom_toTopOf="@+id/pvpB25"
-        app:layout_constraintStart_toEndOf="@+id/pvpB13"
-        app:layout_constraintTop_toBottomOf="@+id/pvpB20"
-        app:layout_constraintVertical_bias="0.176" />
+        <Button
+            android:id="@+id/pvpB21"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/pvpB22"
+            app:layout_constraintHorizontal_bias="0.486"
+            app:layout_constraintStart_toEndOf="@+id/pvpB20"
+            app:layout_constraintTop_toBottomOf="@+id/pvpB11" />
 
-    <Button
-        android:id="@+id/pvpB24"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:onClick="placeMove"
-        android:text="B24"
-        app:layout_constraintBottom_toTopOf="@+id/pvpB27"
-        app:layout_constraintEnd_toStartOf="@+id/pvpB14"
-        app:layout_constraintTop_toBottomOf="@+id/pvpB22" />
+        <Button
+            android:id="@+id/pvpB22"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="104dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
+            app:layout_constraintTop_toBottomOf="@+id/pvpB12" />
 
-    <Button
-        android:id="@+id/pvpB25"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="120dp"
-        android:onClick="placeMove"
-        android:text="B25"
-        app:layout_constraintBottom_toTopOf="@+id/pvpB15"
-        app:layout_constraintStart_toStartOf="parent" />
+        <Button
+            android:id="@+id/pvpB23"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB25"
+            app:layout_constraintStart_toEndOf="@+id/pvpB13"
+            app:layout_constraintTop_toBottomOf="@+id/pvpB20" />
 
-    <Button
-        android:id="@+id/pvpB26"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:onClick="placeMove"
-        android:text="B26"
-        app:layout_constraintBottom_toTopOf="@+id/pvpB16"
-        app:layout_constraintEnd_toStartOf="@+id/button28"
-        app:layout_constraintHorizontal_bias="0.38"
-        app:layout_constraintStart_toEndOf="@+id/pvpB25" />
+        <Button
+            android:id="@+id/pvpB24"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB27"
+            app:layout_constraintEnd_toStartOf="@+id/pvpB14"
+            app:layout_constraintTop_toBottomOf="@+id/pvpB22"
+            app:layout_constraintVertical_bias="0.523" />
 
-    <Button
-        android:id="@+id/pvpB27"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="120dp"
-        android:onClick="placeMove"
-        android:text="B27"
-        app:layout_constraintBottom_toTopOf="@+id/pvpB17"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <Button
+            android:id="@+id/pvpB25"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="100dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB15"
+            app:layout_constraintStart_toStartOf="@+id/backgroundBoardConnecter" />
 
-    <Button
-        android:id="@+id/quitPvpButton"
-        android:layout_width="90dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="325dp"
-        android:background="@drawable/custom_button"
-        android:fontFamily="@font/amatic_sc_bold"
-        android:onClick="toModeSelection"
-        android:text="Quit"
-        android:textSize="36sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.208"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/pvpB26"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB16"
+            app:layout_constraintEnd_toStartOf="@+id/pvpB27"
+            app:layout_constraintHorizontal_bias="0.486"
+            app:layout_constraintStart_toEndOf="@+id/pvpB25" />
 
-    <TextView
-        android:id="@+id/p1CounterTV"
-        android:layout_width="66dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="36dp"
-        android:text="9"
-        app:layout_constraintEnd_toStartOf="@+id/p2CounterTV"
-        app:layout_constraintHorizontal_bias="0.072"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/quitPvpButton" />
+        <Button
+            android:id="@+id/pvpB27"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="104dp"
+            android:background="@drawable/token_none"
+            android:onClick="placeMove"
+            android:textColor="@android:color/transparent"
+            android:textColorHighlight="@android:color/transparent"
+            android:textColorHint="@android:color/transparent"
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB17"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/quitPvpButton"
+            android:layout_width="136dp"
+            android:layout_height="83dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/button_quit"
+            android:onClick="toModeSelection"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/p2CounterTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="60dp"
-        android:text="9"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_settings"
+            android:onClick="openSettingsScreen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.991"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/helpsButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="17dp"
+            android:background="@drawable/button_help"
+            android:onClick="openHelpScreen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/mutesButton"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/button_mute_on"
+            android:onClick="toggleMute"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/turnWidget"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintBottom_toBottomOf="@+id/playerRed"
+            app:layout_constraintEnd_toStartOf="@+id/playerRedCounter"
+            app:layout_constraintStart_toEndOf="@+id/playerBlueCounter"
+            app:layout_constraintTop_toBottomOf="@+id/mutesButton"
+            app:srcCompat="@drawable/turn_blue" />
+
+        <ImageView
+            android:id="@+id/playerBlue"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mutesButton"
+            app:srcCompat="@drawable/blue_human" />
+
+        <ImageView
+            android:id="@+id/playerRed"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mutesButton"
+            app:srcCompat="@drawable/red_human" />
+
+        <ImageView
+            android:id="@+id/playerBlueCounter"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="-25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/playerBlue"
+            app:layout_constraintStart_toEndOf="@+id/playerBlue"
+            app:layout_constraintTop_toTopOf="@+id/playerBlue"
+            app:srcCompat="@drawable/font_9" />
+
+        <ImageView
+            android:id="@+id/playerRedCounter"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="-25dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/playerRed"
+            app:layout_constraintEnd_toStartOf="@+id/playerRed"
+            app:layout_constraintTop_toTopOf="@+id/playerRed"
+            app:srcCompat="@drawable/font_9" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
