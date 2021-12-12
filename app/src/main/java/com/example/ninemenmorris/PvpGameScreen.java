@@ -19,12 +19,13 @@ public class PvpGameScreen extends AppCompatActivity{
 
     private Button[] player1PieceArray = new Button[9];
     private Button[] player2PieceArray = new Button[9];
+
+    private boolean firstRoundOfSecondPhase = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pvp_game_screen);
         lastMove = "P2";
-
     }
 
     public void toModeSelection(View myView){
@@ -63,8 +64,11 @@ public class PvpGameScreen extends AppCompatActivity{
                     flipTurnWidget(0);
                     if(isMill(theMove)){
                         flipTurnWidget(1);
+                        makePortraitRedHappy();
+
                         enableP1Moves();
                         lastMove="p2RemoveTurn";
+
                     }
                  }
                 else if (lastMove=="P2"){
@@ -72,6 +76,8 @@ public class PvpGameScreen extends AppCompatActivity{
                      player1Turn(theMove);
                      if(isMill(theMove)){
                          flipTurnWidget(0);
+                         makePortraitBlueHappy();
+
                          enableP2Moves();
                          lastMove="p1RemoveTurn";
                      }
@@ -80,6 +86,8 @@ public class PvpGameScreen extends AppCompatActivity{
                     removeOpponentPieceIfMill(theMove);
                     disableP2Moves();
                     disableP1Moves();
+                    makePortraitsNeutral();
+                    makeActionIndicatorSayPlace();
                 }
             }//if
 
@@ -100,7 +108,14 @@ public class PvpGameScreen extends AppCompatActivity{
             //      4.2 If not mill then switch back to the other player turn.
             // 5.Remove a chosen piece of board and the corresponding array.
             if ((player1PieceOnHand == 0 && player2PieceOnHand == 0)){
-                //disableBlockedButtons();
+                //Small function for visual fixes
+                if(firstRoundOfSecondPhase && !lastMove.equals("p1RemoveTurn")
+                        && !lastMove.equals("p2RemoveTurn")){
+                    firstRoundOfSecondPhase = false;
+                    makePortraitsNeutral();
+                    makeActionIndicatorSayMove();
+                }
+
                 if(lastMove=="P2"){
                     flipTurnWidget(1);
                     if(isMoveSelected(theMove)==false){
@@ -128,8 +143,10 @@ public class PvpGameScreen extends AppCompatActivity{
                     else if (isMoveSelected(theMove)){
                         moveP2Piece(theMove);
                         if(isMill(theMove)){
-                            lastMove="p2RemoveTurn";
                             flipTurnWidget(1);
+                            makePortraitRedHappy();
+
+                            lastMove="p2RemoveTurn";
                             enableP1Moves();
                         }
                         disableAllPieces();
@@ -168,8 +185,10 @@ public class PvpGameScreen extends AppCompatActivity{
                     else if (isMoveSelected(theMove)){
                         moveP1Piece(theMove);
                         if(isMill(theMove)){
-                            lastMove="p1RemoveTurn";
                             flipTurnWidget(0);
+                            makePortraitBlueHappy();
+
+                            lastMove="p1RemoveTurn";
                             enableP2Moves();
 
                         }
@@ -203,6 +222,8 @@ public class PvpGameScreen extends AppCompatActivity{
                         }
                         lastMove="P2";
                     }
+                    makePortraitsNeutral();
+                    makeActionIndicatorSayMove();
                 }
             }//if
 
@@ -1302,8 +1323,8 @@ public class PvpGameScreen extends AppCompatActivity{
      */
     public void makePortraitsNeutral(){
         boolean isPvp = true;
-        ImageView bluePortrait = (ImageView) findViewById(R.id.bluePortrait);
-        ImageView redPortrait = (ImageView) findViewById(R.id.redPortrait);
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
 
         bluePortrait.setImageResource(R.drawable.portrait_blue_human);
         if(isPvp){
@@ -1315,8 +1336,8 @@ public class PvpGameScreen extends AppCompatActivity{
     }//makePortraitsNeutral
     public void makePortraitBlueHappy(){
         boolean isPvp = true;
-        ImageView bluePortrait = (ImageView) findViewById(R.id.bluePortrait);
-        ImageView redPortrait = (ImageView) findViewById(R.id.redPortrait);
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
 
         bluePortrait.setImageResource(R.drawable.portrait_blue_human_happy);
         if(isPvp){
@@ -1325,11 +1346,13 @@ public class PvpGameScreen extends AppCompatActivity{
         else{
             redPortrait.setImageResource(R.drawable.portrait_red_alien_sad);
         }
+
+        makeActionIndicatorSayCapture();
     }//makePortraitBlueHappy
     public void makePortraitRedHappy(){
         boolean isPvp = true;
-        ImageView bluePortrait = (ImageView) findViewById(R.id.bluePortrait);
-        ImageView redPortrait = (ImageView) findViewById(R.id.redPortrait);
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
 
         bluePortrait.setImageResource(R.drawable.portrait_blue_human_sad);
         if(isPvp){
@@ -1338,6 +1361,8 @@ public class PvpGameScreen extends AppCompatActivity{
         else{
             redPortrait.setImageResource(R.drawable.portrait_red_alien_happy);
         }
+
+        makeActionIndicatorSayCapture();
     }//makePortraitRedHappy
 
     /*
