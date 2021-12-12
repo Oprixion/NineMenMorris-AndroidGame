@@ -19,6 +19,8 @@ public class PvpGameScreen extends AppCompatActivity{
 
     private Button[] player1PieceArray = new Button[9];
     private Button[] player2PieceArray = new Button[9];
+
+    private boolean firstRoundOfSecondPhase = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +67,7 @@ public class PvpGameScreen extends AppCompatActivity{
                         flipTurnWidget(1);
                         disableAllPieces();
                         enableP1Moves();
+                        makePortraitRedHappy();
                         lastMove="p2RemoveTurn";
                     }
                  }
@@ -73,6 +76,7 @@ public class PvpGameScreen extends AppCompatActivity{
                     player1Turn(theMove);
                     if(isMill(theMove)){
                         flipTurnWidget(0);
+                        makePortraitBlueHappy();
                         disableAllPieces();
                         enableP2Moves();
                         lastMove="p1RemoveTurn";
@@ -83,6 +87,8 @@ public class PvpGameScreen extends AppCompatActivity{
                     enableAllPieces();
                     disableP2Moves();
                     disableP1Moves();
+                    makePortraitsNeutral();
+                    makeActionIndicatorSayPlace();
                 }
             }//if
 
@@ -103,7 +109,14 @@ public class PvpGameScreen extends AppCompatActivity{
             //      4.2 If not mill then switch back to the other player turn.
             // 5.Remove a chosen piece of board and the corresponding array.
             if ((player1PieceOnHand == 0 && player2PieceOnHand == 0)){
-                //disableBlockedButtons();
+                //Small function for visual fixes
+                if(firstRoundOfSecondPhase && !lastMove.equals("p1RemoveTurn")
+                        && !lastMove.equals("p2RemoveTurn")){
+                    firstRoundOfSecondPhase = false;
+                    makePortraitsNeutral();
+                    makeActionIndicatorSayMove();
+                }
+
                 if(lastMove=="P2"){
                     flipTurnWidget(1);
                     if(isMoveSelected(theMove)==false){
@@ -131,6 +144,9 @@ public class PvpGameScreen extends AppCompatActivity{
                     else if (isMoveSelected(theMove)){
                         moveP2Piece(theMove);
                         if(isMill(theMove)){
+                            flipTurnWidget(1);
+                            makePortraitRedHappy();
+
                             lastMove="p2RemoveTurn";
                             flipTurnWidget(1);
                             enableP1Moves();
@@ -173,6 +189,9 @@ public class PvpGameScreen extends AppCompatActivity{
                         if(isMill(theMove)){
                             lastMove="p1RemoveTurn";
                             flipTurnWidget(0);
+                            makePortraitBlueHappy();
+
+                            lastMove="p1RemoveTurn";
                             enableP2Moves();
 
                         }
@@ -189,23 +208,25 @@ public class PvpGameScreen extends AppCompatActivity{
                     if(lastMove=="p2RemoveTurn"){
                         removeOpponentPieceIfMill(theMove);
                         theMove.setEnabled(false);
+                        lastMove="P1";
                         disableP2Moves();
                         enableP1Moves();
                         if (player2PieceOnBoard>3){
                             disableBlockedButtons();
                         }
-                        lastMove="P1";
                     }
                     else if(lastMove=="p1RemoveTurn"){
                         removeOpponentPieceIfMill(theMove);
                         theMove.setEnabled(false);
+                        lastMove="P2";
                         disableP1Moves();
                         enableP2Moves();
                         if (player1PieceOnBoard>3){
                             disableBlockedButtons();
                         }
-                        lastMove="P2";
                     }
+                    makePortraitsNeutral();
+                    makeActionIndicatorSayMove();
                 }
             }//if
 
@@ -288,7 +309,7 @@ public class PvpGameScreen extends AppCompatActivity{
     public void selectPieceToMoveByRemovingFromArray(Button chosenToBeMove){
         if(lastMove=="P1"){
             chosenToBeMove.setText("");
-            turnButtonWhite(chosenToBeMove);
+            turnButtonHighlightBlue(chosenToBeMove);
             for(int i=0;i<player1PieceArray.length;i++){
                 if(player1PieceArray[i]==chosenToBeMove){
                     player1PieceArray[i]=null;
@@ -298,7 +319,7 @@ public class PvpGameScreen extends AppCompatActivity{
         }
         if(lastMove=="P2"){
             chosenToBeMove.setText("");
-            turnButtonWhite(chosenToBeMove);
+            turnButtonHighlightRed(chosenToBeMove);
             for(int i=0;i<player2PieceArray.length;i++){
                 if(player2PieceArray[i]==chosenToBeMove){
                     player2PieceArray[i]=null;
@@ -618,7 +639,7 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b21){
             if((b20.getText()!="P1")&&(b20.getText()!="P2")){
                 b20.setEnabled(true);
-                turnButtonHighlightWhite(b20);
+                turnButtonHighlightWhite(b21);
             }
             if((b22.getText()!="P1")&&(b22.getText()!="P2")){
                 b22.setEnabled(true);
@@ -695,7 +716,7 @@ public class PvpGameScreen extends AppCompatActivity{
         }
         if(chosenToBeMove==b26){
             if((b25.getText()!="P1")&&(b25.getText()!="P2")){
-                b25.setEnabled(true);
+                b15.setEnabled(true);
                 turnButtonHighlightWhite(b25);
             }
             if((b27.getText()!="P1")&&(b27.getText()!="P2")){
@@ -1258,7 +1279,6 @@ public class PvpGameScreen extends AppCompatActivity{
      *     //      VISUAL BELOW            //
      *     //////////////////////////////////
      *     Cole Cloutier
-     * @param turn
      */
 
     /*
@@ -1275,6 +1295,7 @@ public class PvpGameScreen extends AppCompatActivity{
             arrow.setImageResource(R.drawable.turn_red);
         }
     }//flipTurnWidget
+
     /*
     Changes the counter depending on the number and player
     int player 0 - Blue, 1 - Red
@@ -1297,79 +1318,76 @@ public class PvpGameScreen extends AppCompatActivity{
         counter.setImageResource(fonts[number]);
     }//changeCounterNumber
 
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
     /*
-     * Changes actionIndicator based on the current game stage
-     * Changes the portraits with changePortraitMood function
+     * Functions that control the mood of the portraits
      *
-     * int stage
-     * 0 - For stage 1 when tokens can be placed anywhere    "PLACE"
-     * 1 - For stage 2 and 3 when tokens are moved           "MOVE"
-     * 2 - For when a mill is formed                         "CAPTURE"
-     *
-     * boolean blueMilled
-     * true - Sets blue to happy and red to sad
-     * false - Sets red to happy and blue to sad
      */
-    public void changeActionIndicators(int stage, boolean blueMilled, boolean isPvp){
+    public void makePortraitsNeutral(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien);
+        }
+    }//makePortraitsNeutral
+    public void makePortraitBlueHappy(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human_happy);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human_sad);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien_sad);
+        }
+
+        makeActionIndicatorSayCapture();
+    }//makePortraitBlueHappy
+    public void makePortraitRedHappy(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human_sad);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human_happy);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien_happy);
+        }
+
+        makeActionIndicatorSayCapture();
+    }//makePortraitRedHappy
+
+    /*
+     * Functions that change the actionIndicator
+     */
+    public void makeActionIndicatorSayPlace(){
         ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
 
-        //Portrait changes
-        if (stage == 2){
-            if(blueMilled){
-                //Mill happened and Blue milled
-                changePortraitMood( 1, isPvp);
-            }
-            else{
-                //Mill happened and red milled
-                changePortraitMood(2, isPvp);
-            }
-        }
-        else{
-            //No mill happened
-            changePortraitMood(0, isPvp);
-        }
+        actionIndicator.setImageResource(R.drawable.indicator_place);
+    }//makeActionIndicatorSayPlace
+    public void makeActionIndicatorSayMove(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
 
-        //Small int array that contains the 3 possible stages for the indicator
-        int[] texts = {(R.drawable.indicator_place), (R.drawable.indicator_move),
-                (R.drawable.indicator_capture)};
+        actionIndicator.setImageResource(R.drawable.indicator_move);
+    }//makeActionIndicatorSayMove
+    public void makeActionIndicatorSayCapture(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
 
-        //Change indicator to specific stage
-        actionIndicator.setImageResource(texts[stage]);
-    }//changeActionIndicators
+        actionIndicator.setImageResource(R.drawable.indicator_capture);
+    }//makeActionIndicatorSayCapture
 
-    /*
-     * Changes portraits based off of mood and gamemode
-     *
-     * int situation
-     * 0 - Neutral
-     * 1 - Blue Happy, Red Sad
-     * 2 - Blue sad, Red Happy
-     *
-     * boolean isPvp
-     * true - Sets Red to human
-     * false - Sets Red to alien
-     */
-    public void changePortraitMood(int situation, boolean isPvp){
-        ImageView bluePortrait = (ImageView) findViewById(R.id.bluePortrait);
-        ImageView redPortrait = (ImageView) findViewById(R.id.redPortrait);
-
-        //Int arrays with drawable ids for settings the portraits based off of situation and isPvp
-        int[] blueMoods = {(R.drawable.portrait_blue_human), (R.drawable.portrait_blue_human_happy),
-                (R.drawable.portrait_blue_human_sad)};
-        int[] redMoods = {(R.drawable.portrait_red_human), (R.drawable.portrait_red_human_sad),
-                (R.drawable.portrait_red_human_happy), (R.drawable.portrait_red_alien),
-                (R.drawable.portrait_red_alien_sad), (R.drawable.portrait_red_alien_happy)};
-
-        //Settings everything
-        bluePortrait.setImageResource(blueMoods[situation]);
-        if(isPvp){
-            redPortrait.setImageResource(redMoods[situation]);
-        }
-        else{
-            //Alien portraits are shifted by 3 in the redMoods array
-            redPortrait.setImageResource(redMoods[situation+3]);
-        }
-    }//changePortraitMood
+    /////////////////////////////////////////////////////////////////////////////////////////////
 
     /*
     Below are all the basic functions that turn an input button into a specified visual
