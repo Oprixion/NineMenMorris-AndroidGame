@@ -111,7 +111,7 @@ public class ModeSelectionScreen extends AppCompatActivity {
         setDifficultyVisability(false);
         setSelectedPvc(false);
         setSelectedPvp(true);
-        redPlayer.setImageResource(R.drawable.red_human);
+        redPlayer.setImageResource(R.drawable.portrait_red_human);
     }
 
     private void setDefaultGame(){
@@ -135,7 +135,7 @@ public class ModeSelectionScreen extends AppCompatActivity {
         setSelectedEasy(false);
         setSelectedMedium(true);
         setSelectedHard(false);
-        redPlayer.setImageResource(R.drawable.red_alien);
+        redPlayer.setImageResource(R.drawable.portrait_red_alien);
 
     }
 

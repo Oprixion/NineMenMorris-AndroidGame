@@ -2,7 +2,9 @@ package com.example.ninemenmorris;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 public class RestartScreen extends AppCompatActivity {
@@ -13,6 +15,9 @@ public class RestartScreen extends AppCompatActivity {
         setContentView(R.layout.activity_restart_screen);
         //NEED A VARIABLE BUNDLED FROM PREVIOUS ACTIVITYS FOR THIS
         boolean redWon = false;
+        boolean isPvp = true;
+        int difficulty = 0;
+
         if(redWon){
             setRedWinnerHuman(true);
         }
@@ -37,4 +42,15 @@ public class RestartScreen extends AppCompatActivity {
             winnerPortrait.setImageResource(R.drawable.portrait_red_alien_happy);
         }
     }//redIsWinner
+
+    public void goToMenu(View MyView){
+        Intent toMenu = new Intent(this, StartScreen.class);
+        startActivity(toMenu);
+        this.finish();
+    }//goToMenu
+    public void goToPvpGame(View MyView){
+        Intent toPvp = new Intent(this, PvpGameScreen.class);
+        startActivity(toPvp);
+        this.finish();
+    }//goToGame
 }
