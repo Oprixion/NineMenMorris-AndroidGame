@@ -113,6 +113,7 @@ public class PvpGameScreen extends AppCompatActivity{
                         else {
                             disableAllPieces();
                             enableP2Moves();
+                            disableBlockedButtons();
                         }
                     }
                     else if (isInArray(theMove)==false){
@@ -124,6 +125,7 @@ public class PvpGameScreen extends AppCompatActivity{
                         }
                         disableAllPieces();
                         enableP1Moves();
+                        disableBlockedButtons();
                     }
                 }else if(lastMove=="P1"){
                     flipTurnWidget(0);
@@ -144,6 +146,7 @@ public class PvpGameScreen extends AppCompatActivity{
                         else {
                             disableAllPieces();
                             enableP1Moves();
+                            disableBlockedButtons();
                         }
                     }
                     else if (isInArray(theMove)==false){
@@ -156,6 +159,7 @@ public class PvpGameScreen extends AppCompatActivity{
                         }
                         disableAllPieces();
                         enableP2Moves();
+                        disableBlockedButtons();
                     }
                 }
                 else if((lastMove=="p1RemoveTurn")||(lastMove=="p2RemoveTurn")){
@@ -164,6 +168,7 @@ public class PvpGameScreen extends AppCompatActivity{
                         theMove.setEnabled(false);
                         disableP2Moves();
                         enableP1Moves();
+                        disableBlockedButtons();
                         lastMove="P1";
                     }
                     else if(lastMove=="p1RemoveTurn"){
@@ -171,6 +176,7 @@ public class PvpGameScreen extends AppCompatActivity{
                         theMove.setEnabled(false);
                         disableP1Moves();
                         enableP2Moves();
+                        disableBlockedButtons();
                         lastMove="P2";
                     }
                 }
