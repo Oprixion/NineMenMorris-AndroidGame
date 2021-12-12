@@ -66,9 +66,8 @@ public class PvpGameScreen extends AppCompatActivity{
                         flipTurnWidget(1);
                         makePortraitRedHappy();
 
-                        enableP1Moves();
                         lastMove="p2RemoveTurn";
-
+                        enableP1Moves();
                     }
                  }
                 else if (lastMove=="P2"){
@@ -78,8 +77,8 @@ public class PvpGameScreen extends AppCompatActivity{
                          flipTurnWidget(0);
                          makePortraitBlueHappy();
 
-                         enableP2Moves();
                          lastMove="p1RemoveTurn";
+                         enableP2Moves();
                      }
                 }
                 else if((lastMove=="p1RemoveTurn")||(lastMove=="p2RemoveTurn")){
@@ -205,22 +204,22 @@ public class PvpGameScreen extends AppCompatActivity{
                     if(lastMove=="p2RemoveTurn"){
                         removeOpponentPieceIfMill(theMove);
                         theMove.setEnabled(false);
+                        lastMove="P1";
                         disableP2Moves();
                         enableP1Moves();
                         if (player2PieceOnBoard>3){
                             disableBlockedButtons();
                         }
-                        lastMove="P1";
                     }
                     else if(lastMove=="p1RemoveTurn"){
                         removeOpponentPieceIfMill(theMove);
                         theMove.setEnabled(false);
+                        lastMove="P2";
                         disableP1Moves();
                         enableP2Moves();
                         if (player1PieceOnBoard>3){
                             disableBlockedButtons();
                         }
-                        lastMove="P2";
                     }
                     makePortraitsNeutral();
                     makeActionIndicatorSayMove();
@@ -306,7 +305,7 @@ public class PvpGameScreen extends AppCompatActivity{
     public void selectPieceToMoveByRemovingFromArray(Button chosenToBeMove){
         if(lastMove=="P1"){
             chosenToBeMove.setText("");
-            turnButtonWhite(chosenToBeMove);
+            turnButtonHighlightBlue(chosenToBeMove);
             for(int i=0;i<player1PieceArray.length;i++){
                 if(player1PieceArray[i]==chosenToBeMove){
                     player1PieceArray[i]=null;
@@ -316,7 +315,7 @@ public class PvpGameScreen extends AppCompatActivity{
         }
         if(lastMove=="P2"){
             chosenToBeMove.setText("");
-            turnButtonWhite(chosenToBeMove);
+            turnButtonHighlightRed(chosenToBeMove);
             for(int i=0;i<player2PieceArray.length;i++){
                 if(player2PieceArray[i]==chosenToBeMove){
                     player2PieceArray[i]=null;
