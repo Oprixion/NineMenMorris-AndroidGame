@@ -93,22 +93,15 @@ public class PvpGameScreen extends AppCompatActivity{
             //      4.1 If mill then change last move to remove turn, go to (1.2)
             //      4.2 If not mill then switch back to the other player turn.
             // 5.Remove a chosen piece of board and the corresponding array.
-            if (player1PieceOnHand == 0 && player2PieceOnHand == 0){
+            if ((player1PieceOnHand == 0 && player2PieceOnHand == 0)&&(player1PieceOnBoard > 3 && player2PieceOnBoard > 3)){
                 disableBlockedButtons();
                 if(lastMove=="P2"){
                     flipTurnWidget(1);
-                    if(isInArray(theMove)){
+                    if(isMoveSelected(theMove)==false){
                         if(theMove.isEnabled()){
-                            if(player1PieceOnBoard==3){ //Phase 3
-                                enableAllPieces();
-                                disableP1Moves();
-                                disableP2Moves();
-                            }
-                            else if(player1PieceOnBoard>3){
-                                disableAllPieces();
-                                enableEmptyAdjacentButtons(theMove);
-                                selectPieceToMoveByRemovingFromArray(theMove);
-                            }
+                            disableAllPieces();
+                            enableEmptyAdjacentButtons(theMove);
+                            selectPieceToMoveByRemovingFromArray(theMove);
                         }
                         else {
                             disableAllPieces();
@@ -116,7 +109,7 @@ public class PvpGameScreen extends AppCompatActivity{
                             disableBlockedButtons();
                         }
                     }
-                    else if (isInArray(theMove)==false){
+                    else if (isMoveSelected(theMove)){
                         moveP2Piece(theMove);
                         if(isMill(theMove)){
                             lastMove="p2RemoveTurn";
@@ -125,23 +118,17 @@ public class PvpGameScreen extends AppCompatActivity{
                         }
                         disableAllPieces();
                         enableP1Moves();
-                        disableBlockedButtons();
+                        if(isMill(theMove)==false){
+                            disableBlockedButtons();
+                        }
                     }
                 }else if(lastMove=="P1"){
                     flipTurnWidget(0);
-                    if(isInArray(theMove)){
+                    if(isMoveSelected(theMove)==false){
                         if(theMove.isEnabled()){
-                            if(player2PieceOnBoard==3){ //phase 3
-                                enableAllPieces();
-                                disableP1Moves();
-                                disableP2Moves();
-                                selectPieceToMoveByRemovingFromArray(theMove);
-                            }
-                            else if(player2PieceOnBoard>3){
-                                disableAllPieces();
-                                enableEmptyAdjacentButtons(theMove);
-                                selectPieceToMoveByRemovingFromArray(theMove);
-                            }
+                            disableAllPieces();
+                            enableEmptyAdjacentButtons(theMove);
+                            selectPieceToMoveByRemovingFromArray(theMove);
                         }
                         else {
                             disableAllPieces();
@@ -149,7 +136,7 @@ public class PvpGameScreen extends AppCompatActivity{
                             disableBlockedButtons();
                         }
                     }
-                    else if (isInArray(theMove)==false){
+                    else if (isMoveSelected(theMove)){
                         moveP1Piece(theMove);
                         if(isMill(theMove)){
                             lastMove="p1RemoveTurn";
@@ -159,7 +146,9 @@ public class PvpGameScreen extends AppCompatActivity{
                         }
                         disableAllPieces();
                         enableP2Moves();
-                        disableBlockedButtons();
+                        if(isMill(theMove)==false){
+                            disableBlockedButtons();
+                        }
                     }
                 }
                 else if((lastMove=="p1RemoveTurn")||(lastMove=="p2RemoveTurn")){
@@ -181,6 +170,76 @@ public class PvpGameScreen extends AppCompatActivity{
                     }
                 }
             }//if
+            if ((player1PieceOnHand == 0 && player2PieceOnHand == 0)&&(player1PieceOnBoard == 3 && player2PieceOnBoard == 3)){
+                if(lastMove=="P2"){
+                    enableP2Moves();
+                    flipTurnWidget(1);
+                    if(isMoveSelected(theMove)){
+                        if(theMove.isEnabled()){
+                            enableAllPieces();
+                            disableP1Moves();
+                            disableP2Moves();
+                            selectPieceToMoveByRemovingFromArray(theMove);
+                        }
+                        else {
+                            disableAllPieces();
+                            enableP1Moves();
+                        }
+                    }
+                    else if (isMoveSelected(theMove)==false){
+                        moveP1Piece(theMove);
+                        if(isMill(theMove)){
+                            lastMove="p1RemoveTurn";
+                            flipTurnWidget(1);
+                            enableP2Moves();
+                        }
+                        disableAllPieces();
+                        enableP2Moves();
+                    }
+                }else if(lastMove=="P1"){
+                    enableP1Moves();
+                    flipTurnWidget(0);
+                    if(isMoveSelected(theMove)){
+                        if(theMove.isEnabled()){
+                            enableAllPieces();
+                            disableP1Moves();
+                            disableP2Moves();
+                            selectPieceToMoveByRemovingFromArray(theMove);
+                        }
+                        else {
+                            disableAllPieces();
+                            enableP2Moves();
+                        }
+                    }
+                    else if (isMoveSelected(theMove)==false){
+                        moveP1Piece(theMove);
+                        if(isMill(theMove)){
+                            lastMove="p2RemoveTurn";
+                            flipTurnWidget(0);
+                            enableP1Moves();
+
+                        }
+                        disableAllPieces();
+                        enableP1Moves();
+                    }
+                }
+                else if((lastMove=="p1RemoveTurn")||(lastMove=="p2RemoveTurn")){
+                    if(lastMove=="p2RemoveTurn"){
+                        removeOpponentPieceIfMill(theMove);
+                        theMove.setEnabled(false);
+                        disableP2Moves();
+                        enableP1Moves();
+                        lastMove="P1";
+                    }
+                    else if(lastMove=="p1RemoveTurn"){
+                        removeOpponentPieceIfMill(theMove);
+                        theMove.setEnabled(false);
+                        disableP1Moves();
+                        enableP2Moves();
+                        lastMove="P2";
+                    }
+                }
+            }
         }//if
 
         if ((player1PieceOnBoard+player1PieceOnHand <= 2) || (player2PieceOnBoard+player2PieceOnHand <= 2)) {
@@ -190,22 +249,22 @@ public class PvpGameScreen extends AppCompatActivity{
         }
     }//placeMove
 
-    public boolean isInArray(Button theMove){
+    public boolean isMoveSelected(Button theMove){
         if(lastMove=="P1"){
             for (int i=0; i<player1PieceArray.length; i++){
                 if(player1PieceArray[i]==theMove){
-                    return true;
+                    return false;
                 }
             }
         }else if(lastMove=="P2"){
             for (int i=0; i<player2PieceArray.length; i++){
                 if(player2PieceArray[i]==theMove){
-                    return true;
+                    return false;
                 }
             }
         }
-        return false;
-    }//isInArray
+        return true;
+    }//isMoveSelected
 
     public void updateP1PieceCounterTV(){
         changeCounterNumber(0, player1PieceOnHand);
