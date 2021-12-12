@@ -154,7 +154,7 @@ public class PvpGameScreen extends AppCompatActivity{
                         disableAllPieces();
                         enableP1Moves();
                         if(isMill(theMove)==false){
-                            if (player2PieceOnBoard>3){
+                            if (player2PieceOnBoard>=3){
                                 disableBlockedButtons();
                             }
                         }
@@ -198,7 +198,7 @@ public class PvpGameScreen extends AppCompatActivity{
                         disableAllPieces();
                         enableP2Moves();
                         if(isMill(theMove)==false){
-                            if (player1PieceOnBoard>3){
+                            if (player1PieceOnBoard>=3){
                                 disableBlockedButtons();
                             }
                         }
