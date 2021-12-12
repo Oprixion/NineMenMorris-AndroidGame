@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 public class PvpGameScreen extends AppCompatActivity{
     String lastMove;
@@ -16,6 +15,7 @@ public class PvpGameScreen extends AppCompatActivity{
     private int player2PieceOnBoard=0;
     private int player2PieceOnHand=9;
     private int positionOfTheRemovedButton;
+
     private Button[] player1PieceArray = new Button[9];
     private Button[] player2PieceArray = new Button[9];
     @Override
@@ -23,7 +23,10 @@ public class PvpGameScreen extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pvp_game_screen);
         lastMove = "P2";
+
     }
+
+
     public void toModeSelection(View myView){
         Intent modeSelection = new Intent(this, ModeSelectionScreen.class);
         startActivity(modeSelection);
@@ -40,7 +43,7 @@ public class PvpGameScreen extends AppCompatActivity{
         Button theMove = (Button) myView;
         //When there are still pieces to play
         if ((player1PieceOnBoard+player1PieceOnHand > 2) && (player2PieceOnBoard+player2PieceOnHand > 2)){
-            //When there are sill pieces on hand
+            //When there are sill pieces on hand (Phase 1)
             //Game loop for this stage:
             // 1.Check the last move to determine whose turn it is.
             //      1.1. If it's players' turn go to (2).
@@ -80,7 +83,7 @@ public class PvpGameScreen extends AppCompatActivity{
                 }
             }//if
 
-            //When there are no pieces left on hand
+            //When there are no pieces left on hand (Phase 2+3)
             //Game loop for this stage:
             // 1.Check the last move to determine whose turn it is
             //      1.1. If it's players' turn then go to(2).
@@ -96,21 +99,34 @@ public class PvpGameScreen extends AppCompatActivity{
             //      4.1 If mill then change last move to remove turn, go to (1.2)
             //      4.2 If not mill then switch back to the other player turn.
             // 5.Remove a chosen piece of board and the corresponding array.
-            if (player1PieceOnHand == 0 && player2PieceOnHand == 0){
+            if ((player1PieceOnHand == 0 && player2PieceOnHand == 0)){
+                //disableBlockedButtons();
                 if(lastMove=="P2"){
                     flipTurnWidget(1);
-                    if(isInArray(theMove)){
+                    if(isMoveSelected(theMove)==false){
                         if(theMove.isEnabled()){
-                            enableEmptyAdjacentButtons(theMove);
-                            removePieceFromArrayWhenMoving(theMove);
+                            if(player2PieceOnBoard>3) {
+                                disableAllPieces();
+                                enableEmptyAdjacentButtons(theMove);
+                                selectPieceToMoveByRemovingFromArray(theMove);
+                            }
+                            else if(player2PieceOnBoard<=3){//phase 3
+                                enableAllPieces();
+                                disableP2Moves();
+                                disableP1Moves();
+                                selectPieceToMoveByRemovingFromArray(theMove);
+                            }
                         }
                         else {
                             disableAllPieces();
                             enableP2Moves();
+                            if (player1PieceOnBoard>3){
+                                disableBlockedButtons();
+                            }
                         }
                     }
-                    else if (isInArray(theMove)==false){
-                        moveP2PieceAdjacent(theMove);
+                    else if (isMoveSelected(theMove)){
+                        moveP2Piece(theMove);
                         if(isMill(theMove)){
                             lastMove="p2RemoveTurn";
                             flipTurnWidget(1);
@@ -118,21 +134,38 @@ public class PvpGameScreen extends AppCompatActivity{
                         }
                         disableAllPieces();
                         enableP1Moves();
+                        if(isMill(theMove)==false){
+                            if (player2PieceOnBoard>3){
+                                disableBlockedButtons();
+                            }
+                        }
                     }
                 }else if(lastMove=="P1"){
                     flipTurnWidget(0);
-                    if(isInArray(theMove)){
+                    if(isMoveSelected(theMove)==false){
                         if(theMove.isEnabled()){
-                            enableEmptyAdjacentButtons(theMove);
-                            removePieceFromArrayWhenMoving(theMove);
+                            if(player2PieceOnBoard>3) {
+                                disableAllPieces();
+                                enableEmptyAdjacentButtons(theMove);
+                                selectPieceToMoveByRemovingFromArray(theMove);
+                            }
+                            else if(player2PieceOnBoard<=3){//phase 3
+                                enableAllPieces();
+                                disableP2Moves();
+                                disableP1Moves();
+                                selectPieceToMoveByRemovingFromArray(theMove);
+                            }
                         }
                         else {
                             disableAllPieces();
                             enableP1Moves();
+                            if (player2PieceOnBoard>3){
+                                disableBlockedButtons();
+                            }
                         }
                     }
-                    else if (isInArray(theMove)==false){
-                        moveP1PieceAdjacent(theMove);
+                    else if (isMoveSelected(theMove)){
+                        moveP1Piece(theMove);
                         if(isMill(theMove)){
                             lastMove="p1RemoveTurn";
                             flipTurnWidget(0);
@@ -141,6 +174,11 @@ public class PvpGameScreen extends AppCompatActivity{
                         }
                         disableAllPieces();
                         enableP2Moves();
+                        if(isMill(theMove)==false){
+                            if (player1PieceOnBoard>3){
+                                disableBlockedButtons();
+                            }
+                        }
                     }
                 }
                 else if((lastMove=="p1RemoveTurn")||(lastMove=="p2RemoveTurn")){
@@ -149,6 +187,9 @@ public class PvpGameScreen extends AppCompatActivity{
                         theMove.setEnabled(false);
                         disableP2Moves();
                         enableP1Moves();
+                        if (player2PieceOnBoard>3){
+                            disableBlockedButtons();
+                        }
                         lastMove="P1";
                     }
                     else if(lastMove=="p1RemoveTurn"){
@@ -156,11 +197,16 @@ public class PvpGameScreen extends AppCompatActivity{
                         theMove.setEnabled(false);
                         disableP1Moves();
                         enableP2Moves();
+                        if (player1PieceOnBoard>3){
+                            disableBlockedButtons();
+                        }
                         lastMove="P2";
                     }
                 }
             }//if
+
         }//if
+
         if ((player1PieceOnBoard+player1PieceOnHand <= 2) || (player2PieceOnBoard+player2PieceOnHand <= 2)) {
             Intent toRestartGame = new Intent(this, RestartScreen.class);
             startActivity(toRestartGame);
@@ -168,22 +214,22 @@ public class PvpGameScreen extends AppCompatActivity{
         }
     }//placeMove
 
-    public boolean isInArray(Button theMove){
+    public boolean isMoveSelected(Button theMove){
         if(lastMove=="P1"){
             for (int i=0; i<player1PieceArray.length; i++){
                 if(player1PieceArray[i]==theMove){
-                    return true;
+                    return false;
                 }
             }
         }else if(lastMove=="P2"){
             for (int i=0; i<player2PieceArray.length; i++){
                 if(player2PieceArray[i]==theMove){
-                    return true;
+                    return false;
                 }
             }
         }
-        return false;
-    }//isInArray
+        return true;
+    }//isMoveSelected
 
     public void updateP1PieceCounterTV(){
         changeCounterNumber(0, player1PieceOnHand);
@@ -217,23 +263,23 @@ public class PvpGameScreen extends AppCompatActivity{
 
     }//player1Turn
 
-    public void moveP1PieceAdjacent(Button placeToMoveTo){
+    public void moveP1Piece(Button placeToMoveTo){
         placeToMoveTo.setText("P1");
         turnButtonBlue(placeToMoveTo);
         player1PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
         lastMove="P2";
         flipTurnWidget(1);
-    }//moveP1PieceAdjacent
+    }//moveP1Piece
 
-    public void moveP2PieceAdjacent(Button placeToMoveTo){
+    public void moveP2Piece(Button placeToMoveTo){
         placeToMoveTo.setText("P2");
         turnButtonRed(placeToMoveTo);
         player2PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
         lastMove="P1";
         flipTurnWidget(0);
-    }//moveP2PieceAdjacent
+    }//moveP2Piece
 
-    public void removePieceFromArrayWhenMoving(Button chosenToBeMove){
+    public void selectPieceToMoveByRemovingFromArray(Button chosenToBeMove){
         if(lastMove=="P1"){
             chosenToBeMove.setText("");
             turnButtonWhite(chosenToBeMove);
@@ -255,9 +301,10 @@ public class PvpGameScreen extends AppCompatActivity{
             }
         }
         chosenToBeMove.setEnabled(false);
-    }//removePieceFromArrayWhenMoving
+    }//selectPieceToMoveByRemovingFromArray
 
     public void enableEmptyAdjacentButtons(Button chosenToBeMove){
+        //first square
         Button b00 = (Button) findViewById(R.id.pvpB00);
         Button b01 = (Button) findViewById(R.id.pvpB01);
         Button b02 = (Button) findViewById(R.id.pvpB02);
@@ -266,7 +313,7 @@ public class PvpGameScreen extends AppCompatActivity{
         Button b05 = (Button) findViewById(R.id.pvpB05);
         Button b06 = (Button) findViewById(R.id.pvpB06);
         Button b07 = (Button) findViewById(R.id.pvpB07);
-
+        //second square
         Button b10 = (Button) findViewById(R.id.pvpB10);
         Button b11 = (Button) findViewById(R.id.pvpB11);
         Button b12 = (Button) findViewById(R.id.pvpB12);
@@ -275,7 +322,7 @@ public class PvpGameScreen extends AppCompatActivity{
         Button b15 = (Button) findViewById(R.id.pvpB15);
         Button b16 = (Button) findViewById(R.id.pvpB16);
         Button b17 = (Button) findViewById(R.id.pvpB17);
-
+        //third square
         Button b20 = (Button) findViewById(R.id.pvpB20);
         Button b21 = (Button) findViewById(R.id.pvpB21);
         Button b22 = (Button) findViewById(R.id.pvpB22);
@@ -293,6 +340,7 @@ public class PvpGameScreen extends AppCompatActivity{
             if((b03.getText()!="P1")&&(b03.getText()!="P2")){
                 b03.setEnabled(true);
             }
+            else b00.setEnabled(false);
 
         }
         if(chosenToBeMove==b01){
@@ -305,6 +353,7 @@ public class PvpGameScreen extends AppCompatActivity{
             if((b02.getText()!="P1")&&(b02.getText()!="P2")){
                 b02.setEnabled(true);
             }
+            else b01.setEnabled(false);
         }
         if(chosenToBeMove==b02){
             if((b01.getText()!="P1")&&(b01.getText()!="P2")){
@@ -415,7 +464,7 @@ public class PvpGameScreen extends AppCompatActivity{
         }
         if(chosenToBeMove==b12){
             if((b11.getText()!="P1")&&(b11.getText()!="P2")){
-                b01.setEnabled(true);
+                b11.setEnabled(true);
             }
             if((b14.getText()!="P1")&&(b14.getText()!="P2")){
                 b14.setEnabled(true);
@@ -681,7 +730,7 @@ public class PvpGameScreen extends AppCompatActivity{
      * @return true if mill, else false
      */
     public boolean isMill(Button theMove) {
-        int idOfTheMove = theMove.getId();
+        //first square
         Button b00 = (Button) findViewById(R.id.pvpB00);
         Button b01 = (Button) findViewById(R.id.pvpB01);
         Button b02 = (Button) findViewById(R.id.pvpB02);
@@ -690,7 +739,7 @@ public class PvpGameScreen extends AppCompatActivity{
         Button b05 = (Button) findViewById(R.id.pvpB05);
         Button b06 = (Button) findViewById(R.id.pvpB06);
         Button b07 = (Button) findViewById(R.id.pvpB07);
-
+        //second square
         Button b10 = (Button) findViewById(R.id.pvpB10);
         Button b11 = (Button) findViewById(R.id.pvpB11);
         Button b12 = (Button) findViewById(R.id.pvpB12);
@@ -699,7 +748,7 @@ public class PvpGameScreen extends AppCompatActivity{
         Button b15 = (Button) findViewById(R.id.pvpB15);
         Button b16 = (Button) findViewById(R.id.pvpB16);
         Button b17 = (Button) findViewById(R.id.pvpB17);
-
+        //third square
         Button b20 = (Button) findViewById(R.id.pvpB20);
         Button b21 = (Button) findViewById(R.id.pvpB21);
         Button b22 = (Button) findViewById(R.id.pvpB22);
@@ -709,7 +758,7 @@ public class PvpGameScreen extends AppCompatActivity{
         Button b26 = (Button) findViewById(R.id.pvpB26);
         Button b27 = (Button) findViewById(R.id.pvpB27);
 
-
+        int idOfTheMove = theMove.getId();
         //first outer layer
         //check first layer above
         if((idOfTheMove==b00.getId())||(idOfTheMove==b01.getId())||(idOfTheMove==b02.getId())){
@@ -817,89 +866,307 @@ public class PvpGameScreen extends AppCompatActivity{
     public void disableAllPieces(){
         //first square
         Button b00 = (Button) findViewById(R.id.pvpB00);
-        b00.setEnabled(false);
-        changeVisualDisable(b00);
         Button b01 = (Button) findViewById(R.id.pvpB01);
-        b01.setEnabled(false);
-        changeVisualDisable(b01);
         Button b02 = (Button) findViewById(R.id.pvpB02);
-        b02.setEnabled(false);
-        changeVisualDisable(b02);
         Button b03 = (Button) findViewById(R.id.pvpB03);
-        b03.setEnabled(false);
-        changeVisualDisable(b03);
         Button b04 = (Button) findViewById(R.id.pvpB04);
-        b04.setEnabled(false);
-        changeVisualDisable(b04);
         Button b05 = (Button) findViewById(R.id.pvpB05);
-        b05.setEnabled(false);
-        changeVisualDisable(b05);
         Button b06 = (Button) findViewById(R.id.pvpB06);
-        b06.setEnabled(false);
-        changeVisualDisable(b06);
         Button b07 = (Button) findViewById(R.id.pvpB07);
+        //second square
+        Button b10 = (Button) findViewById(R.id.pvpB10);
+        Button b11 = (Button) findViewById(R.id.pvpB11);
+        Button b12 = (Button) findViewById(R.id.pvpB12);
+        Button b13 = (Button) findViewById(R.id.pvpB13);
+        Button b14 = (Button) findViewById(R.id.pvpB14);
+        Button b15 = (Button) findViewById(R.id.pvpB15);
+        Button b16 = (Button) findViewById(R.id.pvpB16);
+        Button b17 = (Button) findViewById(R.id.pvpB17);
+        //third square
+        Button b20 = (Button) findViewById(R.id.pvpB20);
+        Button b21 = (Button) findViewById(R.id.pvpB21);
+        Button b22 = (Button) findViewById(R.id.pvpB22);
+        Button b23 = (Button) findViewById(R.id.pvpB23);
+        Button b24 = (Button) findViewById(R.id.pvpB24);
+        Button b25 = (Button) findViewById(R.id.pvpB25);
+        Button b26 = (Button) findViewById(R.id.pvpB26);
+        Button b27 = (Button) findViewById(R.id.pvpB27);
+
+        //first square
+        b00.setEnabled(false);
+        changeVisualUnselected(b00);
+        b01.setEnabled(false);
+        changeVisualUnselected(b01);
+        b02.setEnabled(false);
+        changeVisualUnselected(b02);
+        b03.setEnabled(false);
+        changeVisualUnselected(b03);
+        b04.setEnabled(false);
+        changeVisualUnselected(b04);
+        b05.setEnabled(false);
+        changeVisualUnselected(b05);
+        b06.setEnabled(false);
+        changeVisualUnselected(b06);
         b07.setEnabled(false);
-        changeVisualDisable(b07);
+        changeVisualUnselected(b07);
+
+        b10.setEnabled(false);
+        changeVisualUnselected(b10);
+        b11.setEnabled(false);
+        changeVisualUnselected(b11);
+        b12.setEnabled(false);
+        changeVisualUnselected(b12);
+        b13.setEnabled(false);
+        changeVisualUnselected(b13);
+        b14.setEnabled(false);
+        changeVisualUnselected(b14);
+        b15.setEnabled(false);
+        changeVisualUnselected(b15);
+        b16.setEnabled(false);
+        changeVisualUnselected(b16);
+        b17.setEnabled(false);
+        changeVisualUnselected(b17);
+
+        b20.setEnabled(false);
+        changeVisualUnselected(b20);
+        b21.setEnabled(false);
+        changeVisualUnselected(b21);
+        b22.setEnabled(false);
+        changeVisualUnselected(b22);
+        b23.setEnabled(false);
+        changeVisualUnselected(b23);
+        b24.setEnabled(false);
+        changeVisualUnselected(b24);
+        b25.setEnabled(false);
+        changeVisualUnselected(b25);
+        b26.setEnabled(false);
+        changeVisualUnselected(b26);
+        b27.setEnabled(false);
+        changeVisualUnselected(b27);
+    }//disableAllPieces
+
+    public void enableAllPieces(){
+        //first square
+        Button b00 = (Button) findViewById(R.id.pvpB00);
+        b00.setEnabled(true);
+        changeVisualUnselected(b00);
+        Button b01 = (Button) findViewById(R.id.pvpB01);
+        b01.setEnabled(true);
+        changeVisualUnselected(b01);
+        Button b02 = (Button) findViewById(R.id.pvpB02);
+        b02.setEnabled(true);
+        changeVisualUnselected(b02);
+        Button b03 = (Button) findViewById(R.id.pvpB03);
+        b03.setEnabled(true);
+        changeVisualUnselected(b03);
+        Button b04 = (Button) findViewById(R.id.pvpB04);
+        b04.setEnabled(true);
+        changeVisualUnselected(b04);
+        Button b05 = (Button) findViewById(R.id.pvpB05);
+        b05.setEnabled(true);
+        changeVisualUnselected(b05);
+        Button b06 = (Button) findViewById(R.id.pvpB06);
+        b06.setEnabled(true);
+        changeVisualUnselected(b06);
+        Button b07 = (Button) findViewById(R.id.pvpB07);
+        b07.setEnabled(true);
+        changeVisualUnselected(b07);
 
 
         Button b10 = (Button) findViewById(R.id.pvpB10);
-        b10.setEnabled(false);
-        changeVisualDisable(b10);
+        b10.setEnabled(true);
+        changeVisualUnselected(b10);
         Button b11 = (Button) findViewById(R.id.pvpB11);
-        b11.setEnabled(false);
-        changeVisualDisable(b11);
+        b11.setEnabled(true);
+        changeVisualUnselected(b11);
         Button b12 = (Button) findViewById(R.id.pvpB12);
-        b12.setEnabled(false);
-        changeVisualDisable(b12);
+        b12.setEnabled(true);
+        changeVisualUnselected(b12);
         Button b13 = (Button) findViewById(R.id.pvpB13);
-        b13.setEnabled(false);
-        changeVisualDisable(b13);
+        b13.setEnabled(true);
+        changeVisualUnselected(b13);
         Button b14 = (Button) findViewById(R.id.pvpB14);
-        b14.setEnabled(false);
-        changeVisualDisable(b14);
+        b14.setEnabled(true);
+        changeVisualUnselected(b14);
         Button b15 = (Button) findViewById(R.id.pvpB15);
-        b15.setEnabled(false);
-        changeVisualDisable(b15);
+        b15.setEnabled(true);
+        changeVisualUnselected(b15);
         Button b16 = (Button) findViewById(R.id.pvpB16);
-        b16.setEnabled(false);
-        changeVisualDisable(b16);
+        b16.setEnabled(true);
+        changeVisualUnselected(b16);
         Button b17 = (Button) findViewById(R.id.pvpB17);
-        b17.setEnabled(false);
-        changeVisualDisable(b17);
+        b17.setEnabled(true);
+        changeVisualUnselected(b17);
 
         Button b20 = (Button) findViewById(R.id.pvpB20);
-        b20.setEnabled(false);
-        changeVisualDisable(b20);
+        b20.setEnabled(true);
+        changeVisualUnselected(b20);
         Button b21 = (Button) findViewById(R.id.pvpB21);
-        b21.setEnabled(false);
-        changeVisualDisable(b21);
+        b21.setEnabled(true);
+        changeVisualUnselected(b21);
         Button b22 = (Button) findViewById(R.id.pvpB22);
-        b22.setEnabled(false);
-        changeVisualDisable(b22);
+        b22.setEnabled(true);
+        changeVisualUnselected(b22);
         Button b23 = (Button) findViewById(R.id.pvpB23);
-        b23.setEnabled(false);
-        changeVisualDisable(b23);
+        b23.setEnabled(true);
+        changeVisualUnselected(b23);
         Button b24 = (Button) findViewById(R.id.pvpB24);
-        b24.setEnabled(false);
-        changeVisualDisable(b24);
+        b24.setEnabled(true);
+        changeVisualUnselected(b24);
         Button b25 = (Button) findViewById(R.id.pvpB25);
-        b25.setEnabled(false);
-        changeVisualDisable(b25);
+        b25.setEnabled(true);
+        changeVisualUnselected(b25);
         Button b26 = (Button) findViewById(R.id.pvpB26);
-        b26.setEnabled(false);
-        changeVisualDisable(b26);
+        b26.setEnabled(true);
+        changeVisualUnselected(b26);
         Button b27 = (Button) findViewById(R.id.pvpB27);
-        b27.setEnabled(false);
-        changeVisualDisable(b27);
-    }//disableAllPieces
-    public void changeVisualDisable(Button toBeDisabled){
+        b27.setEnabled(true);
+        changeVisualUnselected(b27);
+    }//enableAllPieces
+
+    public void disableBlockedButtons(){
+        //first square
+        Button b00 = (Button) findViewById(R.id.pvpB00);
+        Button b01 = (Button) findViewById(R.id.pvpB01);
+        Button b02 = (Button) findViewById(R.id.pvpB02);
+        Button b03 = (Button) findViewById(R.id.pvpB03);
+        Button b04 = (Button) findViewById(R.id.pvpB04);
+        Button b05 = (Button) findViewById(R.id.pvpB05);
+        Button b06 = (Button) findViewById(R.id.pvpB06);
+        Button b07 = (Button) findViewById(R.id.pvpB07);
+        //second square
+        Button b10 = (Button) findViewById(R.id.pvpB10);
+        Button b11 = (Button) findViewById(R.id.pvpB11);
+        Button b12 = (Button) findViewById(R.id.pvpB12);
+        Button b13 = (Button) findViewById(R.id.pvpB13);
+        Button b14 = (Button) findViewById(R.id.pvpB14);
+        Button b15 = (Button) findViewById(R.id.pvpB15);
+        Button b16 = (Button) findViewById(R.id.pvpB16);
+        Button b17 = (Button) findViewById(R.id.pvpB17);
+        //third square
+        Button b20 = (Button) findViewById(R.id.pvpB20);
+        Button b21 = (Button) findViewById(R.id.pvpB21);
+        Button b22 = (Button) findViewById(R.id.pvpB22);
+        Button b23 = (Button) findViewById(R.id.pvpB23);
+        Button b24 = (Button) findViewById(R.id.pvpB24);
+        Button b25 = (Button) findViewById(R.id.pvpB25);
+        Button b26 = (Button) findViewById(R.id.pvpB26);
+        Button b27 = (Button) findViewById(R.id.pvpB27);
+
+        //first square
+        if((b01.getText()!="")&&(b03.getText()!="")) {
+            b00.setEnabled(false);
+            changeVisualUnselected(b00);
+        }
+        if((b11.getText()!="")&&(b00.getText()!="")&&(b02.getText()!="")) {
+            b01.setEnabled(false);
+            changeVisualUnselected(b01);
+        }
+        if ((b01.getText()!="")&&(b04.getText()!="")) {
+            b02.setEnabled(false);
+            changeVisualUnselected(b02);
+        }
+        if ((b00.getText()!="")&&(b13.getText()!="")&&(b05.getText()!="")) {
+            b03.setEnabled(false);
+            changeVisualUnselected(b03);
+        }
+        if ((b02.getText()!="")&&(b14.getText()!="")&&(b07.getText()!="")) {
+            b04.setEnabled(false);
+            changeVisualUnselected(b04);
+        }
+        if ((b03.getText()!="")&&(b06.getText()!="")) {
+            b05.setEnabled(false);
+            changeVisualUnselected(b05);
+        }
+        if ((b05.getText()!="")&&(b16.getText()!="")&&(b07.getText()!="")) {
+            b06.setEnabled(false);
+            changeVisualUnselected(b06);
+        }
+        if ((b04.getText()!="")&&(b06.getText()!="")) {
+            b07.setEnabled(false);
+            changeVisualUnselected(b07);
+        }
+
+        //second square
+        if((b11.getText()!="")&&(b13.getText()!="")) {
+            b10.setEnabled(false);
+            changeVisualUnselected(b10);
+        }
+        if((b21.getText()!="")&&(b01.getText()!="")&&(b12.getText()!="")&&(b10.getText()!="")) {
+            b11.setEnabled(false);
+            changeVisualUnselected(b11);
+        }
+        if ((b11.getText()!="")&&(b14.getText()!="")) {
+            b12.setEnabled(false);
+            changeVisualUnselected(b12);
+        }
+        if ((b03.getText()!="")&&(b23.getText()!="")&&(b15.getText()!="")&&(b10.getText()!="")) {
+            b13.setEnabled(false);
+            changeVisualUnselected(b13);
+        }
+        if ((b12.getText()!="")&&(b24.getText()!="")&&(b17.getText()!="")&&(b04.getText()!="")) {
+            b14.setEnabled(false);
+            changeVisualUnselected(b14);
+        }
+        if ((b13.getText()!="P1")&&(b16.getText()!="")) {
+            b15.setEnabled(false);
+            changeVisualUnselected(b15);
+        }
+        if ((b15.getText()!="")&&(b26.getText()!="")&&(b17.getText()!="")&&(b06.getText()!="")) {
+            b16.setEnabled(false);
+            changeVisualUnselected(b16);
+        }
+        if ((b14.getText()!="")&&(b16.getText()!="")) {
+            b17.setEnabled(false);
+            changeVisualUnselected(b17);
+        }
+
+        //third square
+        if((b21.getText()!="")&&(b23.getText()!="")) {
+            b20.setEnabled(false);
+            changeVisualUnselected(b20);
+        }
+        if((b11.getText()!="")&&(b20.getText()!="")&&(b22.getText()!="")) {
+            b21.setEnabled(false);
+            changeVisualUnselected(b21);
+        }
+        if ((b21.getText()!="")&&(b24.getText()!="")) {
+            b22.setEnabled(false);
+            changeVisualUnselected(b22);
+        }
+        if ((b20.getText()!="")&&(b13.getText()!="")&&(b25.getText()!="")) {
+            b23.setEnabled(false);
+            changeVisualUnselected(b23);
+        }
+        if ((b22.getText()!="")&&(b14.getText()!="")&&(b27.getText()!="")) {
+            changeVisualUnselected(b24);
+            b24.setEnabled(false);
+        }
+        if ((b23.getText()!="")&&(b26.getText()!="")) {
+            b25.setEnabled(false);
+            changeVisualUnselected(b25);
+        }
+        if ((b25.getText()!="")&&(b16.getText()!="")&&(b27.getText()!="")) {
+            b26.setEnabled(false);
+            changeVisualUnselected(b26);
+        }
+        if ((b24.getText()!="")&&(b26.getText()!="")) {
+            b27.setEnabled(false);
+            changeVisualUnselected(b27);
+        }
+
+
+
+    }//disableBlockedButtons
+
+    public void changeVisualUnselected(Button toBeDisabled){
         if(toBeDisabled.getText()=="P2"){
             turnButtonRed(toBeDisabled);
         }
         else if(toBeDisabled.getText()=="P1"){
             turnButtonBlue(toBeDisabled);
         }
-    }//changeVisualDisable
+    }//changeVisualUnselected
 
     /**
      *     //////////////////////////////////
@@ -959,10 +1226,10 @@ public class PvpGameScreen extends AppCompatActivity{
     }//turnButtonRed
 
     //Below are used for when a piece needs to be highlighted for a move
-    public void turnButtonHighlightBlue(Button InputButton){
-        InputButton.setBackgroundResource(R.drawable.token_blue_selected);
+    public void turnButtonHighlightBlue(Button availableButton){
+        availableButton.setBackgroundResource(R.drawable.token_blue_selected);
     }//turnButtonHighlightBLue
-    public void turnButtonHighlightRed(Button InputButton){
-        InputButton.setBackgroundResource(R.drawable.token_red_selected);
+    public void turnButtonHighlightRed(Button availableButton){
+        availableButton.setBackgroundResource(R.drawable.token_red_selected);
     }//turnButtonHighlightRed
 }
