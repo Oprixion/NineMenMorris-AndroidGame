@@ -19,7 +19,7 @@ public class RestartScreen extends AppCompatActivity {
         boolean redWon = false;
         boolean isPvp = true;
         int difficulty = 0;
-        if(theWinner.equals("P1 ")){
+        if(theWinner.equals("P1")){
             setRedWinnerHuman(true);
         }
     }
