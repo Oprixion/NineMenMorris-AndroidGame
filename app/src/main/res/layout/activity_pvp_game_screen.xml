@@ -455,7 +455,7 @@
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mutesButton"
-            app:srcCompat="@drawable/blue_human" />
+            app:srcCompat="@drawable/portrait_blue_human" />
 
         <ImageView
             android:id="@+id/playerRed"
@@ -464,7 +464,7 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mutesButton"
-            app:srcCompat="@drawable/red_human" />
+            app:srcCompat="@drawable/portrait_red_human" />
 
         <ImageView
             android:id="@+id/playerBlueCounter"
@@ -487,6 +487,16 @@
             app:layout_constraintEnd_toStartOf="@+id/playerRed"
             app:layout_constraintTop_toTopOf="@+id/playerRed"
             app:srcCompat="@drawable/font_9" />
+
+        <ImageView
+            android:id="@+id/actionIndicator"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="-10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/turnWidget"
+            app:srcCompat="@drawable/indicator_place" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

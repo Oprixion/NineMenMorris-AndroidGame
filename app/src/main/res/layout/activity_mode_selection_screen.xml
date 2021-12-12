@@ -117,7 +117,7 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mute"
-        app:srcCompat="@drawable/blue_human" />
+        app:srcCompat="@drawable/portrait_blue_human" />
 
     <ImageView
         android:id="@+id/redPortrait"
@@ -129,6 +129,6 @@
         app:layout_constraintStart_toStartOf="@+id/bluePortrait"
         app:layout_constraintTop_toTopOf="@+id/bluePortrait"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/red_alien" />
+        app:srcCompat="@drawable/portrait_red_alien" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

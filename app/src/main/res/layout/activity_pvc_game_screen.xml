@@ -329,7 +329,7 @@
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mutesButton"
-        app:srcCompat="@drawable/blue_human" />
+        app:srcCompat="@drawable/portrait_blue_human" />
 
     <ImageView
         android:id="@+id/playerRed"
@@ -338,7 +338,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mutesButton"
-        app:srcCompat="@drawable/red_human" />
+        app:srcCompat="@drawable/portrait_red_alien" />
 
     <ImageView
         android:id="@+id/playerBlueCounter"
