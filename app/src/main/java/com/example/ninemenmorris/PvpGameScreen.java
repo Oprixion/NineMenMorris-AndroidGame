@@ -1255,7 +1255,6 @@ public class PvpGameScreen extends AppCompatActivity{
      *     //      VISUAL BELOW            //
      *     //////////////////////////////////
      *     Cole Cloutier
-     * @param turn
      */
 
     /*
@@ -1272,6 +1271,7 @@ public class PvpGameScreen extends AppCompatActivity{
             arrow.setImageResource(R.drawable.turn_red);
         }
     }//flipTurnWidget
+
     /*
     Changes the counter depending on the number and player
     int player 0 - Blue, 1 - Red
@@ -1294,79 +1294,72 @@ public class PvpGameScreen extends AppCompatActivity{
         counter.setImageResource(fonts[number]);
     }//changeCounterNumber
 
-    /*
-     * Changes actionIndicator based on the current game stage
-     * Changes the portraits with changePortraitMood function
-     *
-     * int stage
-     * 0 - For stage 1 when tokens can be placed anywhere    "PLACE"
-     * 1 - For stage 2 and 3 when tokens are moved           "MOVE"
-     * 2 - For when a mill is formed                         "CAPTURE"
-     *
-     * boolean blueMilled
-     * true - Sets blue to happy and red to sad
-     * false - Sets red to happy and blue to sad
-     */
-    public void changeActionIndicators(int stage, boolean blueMilled, boolean isPvp){
-        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
-
-        //Portrait changes
-        if (stage == 2){
-            if(blueMilled){
-                //Mill happened and Blue milled
-                changePortraitMood( 1, isPvp);
-            }
-            else{
-                //Mill happened and red milled
-                changePortraitMood(2, isPvp);
-            }
-        }
-        else{
-            //No mill happened
-            changePortraitMood(0, isPvp);
-        }
-
-        //Small int array that contains the 3 possible stages for the indicator
-        int[] texts = {(R.drawable.indicator_place), (R.drawable.indicator_move),
-                (R.drawable.indicator_capture)};
-
-        //Change indicator to specific stage
-        actionIndicator.setImageResource(texts[stage]);
-    }//changeActionIndicators
+    /////////////////////////////////////////////////////////////////////////////////////////////
 
     /*
-     * Changes portraits based off of mood and gamemode
+     * Functions that control the mood of the portraits
      *
-     * int situation
-     * 0 - Neutral
-     * 1 - Blue Happy, Red Sad
-     * 2 - Blue sad, Red Happy
-     *
-     * boolean isPvp
-     * true - Sets Red to human
-     * false - Sets Red to alien
      */
-    public void changePortraitMood(int situation, boolean isPvp){
+    public void makePortraitsNeutral(){
+        boolean isPvp = true;
         ImageView bluePortrait = (ImageView) findViewById(R.id.bluePortrait);
         ImageView redPortrait = (ImageView) findViewById(R.id.redPortrait);
 
-        //Int arrays with drawable ids for settings the portraits based off of situation and isPvp
-        int[] blueMoods = {(R.drawable.portrait_blue_human), (R.drawable.portrait_blue_human_happy),
-                (R.drawable.portrait_blue_human_sad)};
-        int[] redMoods = {(R.drawable.portrait_red_human), (R.drawable.portrait_red_human_sad),
-                (R.drawable.portrait_red_human_happy), (R.drawable.portrait_red_alien),
-                (R.drawable.portrait_red_alien_sad), (R.drawable.portrait_red_alien_happy)};
-
-        //Settings everything
-        bluePortrait.setImageResource(blueMoods[situation]);
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human);
         if(isPvp){
-            redPortrait.setImageResource(redMoods[situation]);
+            redPortrait.setImageResource(R.drawable.portrait_red_human);
         }
         else{
-            //Alien portraits are shifted by 3 in the redMoods array
-            redPortrait.setImageResource(redMoods[situation+3]);
+            redPortrait.setImageResource(R.drawable.portrait_red_alien);
         }
-    }//changePortraitMood
+    }//makePortraitsNeutral
+    public void makePortraitBlueHappy(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.bluePortrait);
+        ImageView redPortrait = (ImageView) findViewById(R.id.redPortrait);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human_happy);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human_sad);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien_sad);
+        }
+    }//makePortraitBlueHappy
+    public void makePortraitRedHappy(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.bluePortrait);
+        ImageView redPortrait = (ImageView) findViewById(R.id.redPortrait);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human_sad);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human_happy);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien_happy);
+        }
+    }//makePortraitRedHappy
+
+    /*
+     * Functions that change the actionIndicator
+     */
+    public void makeActionIndicatorSayPlace(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
+
+        actionIndicator.setImageResource(R.drawable.indicator_place);
+    }//makeActionIndicatorSayPlace
+    public void makeActionIndicatorSayMove(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
+
+        actionIndicator.setImageResource(R.drawable.indicator_move);
+    }//makeActionIndicatorSayMove
+    public void makeActionIndicatorSayCapture(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
+
+        actionIndicator.setImageResource(R.drawable.indicator_capture);
+    }//makeActionIndicatorSayCapture
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
 
     /*
     Below are all the basic functions that turn an input button into a specified visual
