@@ -208,8 +208,10 @@ public class PvpGameScreen extends AppCompatActivity{
 
         }//if
 
+        //game ends
         if ((player1PieceOnBoard+player1PieceOnHand <= 2) || (player2PieceOnBoard+player2PieceOnHand <= 2)) {
             Intent toRestartGame = new Intent(this, RestartScreen.class);
+            toRestartGame.putExtra("Winner is", lastMove);
             startActivity(toRestartGame);
             this.finish();
         }
@@ -236,7 +238,7 @@ public class PvpGameScreen extends AppCompatActivity{
         changeCounterNumber(0, player1PieceOnHand);
     }//updateP1PieceCounterTV
 
-    public void updateP2PieceCounterTV(){
+     public void updateP2PieceCounterTV(){
         changeCounterNumber(1, player2PieceOnHand);
     }//updateP2PieceCounterTV
 
@@ -752,42 +754,6 @@ public class PvpGameScreen extends AppCompatActivity{
 
     }//removeOpponentPieceIfMill
 
-    public void enableP2Moves(){
-        for (int i = 0; i< player2PieceArray.length; i++){
-            if (player2PieceArray[i] != null){
-                player2PieceArray[i].setEnabled(true);
-                turnButtonHighlightRed(player2PieceArray[i]);
-            }
-        }
-    }//enableP2Moves
-
-    public void enableP1Moves(){
-        for (int i = 0; i< player1PieceArray.length; i++){
-            if(player1PieceArray[i]!=null){
-                player1PieceArray[i].setEnabled(true);
-                turnButtonHighlightBlue(player1PieceArray[i]);
-            }
-        }
-    }//enableP1Moves
-
-    public void disableP2Moves(){
-        for (int i = 0; i< player2PieceArray.length; i++){
-            if(player2PieceArray[i]!=null){
-                player2PieceArray[i].setEnabled(false);
-                turnButtonRed(player2PieceArray[i]);
-            }
-        }
-    }//disableP2Moves
-
-    public void disableP1Moves(){
-        for (int i = 0; i< player1PieceArray.length; i++){
-            if(player1PieceArray[i]!=null) {
-                player1PieceArray[i].setEnabled(false);
-                turnButtonBlue(player1PieceArray[i]);
-            }
-        }
-    }//disableP1Moves
-
     /**
      * Checking for mill around the move that has just been placed
      * James Mendozas, Thai Son Nghiem
@@ -1009,6 +975,42 @@ public class PvpGameScreen extends AppCompatActivity{
         b27.setEnabled(false);
         changeVisualUnselected(b27);
     }//disableAllPieces
+
+    public void enableP2Moves(){
+        for (int i = 0; i< player2PieceArray.length; i++){
+            if (player2PieceArray[i] != null){
+                player2PieceArray[i].setEnabled(true);
+                turnButtonHighlightRed(player2PieceArray[i]);
+            }
+        }
+    }//enableP2Moves
+
+    public void enableP1Moves(){
+        for (int i = 0; i< player1PieceArray.length; i++){
+            if(player1PieceArray[i]!=null){
+                player1PieceArray[i].setEnabled(true);
+                turnButtonHighlightBlue(player1PieceArray[i]);
+            }
+        }
+    }//enableP1Moves
+
+    public void disableP2Moves(){
+        for (int i = 0; i< player2PieceArray.length; i++){
+            if(player2PieceArray[i]!=null){
+                player2PieceArray[i].setEnabled(false);
+                turnButtonRed(player2PieceArray[i]);
+            }
+        }
+    }//disableP2Moves
+
+    public void disableP1Moves(){
+        for (int i = 0; i< player1PieceArray.length; i++){
+            if(player1PieceArray[i]!=null) {
+                player1PieceArray[i].setEnabled(false);
+                turnButtonBlue(player1PieceArray[i]);
+            }
+        }
+    }//disableP1Moves
 
     public void enableAllPieces(){
         //first square

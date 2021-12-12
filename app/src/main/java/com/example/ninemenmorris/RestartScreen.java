@@ -13,12 +13,13 @@ public class RestartScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restart_screen);
+        Bundle winnerInfo = getIntent().getExtras();
+        String theWinner = winnerInfo.getString("Winner is");
         //NEED A VARIABLE BUNDLED FROM PREVIOUS ACTIVITYS FOR THIS
         boolean redWon = false;
         boolean isPvp = true;
         int difficulty = 0;
-
-        if(redWon){
+        if(theWinner.equals("P1 ")){
             setRedWinnerHuman(true);
         }
     }
