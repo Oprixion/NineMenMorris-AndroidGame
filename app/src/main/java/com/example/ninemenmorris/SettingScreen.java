@@ -12,18 +12,10 @@ import android.widget.Button;
 import android.widget.SeekBar;
 
 public class SettingScreen extends AppCompatActivity {
-    MediaPlayer haunt;
-    private String onOff;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_screen);
-        Bundle onOffValue = getIntent().getExtras();
-        onOff = onOffValue.getString("myInfo");
-
-        Button muteButton = (Button) findViewById(R.id.muteButton);
-        haunt = MediaPlayer.create(this, R.raw.haunt);
-        haunt.setLooping(true);
 
         AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -47,33 +39,13 @@ public class SettingScreen extends AppCompatActivity {
         });
     }
 
-    public void toggleMute(View myView){
-        Button muteButton = (Button) myView;
-        muteButton.setText(onOff);
-        if(onOff.equals("On")) {
-            haunt.start();
-            onOff = "Off";
-        }
-        else if(onOff.equals("Off") && haunt.isPlaying()){
-            haunt.pause();
-            onOff = "On";
-        }
-        else if (onOff.equals("Off")){
-            onOff = "On";
-        }
-    }
 
     public void openHelpScreen(View myView){
         Intent toHelpScreen = new Intent(this, HelpScreen.class);
-        haunt.release();
-        haunt = null;
-        toHelpScreen.putExtra("myInfo", onOff);
         startActivity(toHelpScreen);
     }
     public void goBackHome(View myView){
         Intent goHome = new Intent(this, StartScreen.class);
-        haunt.release();
-        haunt = null;
         startActivity(goHome);
         this.finish();
     }

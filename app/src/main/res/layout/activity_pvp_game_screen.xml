@@ -431,13 +431,12 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/mutesButton"
+            android:id="@+id/muteButton"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/button_mute_on"
-            android:onClick="toggleMute"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -448,7 +447,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/playerRed"
             app:layout_constraintEnd_toStartOf="@+id/playerRedCounter"
             app:layout_constraintStart_toEndOf="@+id/playerBlueCounter"
-            app:layout_constraintTop_toBottomOf="@+id/mutesButton"
+            app:layout_constraintTop_toBottomOf="@+id/muteButton"
             app:srcCompat="@drawable/turn_blue" />
 
         <ImageView
@@ -457,7 +456,7 @@
             android:layout_height="100dp"
             android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mutesButton"
+            app:layout_constraintTop_toBottomOf="@+id/muteButton"
             app:srcCompat="@drawable/blue_human" />
 
         <ImageView
@@ -466,7 +465,7 @@
             android:layout_height="100dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mutesButton"
+            app:layout_constraintTop_toBottomOf="@+id/muteButton"
             app:srcCompat="@drawable/red_human" />
 
         <ImageView
