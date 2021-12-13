@@ -18,23 +18,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/muteButton"
-        android:layout_width="88dp"
-        android:layout_height="46dp"
-        android:layout_marginBottom="500dp"
-        android:background="@drawable/ic_baseline_volume_mute_24"
-        android:fontFamily="@font/amatic_sc_bold"
-        android:textAlignment="gravity"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
-
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/adjustVolume"
+        android:id="@+id/muted"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="76dp"
+        android:background="@drawable/button_mute_off"
+        android:onClick="unMuteSound"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.148"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.482"
-        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/unmuted"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="76dp"
+        android:background="@drawable/button_mute_on"
+        android:onClick="muteSound"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.148"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/howToPlay"
