@@ -113,6 +113,7 @@ public class PvcGameScreen extends AppCompatActivity {
         gameBoard[2][7] = b27;
     }
     public void computerChioceOnSecondPhase(){
+        //outer square
         button00 = new Button[]{buttonArray[0][1], buttonArray[0][3]};
         button01 = new Button[]{buttonArray[0][0], buttonArray[1][1],buttonArray[0][2]};
         button02 = new Button[]{buttonArray[0][1], buttonArray[0][4]};
@@ -121,6 +122,7 @@ public class PvcGameScreen extends AppCompatActivity {
         button05 = new Button[]{buttonArray[0][3], buttonArray[0][6]};
         button06 = new Button[]{buttonArray[0][5], buttonArray[1][6],buttonArray[0][7]};
         button07 = new Button[]{buttonArray[0][4], buttonArray[0][6]};
+        //middle square
         button10 = new Button[]{buttonArray[1][1], buttonArray[1][3]};
         button11 = new Button[]{buttonArray[1][0], buttonArray[1][2],buttonArray[1][1], buttonArray[2][1]};
         button12 = new Button[]{buttonArray[1][2], buttonArray[1][4]};
@@ -129,6 +131,7 @@ public class PvcGameScreen extends AppCompatActivity {
         button15 = new Button[]{buttonArray[1][3], buttonArray[1][6]};
         button16 = new Button[]{buttonArray[1][5], buttonArray[1][7],buttonArray[0][6],buttonArray[2][6]};
         button17 = new Button[]{buttonArray[1][4], buttonArray[1][6]};
+        //inner sqaure
         button20 = new Button[]{buttonArray[2][1], buttonArray[2][3]};
         button21 = new Button[]{buttonArray[2][0], buttonArray[1][1],buttonArray[2][2]};
         button22 = new Button[]{buttonArray[2][1], buttonArray[2][4]};
@@ -145,10 +148,19 @@ public void setAllButtonsArray(){
                 button24, button25,button26, button27};
 }
     public void playerOrComputer(View myView) {
-        numOfRd += 1;
+        numOfRd++;
         Button playerMove = (Button) myView;
-        if (numOfPlayerPieces() <= 9 && numOfComputerPieces() <= 9) {
-            if (playerPiece.equals("Remover")) {
+        if (playerPieceOnHand > 0) {
+            if (playerPiece.equals("Player")) {
+                playerTurn(playerMove);
+                playerPiece = "Computer";
+                if(isMill("P",playerMove)){
+                    disableAllButtons();
+                    enableComputerMove();
+                    playerPiece="Remover";
+                }
+            }
+            else if (playerPiece.equals("Remover")) {
                 removeIfMill(playerMove);
                 enableAllButtons(buttonArray);
                 disableComputerMove();
@@ -156,24 +168,16 @@ public void setAllButtonsArray(){
                 playerPiece = "Computer";
             }
 
-            if (playerPiece.equals("Player")) {
-                playerTurn(playerMove);
-                playerPiece = "Computer";
-            }
-            if (isMillCrossLines("P", playerMove)
-                    || isMillHorizontal("P", playerMove)
-                    || isMillVertical("P", playerMove)) {
-                disableAllButtons();
-                enableComputerMove();
-                playerPiece = "Remover";
-            }
 
-
-            if (playerPiece.equals("Computer")) {
-                if (playerPieceOnHand > 0) {
+            if(playerPiece.equals("Computer")) {
+                    Button compButtonCrossLines = getComputerButtonCrossLines();
+                    Button compButtonVert = getComputerButtonVert();
+                    Button compButtonHort = getComputerButtonHort();
                     computerTurn();
                     playerPiece = "Player";
-                }
+                    if (isMillComp("C",compButtonCrossLines,compButtonHort,compButtonVert)) {
+                        removePlayerPiece();
+                    }// if
             }
 
 
@@ -186,38 +190,67 @@ public void setAllButtonsArray(){
                     removePlayerPieceWhenMoving(playerMove);
                 } else {
                     movePlayerPiece(playerMove);
-                    playerPiece= "Computer2";
+                    playerPiece = "Player";
                 }
-                if(playerPiece.equals("Computer2")){
-                    computerTurn();
+                if (playerPiece.equals("Player")){
+                        if(isMill("P",playerMove)){
+                            disableAllButtons();
+                            enableComputerMove();
+                            playerPiece="Remover";
+                        }
+                        playerPiece= "Computer";
+
+                }
+                if (playerPiece.equals("Remover")) {
+                    removeIfMill(playerMove);
+                    enableAllButtons(buttonArray);
+                    disableComputerMove();
+                    disablePlayerMove();
+                    playerPiece = "Computer";
+                }
+                if(playerPiece.equals("Computer")){
+                    Button compButtonCrossLines = getComputerButtonCrossLines();
+                    Button compButtonVert = getComputerButtonVert();
+                    Button compButtonHort = getComputerButtonHort();
+                    playerPiece = "Player";
+                    if (isMillComp("C",compButtonCrossLines,compButtonHort,compButtonVert)) {
+                        removePlayerPiece();
+                    }
                 }
 
             }
-            Button compButtonCrossLines = getComputerButtonCrossLines();
-            Button compButtonVert = getComputerButtonVert();
-            Button compButtonHort = getComputerButtonHort();
-            if (isMillCrossLines("C", compButtonCrossLines)
-                    || isMillHorizontal("C", compButtonHort)
-                    || isMillVertical("C", compButtonVert)) {
-                removePlayerPiece();
-            }
+
         }
     }
 
+public Boolean isMill(String whichPiece, Button button){
+    if (isMillCrossLines(whichPiece, button)
+            || isMillHorizontal(whichPiece, button)
+            || isMillVertical(whichPiece, button)) {
+        return true;
+    }
+    return false;
+}
+    public Boolean isMillComp(String whichPiece, Button crossLineButton, Button hortButton,
+                              Button vertButton){
+        if (isMillCrossLines(whichPiece, crossLineButton)
+                || isMillHorizontal(whichPiece,hortButton)
+                || isMillVertical(whichPiece,vertButton)) {
+            return true;
+        }
+        return false;
+    }
 
     public void playerTurn(Button playerMove) {
-        if (numOfRd <= 9) {
             playerMove.setText("P");
             playerMove.setEnabled(false);
             playerPiecesArray[9 - playerPieceOnHand] = playerMove;
-            if (playerPieceOnHand >= 0) {
+            if (playerPieceOnHand > 0) {
                 playerPieceOnHand--;
             }
-            if (playerPieceOnBoard<=9) {
+            if (playerPieceOnBoard<9) {
                 playerPieceOnBoard++;
             }
-            playerPiece = "Computer";
-        }
     }//player1Turn
 
     public void computerTurn() {
@@ -225,7 +258,7 @@ public void setAllButtonsArray(){
             firstComputerTurn();
         }
         //Block opponenet trying to make a mill. 1 Priority
-        else if (isBlockOrMillVert("P") || isBlockOrMillHort("P") ||
+       else if (isBlockOrMillVert("P") || isBlockOrMillHort("P") ||
                 isBlockOrMillCrossLines("P")) {
             if (isBlockOrMillVert("P")) {
                 blockOrMillVert("P");
@@ -234,7 +267,6 @@ public void setAllButtonsArray(){
             } else if (isBlockOrMillCrossLines("P")) {
                 blockOrMillCrossLines("P");
             }
-
         }
         //Making a mill. 2 priority
         else if (isBlockOrMillVert("C") || isBlockOrMillHort("C") ||
@@ -248,7 +280,7 @@ public void setAllButtonsArray(){
             }
             //Trying to make a mill . 3 priority
         } else if (isTryingToMakeMillCorners() || isTryingToMakeMillMiddleHorizontal()
-                || isTryingToMakeMillMiddleVertical()) {
+                || isTryingToMakeMillMiddleVertical()|| isTryingToMakeMillCrossLines()) {
             if (isTryingToMakeMillMiddleHorizontal()) {
                 tryingToMakeMillMiddleHorizontal();
             } else if (isTryingToMakeMillMiddleVertical()) {
@@ -259,9 +291,7 @@ public void setAllButtonsArray(){
                 tryingToMakeMillCrossLines();
             }
         }
-        if(playerPieceOnHand<=0){
-            cpuSecondPhaseMove();
-        }
+
     }
 
     public void disableAllButtons() {
@@ -522,7 +552,7 @@ public int countNumberOfComputerPieces(){
     }//tryingToMakeMillCorners
 
     public boolean isTryingToMakeMillCrossLines() {
-        int[] numberArray = {1, 3, 4, 6, 0};
+        int[] numberArray = {1, 3, 4, 6, -1};
         int numInListCounter = 0;
         int numbersInList = numberArray[numInListCounter];
         while (numInListCounter < 4) {
@@ -537,7 +567,7 @@ public int countNumberOfComputerPieces(){
                         buttonArray[0][numbersInList].getText() != "P") {
                     return true;
                 }
-                if (buttonArray[2][numbersInList].getText() != "C" &&
+                else if (buttonArray[2][numbersInList].getText() != "C" &&
                         buttonArray[2][numbersInList].getText() != "P") {
                     return true;
                 }
@@ -966,60 +996,61 @@ public void removePlayerPiece(){
             }
         }
     }
-    private Boolean isEnableAdjacentButtons(Button playerMove){
+
+    private Button returnEnableAdjacentButtons(Button playerMove){
         if(playerMove==buttonArray[0][0]){
             for(int i = 0 ; i<button00.length ; i++){
                 if((button00[i].getText()!="C") && (button00[i].getText()!="P")){
-                    return true;
+                    return button00[i];
                 }
             }
         }
         if(playerMove==buttonArray[0][1]){
             for(int i = 0 ; i<button01.length ; i++){
                 if((button01[i].getText()!="C") && (button01[i].getText()!="P")){
-                   return true;
+                    return button01[i];
                 }
             }
         }
         if(playerMove==buttonArray[0][2]){
             for(int i = 0 ; i<button02.length ; i++){
                 if((button02[i].getText()!="C") && (button02[i].getText()!="P")){
-                    return true;
+                    return button02[i];
                 }
             }
         }
         if(playerMove==buttonArray[0][3]){
             for(int i = 0 ; i<button03.length ; i++){
                 if((button03[i].getText()!="C") && (button03[i].getText()!="P")){
-                    return true;
+                    return button03[i];
                 }
             }
         }
         if(playerMove==buttonArray[0][4]){
             for(int i = 0 ; i<button04.length ; i++){
                 if((button04[i].getText()!="C") && (button04[i].getText()!="P")){
-                    return true;
+                    return button04[i];
                 }
             }
         }
         if(playerMove==buttonArray[0][5]){
             for(int i = 0 ; i<button05.length ; i++){
                 if((button05[i].getText()!="C") && (button05[i].getText()!="P")){
-                    return true;
+                    return button05[i];
                 }
             }
         }
         if(playerMove==buttonArray[0][6]){
             for(int i = 0 ; i<button06.length ; i++){
                 if((button06[i].getText()!="C") && (button06[i].getText()!="P")){
-                    return true;
+                    return button06[i];
                 }
             }
         }
         if(playerMove==buttonArray[0][7]){
             for(int i = 0 ; i<button07.length ; i++){
                 if((button07[i].getText()!="C") && (button07[i].getText()!="P")){
-                    return true;
+                    return button07[i];
                 }
             }
         }
@@ -1028,56 +1059,56 @@ public void removePlayerPiece(){
         if(playerMove==buttonArray[1][0]){
             for(int i = 0 ; i<button10.length ; i++){
                 if((button10[i].getText()!="C") && (button10[i].getText()!="P")){
-                    return true;
+                    return button10[i];
                 }
             }
         }
         if(playerMove==buttonArray[1][1]){
             for(int i = 0 ; i<button11.length ; i++){
                 if((button11[i].getText()!="C") && (button11[i].getText()!="P")){
-                    return true;
+                    return button11[i];
                 }
             }
         }
         if(playerMove==buttonArray[1][2]){
             for(int i = 0 ; i<button12.length ; i++){
                 if((button12[i].getText()!="C") && (button12[i].getText()!="P")){
-                    return true;
+                    return button12[i];
                 }
             }
         }
         if(playerMove==buttonArray[1][3]){
             for(int i = 0 ; i<button13.length ; i++){
                 if((button13[i].getText()!="C") && (button13[i].getText()!="P")){
-                    return true;
+                    return button13[i];
                 }
             }
         }
         if(playerMove==buttonArray[1][4]){
             for(int i = 0 ; i<button14.length ; i++){
                 if((button14[i].getText()!="C") && (button14[i].getText()!="P")){
-                    return true;
+                    return button14[i];
                 }
             }
         }
         if(playerMove==buttonArray[1][5]){
             for(int i = 0 ; i<button15.length ; i++){
                 if((button15[i].getText()!="C") && (button15[i].getText()!="P")){
-                    return true;
+                    return button15[i];
                 }
             }
         }
         if(playerMove==buttonArray[1][6]){
             for(int i = 0 ; i<button16.length ; i++){
                 if((button16[i].getText()!="C") && (button16[i].getText()!="P")){
-                    return true;
+                    return button16[i];
                 }
             }
         }
         if(playerMove==buttonArray[1][7]){
             for(int i = 0 ; i<button17.length ; i++){
                 if((button17[i].getText()!="C") && (button17[i].getText()!="P")){
-                    return true;
+                    return button17[i];
                 }
             }
         }
@@ -1086,49 +1117,49 @@ public void removePlayerPiece(){
         if(playerMove==buttonArray[2][0]){
             for(int i = 0 ; i<button20.length ; i++){
                 if((button20[i].getText()!="C") && (button20[i].getText()!="P")){
-                    return true;
+                    return button20[i];
                 }
             }
         }
         if(playerMove==buttonArray[2][1]){
             for(int i = 0 ; i<button21.length ; i++){
                 if((button21[i].getText()!="C") && (button21[i].getText()!="P")){
-                    return true;
+                    return button21[i];
                 }
             }
         }
         if(playerMove==buttonArray[2][2]){
             for(int i = 0 ; i<button22.length ; i++){
                 if((button22[i].getText()!="C") && (button22[i].getText()!="P")){
-                    return true;
+                    return button22[i];
                 }
             }
         }
         if(playerMove==buttonArray[2][3]){
             for(int i = 0 ; i<button23.length ; i++){
                 if((button23[i].getText()!="C") && (button23[i].getText()!="P")){
-                    return true;
+                    return button23[i];
                 }
             }
         }
         if(playerMove==buttonArray[2][4]){
             for(int i = 0 ; i<button24.length ; i++){
                 if((button24[i].getText()!="C") && (button24[i].getText()!="P")){
-                    return true;
+                    return button24[i];
                 }
             }
         }
         if(playerMove==buttonArray[2][5]){
             for(int i = 0 ; i<button25.length ; i++){
                 if((button25[i].getText()!="C") && (button25[i].getText()!="P")){
-                    return true;
+                    return button25[i];
                 }
             }
         }
         if(playerMove==buttonArray[2][6]){
             for(int i = 0 ; i<button26.length ; i++){
                 if((button26[i].getText()!="C") && (button26[i].getText()!="P")){
-                    return true;
+                    return button26[i];
                 }
             }
         }
@@ -1136,215 +1167,17 @@ public void removePlayerPiece(){
         if(playerMove==buttonArray[2][7]){
             for(int i = 0 ; i<button27.length ; i++){
                 if((button27[i].getText()!="C") && (button27[i].getText()!="P")){
-                    return true;
+                    return button27[i];
                 }
             }
         }
-        return false;
+        return null;
     }
-    private void enableAdjacentButtonsCPU(Button playerMove){
-        if(playerMove==buttonArray[0][0]){
-            for(int i = 0 ; i<button00.length ; i++){
-                if((button00[i].getText()!="C") && (button00[i].getText()!="P")){
-                    button00[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[0][1]){
-            for(int i = 0 ; i<button01.length ; i++){
-                if((button01[i].getText()!="C") && (button01[i].getText()!="P")){
-                    button01[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[0][2]){
-            for(int i = 0 ; i<button02.length ; i++){
-                if((button02[i].getText()!="C") && (button02[i].getText()!="P")){
-                    button02[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[0][3]){
-            for(int i = 0 ; i<button03.length ; i++){
-                if((button03[i].getText()!="C") && (button03[i].getText()!="P")){
-                    button03[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[0][4]){
-            for(int i = 0 ; i<button04.length ; i++){
-                if((button04[i].getText()!="C") && (button04[i].getText()!="P")){
-                    button04[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[0][5]){
-            for(int i = 0 ; i<button05.length ; i++){
-                if((button05[i].getText()!="C") && (button05[i].getText()!="P")){
-                    button05[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[0][6]){
-            for(int i = 0 ; i<button06.length ; i++){
-                if((button06[i].getText()!="C") && (button06[i].getText()!="P")){
-                    button06[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[0][7]){
-            for(int i = 0 ; i<button07.length ; i++){
-                if((button07[i].getText()!="C") && (button07[i].getText()!="P")){
-                    button07[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-
-        //If the chosen button is in the second square
-        if(playerMove==buttonArray[1][0]){
-            for(int i = 0 ; i<button10.length ; i++){
-                if((button10[i].getText()!="C") && (button10[i].getText()!="P")){
-                    button10[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[1][1]){
-            for(int i = 0 ; i<button11.length ; i++){
-                if((button11[i].getText()!="C") && (button11[i].getText()!="P")){
-                    button11[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[1][2]){
-            for(int i = 0 ; i<button12.length ; i++){
-                if((button12[i].getText()!="C") && (button12[i].getText()!="P")){
-                    button12[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[1][3]){
-            for(int i = 0 ; i<button13.length ; i++){
-                if((button13[i].getText()!="C") && (button13[i].getText()!="P")){
-                    button13[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[1][4]){
-            for(int i = 0 ; i<button14.length ; i++){
-                if((button14[i].getText()!="C") && (button14[i].getText()!="P")){
-                    button14[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[1][5]){
-            for(int i = 0 ; i<button15.length ; i++){
-                if((button15[i].getText()!="C") && (button15[i].getText()!="P")){
-                    button15[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[1][6]){
-            for(int i = 0 ; i<button16.length ; i++){
-                if((button16[i].getText()!="C") && (button16[i].getText()!="P")){
-                    button16[i].setText("C");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[1][7]){
-            for(int i = 0 ; i<button17.length ; i++){
-                if((button17[i].getText()!="C") && (button17[i].getText()!="P")){
-                    button17[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-
-        //If the chosen button is in the third square
-        if(playerMove==buttonArray[2][0]){
-            for(int i = 0 ; i<button20.length ; i++){
-                if((button20[i].getText()!="C") && (button20[i].getText()!="P")){
-                    button20[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[2][1]){
-            for(int i = 0 ; i<button21.length ; i++){
-                if((button21[i].getText()!="C") && (button21[i].getText()!="P")){
-                    button21[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[2][2]){
-            for(int i = 0 ; i<button22.length ; i++){
-                if((button22[i].getText()!="C") && (button22[i].getText()!="P")){
-                    button22[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[2][3]){
-            for(int i = 0 ; i<button23.length ; i++){
-                if((button23[i].getText()!="C") && (button23[i].getText()!="P")){
-                    button23[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[2][4]){
-            for(int i = 0 ; i<button24.length ; i++){
-                if((button24[i].getText()!="C") && (button24[i].getText()!="P")){
-                    button24[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[2][5]){
-            for(int i = 0 ; i<button25.length ; i++){
-                if((button25[i].getText()!="C") && (button25[i].getText()!="P")){
-                    button25[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-        if(playerMove==buttonArray[2][6]){
-            for(int i = 0 ; i<button26.length ; i++){
-                if((button26[i].getText()!="C") && (button26[i].getText()!="P")){
-                    button26[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-
-        if(playerMove==buttonArray[2][7]){
-            for(int i = 0 ; i<button27.length ; i++){
-                if((button27[i].getText()!="C") && (button27[i].getText()!="P")){
-                    button27[i].setText("Cii");
-                    return;
-                }
-            }
-        }
-    }
-    public Button generateRandomButtonsForCompTurn() {
+        public Button generateRandomButtonsForCompTurn() {
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
-                if (buttonArray[i][j].getText() == "C" && isEnableAdjacentButtons(buttonArray[i][j])) {
+                if (buttonArray[i][j].getText() == "C" &&
+                        returnEnableAdjacentButtons(buttonArray[i][j])!=null) {
                     return buttonArray[i][j];
                 }
             }// inner for loop
@@ -1352,9 +1185,70 @@ public void removePlayerPiece(){
         return null;
     }//generateRandomButtonsForCompTurn
 public void cpuSecondPhaseMove(){
-        if(generateRandomButtonsForCompTurn()!=null) {
+    if(returnMillSecondPhaseHortButton("P")!=null||
+            returnMillSecondPhaseVertButton("P")!=null||
+            returnMillSecondPhaseCrossLinesButton("P")!=null){
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 7; j++) {
+                if (returnMillSecondPhaseVertButton("P")!=null) {
+                    if (buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                            (buttonArray[i][j]) == returnMillSecondPhaseVertButton("P"))) {
+                        returnMillSecondPhaseVertButton("P").setText("C");
+                        buttonArray[i][j].setText(null);
+                    }
+                }
+                else if(returnMillSecondPhaseHortButton("P")!=null) {
+                    if (buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                            (buttonArray[i][j]) == returnMillSecondPhaseHortButton("P"))) {
+                        returnMillSecondPhaseHortButton("P").setText("C");
+                        buttonArray[i][j].setText(null);
+                    }
+                }
+                else if(returnMillSecondPhaseCrossLinesButton("P")!=null) {
+                 if (buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                            (buttonArray[i][j]) == returnMillSecondPhaseCrossLinesButton("P"))) {
+                        returnMillSecondPhaseCrossLinesButton("P").setText("C");
+                        buttonArray[i][j].setText(null);
+                    }
+                }
+
+            }
+        }//for
+    }//if
+    else if(returnMillSecondPhaseHortButton("C")!=null||
+            returnMillSecondPhaseVertButton("C")!=null||
+            returnMillSecondPhaseCrossLinesButton("C")!=null){
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 7; j++) {
+                if (returnMillSecondPhaseVertButton("C")!=null){
+                    if (buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                            (buttonArray[i][j]) == returnMillSecondPhaseVertButton("C"))) {
+                        returnMillSecondPhaseVertButton("C").setText("C");
+                        buttonArray[i][j].setText(null);
+                    }
+                }
+                else if(returnMillSecondPhaseHortButton("C")!=null) {
+                    if (buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                            (buttonArray[i][j]) == returnMillSecondPhaseHortButton("C"))) {
+                        returnMillSecondPhaseHortButton("C").setText("C");
+                        buttonArray[i][j].setText(null);
+                    }
+                }
+                else if(returnMillSecondPhaseCrossLinesButton("C")!=null) {
+                    if (buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                            (buttonArray[i][j]) == returnMillSecondPhaseCrossLinesButton("C"))) {
+                        returnMillSecondPhaseCrossLinesButton("C").setText("C");
+                        buttonArray[i][j].setText(null);
+                    }
+                }
+
+            }
+        }//for
+    }//if
+
+    else if(generateRandomButtonsForCompTurn()!=null) {
             Button cpuSecondPhraseMove = generateRandomButtonsForCompTurn();
-            enableAdjacentButtonsCPU(cpuSecondPhraseMove);
+            returnEnableAdjacentButtons(cpuSecondPhraseMove).setText("C");
             if (cpuSecondPhraseMove.getText() == "C") {
                 cpuSecondPhraseMove.setText(null);
             }
@@ -1747,7 +1641,7 @@ public void cpuSecondPhaseMove(){
         }//while loop
     }//blockOrMillCrossLines
     public Boolean isBlockOrMillCrossLines(String whichPiece){
-        int[] numberArray = {1,3,4,6,0};
+        int[] numberArray = {1,3,4,6,-1};
         int numInListCounter= 0;
         int numbersInList= numberArray[numInListCounter];
         while(numInListCounter<4) {
@@ -1773,6 +1667,129 @@ public void cpuSecondPhaseMove(){
         }//while loop
         return false;
     }//isBLockOrMillCrossLine
+    public Button returnMillSecondPhaseVertButton(String whichPiece){
+        for(int i = 0 ; i<=2 ; i++){
+        if(buttonArray[i][0].getText()==whichPiece && buttonArray[i][1].getText()==whichPiece) {
+            if (returnEnableAdjacentButtons(buttonArray[i][1]) == buttonArray[i][2]) {
+                return buttonArray[i][2];
+            }
+        }
+        if(buttonArray[i][0].getText()==whichPiece && buttonArray[i][2].getText()==whichPiece) {
+            if (returnEnableAdjacentButtons(buttonArray[i][2]) == buttonArray[i][1]) {
+                return buttonArray[i][1];
+            }
+        }
+        if(buttonArray[i][2].getText()==whichPiece && buttonArray[i][1].getText()==whichPiece) {
+            if (returnEnableAdjacentButtons(buttonArray[i][1]) == buttonArray[i][0]) {
+                return buttonArray[i][0];
+            }
+        }
+        if(buttonArray[i][2].getText()==whichPiece && buttonArray[i][0].getText()==whichPiece) {
+            if (returnEnableAdjacentButtons(buttonArray[i][0]) == buttonArray[i][1]) {
+                return buttonArray[i][1];
+            }
+        }
+        if(buttonArray[i][5].getText()==whichPiece && buttonArray[i][6].getText()==whichPiece) {
+            if (returnEnableAdjacentButtons(buttonArray[i][6]) == buttonArray[i][7]) {
+                return buttonArray[i][7];
+            }
+        }
+        if(buttonArray[i][5].getText()==whichPiece && buttonArray[i][7].getText()==whichPiece) {
+            if (returnEnableAdjacentButtons(buttonArray[i][7]) == buttonArray[i][6]) {
+                return buttonArray[i][6];
+            }
+        }
+        if(buttonArray[i][7].getText()==whichPiece && buttonArray[i][6].getText()==whichPiece) {
+            if (returnEnableAdjacentButtons(buttonArray[i][6]) == buttonArray[i][5]) {
+                return buttonArray[i][7];
+            }
+        }
+        if(buttonArray[i][7].getText()==whichPiece && buttonArray[i][5].getText()==whichPiece) {
+            if (returnEnableAdjacentButtons(buttonArray[i][5]) == buttonArray[i][6]) {
+                return buttonArray[i][6];
+            }
+        }
+    }
+        return null;
+}//returnMillSecondPhaseVertButton
+    public Button returnMillSecondPhaseHortButton(String whichPiece){
+        for(int i = 0 ; i<=2 ; i++){
+            if(buttonArray[i][0].getText()==whichPiece && buttonArray[i][3].getText()==whichPiece) {
+                if (returnEnableAdjacentButtons(buttonArray[i][3]) == buttonArray[i][5]) {
+                    return buttonArray[i][5];
+                }
+            }
+            if(buttonArray[i][0].getText()==whichPiece && buttonArray[i][5].getText()==whichPiece) {
+                if (returnEnableAdjacentButtons(buttonArray[i][5]) == buttonArray[i][3]) {
+                    return buttonArray[i][3];
+                }
+            }
+            if(buttonArray[i][5].getText()==whichPiece && buttonArray[i][3].getText()==whichPiece) {
+                if (returnEnableAdjacentButtons(buttonArray[i][3]) == buttonArray[i][0]) {
+                    return buttonArray[i][0];
+                }
+            }
+            if(buttonArray[i][5].getText()==whichPiece && buttonArray[i][0].getText()==whichPiece) {
+                if (returnEnableAdjacentButtons(buttonArray[i][0]) == buttonArray[i][3]) {
+                    return buttonArray[i][3];
+                }
+            }
+            if(buttonArray[i][2].getText()==whichPiece && buttonArray[i][4].getText()==whichPiece) {
+                if (returnEnableAdjacentButtons(buttonArray[i][4]) == buttonArray[i][7]) {
+                    return buttonArray[i][7];
+                }
+            }
+            if(buttonArray[i][2].getText()==whichPiece && buttonArray[i][7].getText()==whichPiece) {
+                if (returnEnableAdjacentButtons(buttonArray[i][7]) == buttonArray[i][4]) {
+                    return buttonArray[i][4];
+                }
+            }
+            if(buttonArray[i][7].getText()==whichPiece && buttonArray[i][4].getText()==whichPiece) {
+                if (returnEnableAdjacentButtons(buttonArray[i][4]) == buttonArray[i][2]) {
+                    return buttonArray[i][2];
+                }
+            }
+            if(buttonArray[i][7].getText()==whichPiece && buttonArray[i][2].getText()==whichPiece) {
+                if (returnEnableAdjacentButtons(buttonArray[i][2]) == buttonArray[i][4]) {
+                    return buttonArray[i][4];
+                }
+            }
+        }
+        return null;
+    }//returnMillSecondPhaseVertButton
+    public Button returnMillSecondPhaseCrossLinesButton(String whichPiece){
+        int[] numberArray = {1,3,4,6,-1};
+        int numInListCounter= 0;
+        int numbersInList= numberArray[numInListCounter];
+        while(numInListCounter<4) {
+            if(buttonArray[0][numbersInList].getText()==whichPiece&& buttonArray[1][numbersInList].getText()==whichPiece){
+                 if(returnEnableAdjacentButtons(buttonArray[1][numbersInList])==buttonArray[2][numbersInList]) {
+                     return buttonArray[2][numbersInList];
+                 }
+            }
+            if(buttonArray[0][numbersInList].getText()==whichPiece && buttonArray[2][numbersInList].getText()==whichPiece){
+                if(returnEnableAdjacentButtons(buttonArray[2][numbersInList])==buttonArray[1][numbersInList]) {
+                return buttonArray[1][numbersInList];
+             }
+            }
+            if(buttonArray[2][numbersInList].getText()==whichPiece && buttonArray[1][numbersInList].getText()==whichPiece) {
+                if (returnEnableAdjacentButtons(buttonArray[1][numbersInList]) == buttonArray[0][numbersInList]) {
+                    return buttonArray[0][numbersInList];
+                }
+            }
+            if(buttonArray[2][numbersInList].getText()==whichPiece && buttonArray[0][numbersInList].getText()==whichPiece) {
+                if (returnEnableAdjacentButtons(buttonArray[0][numbersInList]) == buttonArray[1][numbersInList]) {
+                    return buttonArray[1][numbersInList];
+                }
+            }
+
+            numInListCounter+=1;
+            numbersInList=numberArray[numInListCounter];
+        }//while loop
+        return null;
+    }//isBLockOrMillCrossLine
+
+
 }//end of file
     
 
