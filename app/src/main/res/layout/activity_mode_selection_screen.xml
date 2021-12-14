@@ -99,16 +99,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/mute"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/button_mute_on"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/bluePortrait"
         android:layout_width="180dp"
@@ -116,7 +106,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mute"
+        app:layout_constraintTop_toBottomOf="@+id/quitModeSelect"
         app:srcCompat="@drawable/portrait_blue_human" />
 
     <ImageView
@@ -130,5 +120,19 @@
         app:layout_constraintTop_toTopOf="@+id/bluePortrait"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/portrait_red_alien" />
+
+    <ToggleButton
+        android:id="@+id/ModeMuteButton"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button_mute_on"
+        android:checked="true"
+        android:onClick="toggleMute"
+        android:textOff=" "
+        android:textOn=" "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

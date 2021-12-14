@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ToggleButton;
 
 public class SettingScreen extends AppCompatActivity {
 
@@ -22,5 +23,15 @@ public class SettingScreen extends AppCompatActivity {
         startActivity(goHome);
         this.finish();
     }
+    public void toggleMute(View myView){
+        //Visual
+        ToggleButton muteButton = (ToggleButton) findViewById(R.id.settingsMuteButton);
+        if(muteButton.isChecked()){
+            muteButton.setBackgroundResource(R.drawable.button_mute_on);
+        }
+        else{
+            muteButton.setBackgroundResource(R.drawable.button_mute_off);
+        }
+    }//toggleMute
 
 }

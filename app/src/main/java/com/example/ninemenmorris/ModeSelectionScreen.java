@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ToggleButton;
 
 /**
  * When ever a button is chosen it will be disabled, the disabled state should be change into
@@ -224,4 +225,14 @@ public class ModeSelectionScreen extends AppCompatActivity {
         }
 
     }
+    public void toggleMute(View myView){
+        //Visual
+        ToggleButton muteButton = (ToggleButton) findViewById(R.id.ModeMuteButton);
+        if(muteButton.isChecked()){
+            muteButton.setBackgroundResource(R.drawable.button_mute_on);
+        }
+        else{
+            muteButton.setBackgroundResource(R.drawable.button_mute_off);
+        }
+    }//toggleMute
 }
