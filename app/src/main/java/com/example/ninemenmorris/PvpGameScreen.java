@@ -3,7 +3,6 @@ package com.example.ninemenmorris;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -116,96 +115,44 @@ public class PvpGameScreen extends AppCompatActivity{
                     makePortraitsNeutral();
                     makeActionIndicatorSayMove();
                 }
-
-                if(lastMove=="P2"){
+                if(lastMove.equals("P2")){
                     flipTurnWidget(1);
                     if(isMoveSelected(theMove)==false){
                         if(theMove.isEnabled()){
-                            if(player1PieceOnBoard>3) {
-                                disableAllPieces();
-                                enableEmptyAdjacentButtons(theMove);
-                                selectPieceToMoveByRemovingFromArray(theMove);
-                            }
-                            else if(player1PieceOnBoard==3){//phase 3
-                                enableAllPieces();
-                                disableP2Moves();
-                                disableP1Moves();
-                                selectPieceToMoveByRemovingFromArray(theMove);
-                            }
+                            selectP2Piece(theMove);
                         }
                         else {
                             disableAllPieces();
                             enableP2Moves();
-                            if (player1PieceOnBoard>3){
+                            if (player1PieceOnBoard>3){ // only for phase 2
                                 disableBlockedButtons();
                             }
                         }
                     }
                     else if (isMoveSelected(theMove)){
                         moveP2Piece(theMove);
-                        if(isMill(theMove)){
-                            flipTurnWidget(1);
-                            makePortraitRedHappy();
-
-                            lastMove="p2RemoveTurn";
-                            flipTurnWidget(1);
-                            enableP1Moves();
-                        }
-                        disableAllPieces();
-                        enableP1Moves();
-                        if(isMill(theMove)==false){
-                            if (player2PieceOnBoard>=3){
-                                disableBlockedButtons();
-                            }
-                        }
-
                     }
-                }else if(lastMove=="P1"){
+                }
+                else if(lastMove.equals("P1")){
                     flipTurnWidget(0);
                     if(isMoveSelected(theMove)==false){
                         if(theMove.isEnabled()){
-                            if(player2PieceOnBoard>3) {
-                                disableAllPieces();
-                                enableEmptyAdjacentButtons(theMove);
-                                selectPieceToMoveByRemovingFromArray(theMove);
-                            }
-                            else if(player2PieceOnBoard==3){//phase 3
-                                enableAllPieces();
-                                disableP2Moves();
-                                disableP1Moves();
-                                selectPieceToMoveByRemovingFromArray(theMove);
-                            }
+                            selectP1Piece(theMove);
                         }
                         else {
                             disableAllPieces();
                             enableP1Moves();
-                            if (player2PieceOnBoard>3){
+                            if (player2PieceOnBoard>3){ // only for phase 2
                                 disableBlockedButtons();
                             }
                         }
                     }
                     else if (isMoveSelected(theMove)){
                         moveP1Piece(theMove);
-                        if(isMill(theMove)){
-                            lastMove="p1RemoveTurn";
-                            flipTurnWidget(0);
-                            makePortraitBlueHappy();
-
-                            lastMove="p1RemoveTurn";
-                            enableP2Moves();
-
-                        }
-                        disableAllPieces();
-                        enableP2Moves();
-                        if(isMill(theMove)==false){
-                            if (player1PieceOnBoard>=3){
-                                disableBlockedButtons();
-                            }
-                        }
                     }
                 }
-                else if((lastMove=="p1RemoveTurn")||(lastMove=="p2RemoveTurn")){
-                    if(lastMove=="p2RemoveTurn"){
+                else if((lastMove.equals("p1RemoveTurn"))||(lastMove.equals("p2RemoveTurn"))){
+                    if(lastMove.equals("p2RemoveTurn")){
                         removeOpponentPieceIfMill(theMove);
                         theMove.setEnabled(false);
                         lastMove="P1";
@@ -215,7 +162,7 @@ public class PvpGameScreen extends AppCompatActivity{
                             disableBlockedButtons();
                         }
                     }
-                    else if(lastMove=="p1RemoveTurn"){
+                    else if(lastMove.equals("p1RemoveTurn")){
                         removeOpponentPieceIfMill(theMove);
                         theMove.setEnabled(false);
                         lastMove="P2";
@@ -290,21 +237,86 @@ public class PvpGameScreen extends AppCompatActivity{
 
     }//player1Turn
 
-    public void moveP1Piece(Button placeToMoveTo){
+    public void changeToP1Piece(Button placeToMoveTo){
         placeToMoveTo.setText("P1");
         turnButtonBlue(placeToMoveTo);
         player1PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
         lastMove="P2";
         flipTurnWidget(1);
-    }//moveP1Piece
+    }//changeToP1Piece
 
-    public void moveP2Piece(Button placeToMoveTo){
+    public void changeToP2Piece(Button placeToMoveTo){
         placeToMoveTo.setText("P2");
         turnButtonRed(placeToMoveTo);
         player2PieceArray[positionOfTheRemovedButton]=placeToMoveTo;
         lastMove="P1";
         flipTurnWidget(0);
+    }//changeToP2Piece
+
+    public void moveP1Piece(Button theMove){
+        changeToP1Piece(theMove);
+        if(isMill(theMove)){
+            lastMove="p1RemoveTurn";
+            flipTurnWidget(0);
+            makePortraitBlueHappy();
+            lastMove="p1RemoveTurn";
+            enableP2Moves();
+
+        }
+        disableAllPieces();
+        enableP2Moves();
+        if(isMill(theMove)==false){ //only for phase 2
+            if (player1PieceOnBoard>3){
+                disableBlockedButtons();
+            }
+        }
+    }//moveP1Piece
+
+    public void selectP1Piece(Button theMove){
+        if(player2PieceOnBoard>3) {
+            disableAllPieces();
+            enableEmptyAdjacentButtons(theMove);
+            selectPieceToMoveByRemovingFromArray(theMove);
+        }
+        else if(player2PieceOnBoard==3){//phase 3
+            enableAllPieces();
+            disableP2Moves();
+            disableP1Moves();
+            selectPieceToMoveByRemovingFromArray(theMove);
+        }
+    }
+
+    public void moveP2Piece(Button theMove){
+        changeToP2Piece(theMove);
+        if(isMill(theMove)){
+            flipTurnWidget(1);
+            makePortraitRedHappy();
+            lastMove="p2RemoveTurn";
+            flipTurnWidget(1);
+            enableP1Moves();
+        }
+        disableAllPieces();
+        enableP1Moves();
+        if(isMill(theMove)==false){
+            if (player2PieceOnBoard>3){
+                disableBlockedButtons();
+            }
+        }
     }//moveP2Piece
+
+    public void selectP2Piece(Button theMove){
+        if(player1PieceOnBoard>3) {
+            disableAllPieces();
+            enableEmptyAdjacentButtons(theMove);
+            selectPieceToMoveByRemovingFromArray(theMove);
+        }
+        else if(player1PieceOnBoard==3){//phase 3
+            enableAllPieces();
+            disableP2Moves();
+            disableP1Moves();
+            selectPieceToMoveByRemovingFromArray(theMove);
+        }
+    }
 
     public void selectPieceToMoveByRemovingFromArray(Button chosenToBeMove){
         if(lastMove=="P1"){
