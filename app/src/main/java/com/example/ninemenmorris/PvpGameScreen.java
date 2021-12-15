@@ -46,7 +46,7 @@ public class PvpGameScreen extends AppCompatActivity{
         //When there are still pieces to play
         if ((player1PieceOnBoard+player1PieceOnHand > 2) && (player2PieceOnBoard+player2PieceOnHand > 2)){
             //When there are sill pieces on hand (Phase 1)
-            //Game loop for this stage:
+            //Event scenario  for this stage:
             // 1.Check the last move to determine whose turn it is.
             //      1.1. If it's players' turn go to (2).
             //      1.2. If it's remove turn got to (4.2).
@@ -93,7 +93,7 @@ public class PvpGameScreen extends AppCompatActivity{
             }//if
 
             //When there are no pieces left on hand (Phase 2+3)
-            //Game loop for this stage:
+            //Event scenario for this stage:
             // 1.Check the last move to determine whose turn it is
             //      1.1. If it's players' turn then go to(2).
             //      1.2. If it's remove turn then go to (5).
