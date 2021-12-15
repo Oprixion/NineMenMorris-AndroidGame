@@ -4,50 +4,348 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#232323"
     tools:context=".HelpScreen">
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="131dp"
-        android:layout_height="45dp"
-        android:background="@drawable/custom_button"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/button_how_to_play"
         android:fontFamily="@font/amatic_sc_bold"
-        android:text="HOW TO PLAY"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/instructions"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/instructions"
-        android:layout_width="316dp"
-        android:layout_height="382dp"
-        android:layout_marginBottom="150dp"
-        android:background="@drawable/custom_button"
-        android:fontFamily="@font/amatic_sc_bold"
-        android:text="The basic aim of Nine Mens Morris is to make 'mills'- vertical or horizontal lines of three in a row.\nEvery time this is achieved, an opponent'spiece is removed, the overall objective being to reduce the number of opponent's pieces to less than three or to render the\nopponent unable to play. To begin with the board is empty."
-        android:textAlignment="center"
-        android:textColor="#020202"
-        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".05" />
 
     <Button
         android:id="@+id/backToHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="550dp"
-        android:background="@drawable/custom_button"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:background="@drawable/button_back"
         android:fontFamily="@font/amatic_sc_bold"
         android:onClick="goBackHome"
-        android:text="BACK"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".99" />
+
+    <Button
+        android:id="@+id/buttonLeft"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/button_arrow_left"
+        android:onClick="tutorialScreenShift"
+        app:layout_constraintBottom_toBottomOf="@+id/currentTutorial"
+        app:layout_constraintEnd_toStartOf="@+id/currentTutorial"
+        app:layout_constraintTop_toTopOf="@+id/currentTutorial"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/buttonRight"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/button_arrow_right"
+        android:onClick="tutorialScreenShift"
+        app:layout_constraintBottom_toBottomOf="@+id/currentTutorial"
+        app:layout_constraintStart_toEndOf="@+id/currentTutorial"
+        app:layout_constraintTop_toTopOf="@+id/currentTutorial"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/currentTutorial"
+        android:layout_width="212dp"
+        android:layout_height="71dp"
+        android:text="BASICS"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/backToHome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/basicsBlueToken"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:alpha="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias=".2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:srcCompat="@drawable/token_blue"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/basicsRedToken"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:alpha="1"
+        app:layout_constraintBottom_toBottomOf="@+id/basicsBlueToken"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias=".8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/basicsBlueToken"
+        app:srcCompat="@drawable/token_red"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/basicsExplain"
+        android:layout_width="fill_parent"
+        android:layout_height="171dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:alpha="1"
+        android:text="This game is fought between two players, represented by the blue and red tokens. There are two gamemodes, PVP which you play against a friend that is with you, and PVC, which you play against a computer with various selected difficulties."
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/basicsBlueToken"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/basicsPvc"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:alpha="1"
+        app:layout_constraintBottom_toBottomOf="@+id/basicsPvp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias=".8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/basicsPvp"
+        app:srcCompat="@drawable/button_pvc_on"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/basicsPvp"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:alpha="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias=".2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/basicsExplain"
+        app:srcCompat="@drawable/button_pvp_on"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/winningBoard"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:srcCompat="@drawable/background_board_connect"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/winningToken1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:alpha="0"
+        app:layout_constraintStart_toEndOf="@+id/winningBoard"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:srcCompat="@drawable/token_blue"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/winningToken3"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@+id/winningToken2"
+        app:layout_constraintStart_toEndOf="@+id/winningToken2"
+        app:layout_constraintTop_toTopOf="@+id/winningToken2"
+        app:srcCompat="@drawable/token_blue"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/winningToken2"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@+id/winningToken1"
+        app:layout_constraintStart_toEndOf="@+id/winningToken1"
+        app:layout_constraintTop_toTopOf="@+id/winningToken1"
+        app:srcCompat="@drawable/token_blue"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/winningExplain1"
+        android:layout_width="386dp"
+        android:layout_height="106dp"
+        android:alpha="0"
+        android:text="The game is played on the board above. To win you must reduce the amount of tokens your opponent has to 2. To do this you must form a Mill."
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/winningBoard"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/winningExplain2"
+        android:layout_width="260dp"
+        android:layout_height="126dp"
+        android:alpha="0"
+        android:text="To form a Mill you must align three tokens in a column or row. Once you do this you may remove an opponent's piece."
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/winningCapture"
+        app:layout_constraintTop_toTopOf="@+id/winningCapture"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/winningCapture"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:alpha="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/winningExplain1"
+        app:srcCompat="@drawable/indicator_capture"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/firstPhasePlace"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:srcCompat="@drawable/indicator_place"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/firstPhaseExplain"
+        android:layout_width="match_parent"
+        android:layout_height="138dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:alpha="0"
+        android:text="During the first phase you and your opponent each take turns placing 9 tokens each anywhere not occupied by a placed token. You can form a Mill to capture an opponents token as well."
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/firstPhasePlace"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/secondPhaseMove"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:srcCompat="@drawable/indicator_move"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/secondPhaseExplain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:alpha="0"
+        android:text="The second phase begins once the players have no more tokens on hand to place. During this phase you take turns moving your tokens along the boards lines to highlighted empty spaces. Keep moving pieces to block opponents from or to form your own Mills."
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/secondPhaseMove"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/secondPhaseBoardConnector"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="-50dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/secondPhaseExplain"
+        app:srcCompat="@drawable/progress_bar"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/secondPhaseBlueToken"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="-50dp"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@+id/secondPhaseBoardConnector"
+        app:layout_constraintEnd_toStartOf="@+id/secondPhaseBoardConnector"
+        app:layout_constraintTop_toTopOf="@+id/secondPhaseBoardConnector"
+        app:srcCompat="@drawable/token_blue_selected"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/secondPhaseWhiteToken"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="-50dp"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@+id/secondPhaseBoardConnector"
+        app:layout_constraintStart_toEndOf="@+id/secondPhaseBoardConnector"
+        app:layout_constraintTop_toTopOf="@+id/secondPhaseBoardConnector"
+        app:srcCompat="@drawable/token_none_selected"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/thirdPhaseWins"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:alpha="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/thirdPhaseExplain"
+        app:srcCompat="@drawable/indicator_wins"
+        tools:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/thirdPhaseBlue"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:alpha="0"
+        app:layout_constraintBottom_toBottomOf="@+id/thirdPhaseWins"
+        app:layout_constraintEnd_toStartOf="@+id/thirdPhaseWins"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/thirdPhaseWins"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/indicator_blue"
+        tools:visibility="gone" />
+
+    <TextView
+        android:id="@+id/thirdPhaseExplain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:alpha="0"
+        android:text="The third phase starts for the player who only has 3 tokens left on the board. This is their last chance to come back from defeat. When a player is in this phase they are able to move a token to any empty spot on the board no matter the distance. Once the phase three player loses a piece they lose and the opponent wins."
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:visibility="gone" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

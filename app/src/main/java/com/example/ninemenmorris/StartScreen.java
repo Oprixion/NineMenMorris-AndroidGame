@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ToggleButton;
 
 public class StartScreen extends AppCompatActivity {
 
@@ -34,5 +35,15 @@ public class StartScreen extends AppCompatActivity {
     public void toHelpScreen(View myView){
         Intent goToHelpScreen = new Intent(this, HelpScreen.class);
         startActivity(goToHelpScreen);
+    }
+    public void toggleMute(View myView){
+        ToggleButton muteButton = (ToggleButton) findViewById(R.id.muteButton);
+        if(muteButton.isChecked()){
+            muteButton.setBackgroundResource(R.drawable.button_mute_on);
+        }
+        else{
+            muteButton.setBackgroundResource(R.drawable.button_mute_off);
+        }
+
     }
 }
