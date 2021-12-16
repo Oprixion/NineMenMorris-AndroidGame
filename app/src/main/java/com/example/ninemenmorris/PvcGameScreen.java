@@ -729,6 +729,7 @@ public class PvcGameScreen extends AppCompatActivity {
         }
         buttonOfSquaresArray[0][cpuFirstPosition].setText("C");
         buttonOfSquaresArray[0][cpuFirstPosition].setEnabled(false);
+        changeVisualSelected(buttonOfSquaresArray[0][cpuFirstPosition]);
 
     }//firstComputerTurn
 public Button pickRandomButtons(){
