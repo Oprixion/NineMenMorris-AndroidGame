@@ -44,6 +44,7 @@ public class PvcGameScreen extends AppCompatActivity {
     Button[] computerPiecesArray = new Button[10];
     String masterControl;
     int numOfRd;
+    int[] difficultySliders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +55,12 @@ public class PvcGameScreen extends AppCompatActivity {
         allButtonOnBoard(buttonOfSquaresArray);
         setAllButtonInArray();
         computerChoiceOnSecondPhase();
+        setDifficultySliders();
     }
 
+    public void setDifficultySliders(){
+        difficultySliders = new int[]{0,1,2,3,4,5,6,7,8,9};
+    }
     public void allButtonOnBoard(Button[][] gameBoard) {
         //outer board
         Button b00 = (Button) findViewById(R.id.button00);
@@ -221,7 +226,7 @@ public class PvcGameScreen extends AppCompatActivity {
                     enableComputerMove();
                     masterControl = "Remover";
                 }
-                if(countNumberOfComputerPieces()==3){
+                else if(countNumberOfComputerPieces()==3){
                     masterControl ="Third Phase";
                 }
             } else if (masterControl.equals("Remover")) {
@@ -229,6 +234,9 @@ public class PvcGameScreen extends AppCompatActivity {
                 disableAllButtons();
                 enablePlayerMove();
                 masterControl = "Computer";
+                if(countNumberOfComputerPieces()==3){
+                    masterControl="Third Phase";
+                }
             }
 
 
@@ -286,7 +294,127 @@ public class PvcGameScreen extends AppCompatActivity {
             }
         }
     }//player1Turn
+    public void setDifficultyFirstPhase(int difficulty){
+        Random random = new Random();
+        int percentageOfDifficulity = random.nextInt(10);
+        if (difficulty==1) {
+            if (percentageOfDifficulity == 0 || percentageOfDifficulity == 1) {
+                computerFirstPhaseMoves();
+            }
+            else{
+                Button randomSpot= pickRandomButtons();
+                randomSpot.setEnabled(false);
+                randomSpot.setText("C");
+            }
+        }
+        else if(difficulty==2){
+            if(percentageOfDifficulity==0 || percentageOfDifficulity==1 || percentageOfDifficulity==2
+                    || percentageOfDifficulity == 3 || percentageOfDifficulity==4){
+                computerFirstPhaseMoves();
+            }
+            else{
+                Button randomSpot= pickRandomButtons();
+                randomSpot.setEnabled(false);
+                randomSpot.setText("C");
+            }
+        }
+        else if (difficulty==3){
+            if(percentageOfDifficulity==0 || percentageOfDifficulity==1 || percentageOfDifficulity==2
+                    || percentageOfDifficulity == 3 || percentageOfDifficulity==4 || percentageOfDifficulity==5
+                    || percentageOfDifficulity==6 || percentageOfDifficulity==7
+                    || percentageOfDifficulity == 8 || percentageOfDifficulity==9){
+                   computerFirstPhaseMoves();
+            }
+            else{
+                Button randomSpot= pickRandomButtons();
+                randomSpot.setEnabled(false);
+                randomSpot.setText("C");
+            }
+        }
+    }
+    public void setDifficultySecondPhase(int difficulty){
+        Random random = new Random();
+        int percentageOfDifficulity = random.nextInt(10);
+        if (difficulty==1) {
+            if (percentageOfDifficulity == 0 || percentageOfDifficulity == 1) {
+                cpuSecondPhaseMove();
+            }
+            else{
+                Button randomSpot= randomMoveSecondPhase();
+                randomSpot.setEnabled(false);
+                randomSpot.setText("C");
+            }
+        }
+        else if(difficulty==2){
+            if(percentageOfDifficulity==0 || percentageOfDifficulity==1 || percentageOfDifficulity==2
+                    || percentageOfDifficulity == 3 || percentageOfDifficulity==4){
+                cpuSecondPhaseMove();
+            }
+            else{
+                Button randomSpot= randomMoveSecondPhase();
+                randomSpot.setEnabled(false);
+                randomSpot.setText("C");
+            }
+        }
+        else if (difficulty==3){
+            if(percentageOfDifficulity==0 || percentageOfDifficulity==1 || percentageOfDifficulity==2
+                    || percentageOfDifficulity == 3 || percentageOfDifficulity==4 || percentageOfDifficulity==5
+                    || percentageOfDifficulity==6 || percentageOfDifficulity==7
+                    || percentageOfDifficulity == 8 || percentageOfDifficulity==9){
+                cpuSecondPhaseMove();
+            }
+            else{
+                Button randomSpot= randomMoveSecondPhase();
+                randomSpot.setEnabled(false);
+                randomSpot.setText("C");
+            }
+        }
+    }
+    public void setDifficultyThirdPhase(int difficulty){
+        Random random = new Random();
+        int percentageOfDifficulity = random.nextInt(10);
+        if (difficulty==1) {
+            if (percentageOfDifficulity == 0 || percentageOfDifficulity == 1) {
+                cpuTurnThirdPhase();
+            }
+            else{
+                Button randomSpot= pickRandomButtons();
+                randomSpot.setEnabled(false);
+                randomSpot.setText("C");
+            }
+        }
+        else if(difficulty==2){
+            if(percentageOfDifficulity==0 || percentageOfDifficulity==1 || percentageOfDifficulity==2
+                    || percentageOfDifficulity == 3 || percentageOfDifficulity==4){
+                cpuTurnThirdPhase();
+            }
+            else{
+                Button randomSpot= pickRandomButtons();
+                randomSpot.setEnabled(false);
+                randomSpot.setText("C");
+            }
+        }
+        else if (difficulty==3){
+            if(percentageOfDifficulity==0 || percentageOfDifficulity==1 || percentageOfDifficulity==2
+                    || percentageOfDifficulity == 3 || percentageOfDifficulity==4 || percentageOfDifficulity==5
+                    || percentageOfDifficulity==6 || percentageOfDifficulity==7
+                    || percentageOfDifficulity == 8 || percentageOfDifficulity==9){
+                cpuTurnThirdPhase();
+            }
+            else{
+                Button randomSpot= pickRandomButtons();
+                randomSpot.setText("C");
+            }
+        }
+    }
+    public Button randomMoveSecondPhase(){
+        Button  randomButtonSecondPhase= pickRandomButtons();
 
+        while(returnEnableAdjacentButtons(randomButtonSecondPhase)==null){
+             randomButtonSecondPhase=pickRandomButtons();
+        }
+        return randomButtonSecondPhase;
+    }
     public void computerFirstPhaseMoves() {
         if (numOfRd == 1) {
             firstComputerTurn();
@@ -344,6 +472,11 @@ public class PvcGameScreen extends AppCompatActivity {
             randomSpot.setEnabled(false);
             randomSpot.setText("C");
         }
+    }
+    public void easyModeFirstPhase(){
+        Button randomSpot= pickRandomButtons();
+        randomSpot.setEnabled(false);
+        randomSpot.setText("C");
     }
 
     public Button cpuThirdPhaseMoves(){
