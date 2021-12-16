@@ -99,6 +99,15 @@ public class PvcGameScreen extends AppCompatActivity {
         MusicService.setMuteStatus("unmuted");
     }
 
+    public void openSettingsScreen(View myView){
+        Intent toSettingScreen = new Intent(this, SettingScreen.class);
+        startActivity(toSettingScreen);
+    }
+    public void openHelpScreen(View myView){
+        Intent toHelpScreen = new Intent(this, HelpScreen.class);
+        startActivity(toHelpScreen);
+    }
+
     public void toModeSelection(View myView){
         //dialog to make sure user want to quit
         new AlertDialog.Builder(this)
