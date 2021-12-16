@@ -1,15 +1,11 @@
 package com.example.ninemenmorris;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ToggleButton;
 
 /**
  * When ever a button is chosen it will be disabled, the disabled state should be change into
@@ -25,6 +21,7 @@ public class ModeSelectionScreen extends AppCompatActivity {
         setContentView(R.layout.activity_mode_selection_screen);
         setDefaultGame();
 
+        //Ensures that multiple counts of audio doesn't occur
         MusicService.musicInitialize = 2;
 
         Button muted = (Button) findViewById(R.id.muted);
@@ -45,26 +42,22 @@ public class ModeSelectionScreen extends AppCompatActivity {
 
     public void muteSound(View myView){
         Button muted = (Button) findViewById(R.id.muted);
-        muted.setVisibility(View.VISIBLE);
-
         Button unmuted = (Button) findViewById(R.id.unmuted);
+
+        muted.setVisibility(View.VISIBLE);
         unmuted.setVisibility(View.GONE);
-
         muted.bringToFront();
-
         MusicService.setMuteStatus("muted");
 
     }
 
     public void unMuteSound(View myView){
         Button muted = (Button) findViewById(R.id.muted);
-        muted.setVisibility(View.GONE);
-
         Button unmuted = (Button) findViewById(R.id.unmuted);
+
+        muted.setVisibility(View.GONE);
         unmuted.setVisibility(View.VISIBLE);
-
         unmuted.bringToFront();
-
         MusicService.setMuteStatus("unmuted");
 
 

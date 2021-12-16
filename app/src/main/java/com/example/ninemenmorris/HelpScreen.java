@@ -1,16 +1,11 @@
 package com.example.ninemenmorris;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class HelpScreen extends AppCompatActivity {
@@ -50,16 +45,6 @@ public class HelpScreen extends AppCompatActivity {
         params.x = 0;
         params.y = -20;
         getWindow().setAttributes(params);
-
-        MusicService.musicInitialize = 2;
-
-    }
-
-    public void goBackHome(View myView){
-        Intent goHome = new Intent(this, StartScreen.class);
-
-        startActivity(goHome);
-        this.finish();
     }
     public void tutorialScreenShift(View myView){
         //Shifts number left or right based input button

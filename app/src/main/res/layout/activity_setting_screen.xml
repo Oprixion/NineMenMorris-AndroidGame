@@ -54,7 +54,7 @@
         android:background="@drawable/button_how_to_play"
         android:fontFamily="@font/amatic_sc_bold"
         android:onClick="openHelpScreen"
-        android:text="HOW TO PLAY"
+        android:text=""
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -2,7 +2,6 @@ package com.example.ninemenmorris;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ public class PvpGameScreen extends AppCompatActivity{
         lastMove = "P2";
         enableAllPieces();
 
+        //Ensures that multiple counts of audio doesn't occur
         MusicService.musicInitialize = 2;
 
         Button muted = (Button) findViewById(R.id.muted);

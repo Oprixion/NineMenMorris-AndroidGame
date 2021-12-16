@@ -1,16 +1,10 @@
 package com.example.ninemenmorris;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-
 public class CreditsScreen extends AppCompatActivity {
 
 
@@ -35,11 +29,4 @@ public class CreditsScreen extends AppCompatActivity {
 
         MusicService.musicInitialize = 2;
     }
-
-    public void goBackHome(View myView){
-        Intent goHome = new Intent(this, StartScreen.class);
-        startActivity(goHome);
-        this.finish();
-    }
-
 }

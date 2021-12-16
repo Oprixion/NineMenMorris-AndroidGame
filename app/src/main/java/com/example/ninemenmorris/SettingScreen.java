@@ -1,7 +1,6 @@
 package com.example.ninemenmorris;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -11,7 +10,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.PopupWindow;
 import android.widget.SeekBar;
 
 public class SettingScreen extends AppCompatActivity {
@@ -34,7 +32,7 @@ public class SettingScreen extends AppCompatActivity {
         params.y = -20;
         getWindow().setAttributes(params);
 
-
+        //Ensures that multiple counts of audio doesn't occur
         MusicService.musicInitialize = 2;
 
         Button muted = (Button) findViewById(R.id.muted);
@@ -51,6 +49,7 @@ public class SettingScreen extends AppCompatActivity {
             unmuted.bringToFront();
         }
 
+        //Changes device volume using a seekbar in the SettingScreen page
         AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         int curVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);

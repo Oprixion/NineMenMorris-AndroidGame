@@ -1,7 +1,6 @@
 package com.example.ninemenmorris;
-import android.media.MediaPlayer;
-import android.provider.MediaStore;
 
+import android.media.MediaPlayer;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MusicService extends AppCompatActivity {
@@ -13,7 +12,6 @@ public class MusicService extends AppCompatActivity {
         audioMusic.setLooping(true);
         setMuteStatus("unmuted");
         audioMusic.start();
-
     }
 
     public static void setMuteStatus(String status){
