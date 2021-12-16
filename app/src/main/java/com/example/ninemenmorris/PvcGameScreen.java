@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
 import java.util.Random;
 
 public class PvcGameScreen extends AppCompatActivity {
@@ -315,6 +317,8 @@ public class PvcGameScreen extends AppCompatActivity {
     public void playerTurn(Button playerMove) {
         if (playerPieceOnHand > 0) {
             playerMove.setText("P");
+            turnButtonBlue(playerMove);
+            flipTurnWidget(0);
             playerMove.setEnabled(false);
             playerPiecesArray[9 - playerPieceOnHand] = playerMove;
             if (playerPieceOnHand > 0) {
@@ -330,7 +334,7 @@ public class PvcGameScreen extends AppCompatActivity {
         if (numOfRd == 1) {
             firstComputerTurn();
         }
-        //Block opponenet trying to make a mill. 1 Priority
+        //Block opponent trying to make a mill. 1 Priority
         else if (isBlockOrMillVert("P") || isBlockOrMillHort("P") ||
                 isBlockOrMillCrossLines("P")) {
             if (isBlockOrMillVert("P")) {
@@ -373,6 +377,7 @@ public class PvcGameScreen extends AppCompatActivity {
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
                 buttonArray[i][j].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][j]);
             }
         }
     }//disableAllButtons
@@ -393,6 +398,7 @@ public class PvcGameScreen extends AppCompatActivity {
         for (int i = 0; i <= 8; i++) {
             if (playerPiecesArray[i].getText() != null) {
                 playerPiecesArray[i].setEnabled(true);
+                changeVisualSelected(playerPiecesArray[i]);
             }
         }
     }//enableAllPlayerPieces
@@ -401,6 +407,7 @@ public class PvcGameScreen extends AppCompatActivity {
         for (int i = 0; i <= 8; i++) {
             if (playerPiecesArray[i].getText() != null) {
                 playerPiecesArray[i].setEnabled(false);
+                changeVisualUnselected(playerPiecesArray[i]);
             }
         }
     }//disableAllPlayerPieces
@@ -409,6 +416,7 @@ public class PvcGameScreen extends AppCompatActivity {
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
                 gameBoard[i][j].setEnabled(true);
+                changeVisualSelected(gameBoard[i][j]);
             }
         }
     }//enableAllButtons
@@ -423,6 +431,7 @@ public class PvcGameScreen extends AppCompatActivity {
             cpuFirstPosition = numberArray[randomNumber];
         }
         buttonArray[0][cpuFirstPosition].setText("C");
+        turnButtonRed(buttonArray[0][cpuFirstPosition]);
         buttonArray[0][cpuFirstPosition].setEnabled(false);
 
     }//firstComputerTurn
@@ -476,10 +485,12 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][1].getText() == "C") {
                 if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                     buttonArray[i][0].setText("C");
+                    turnButtonRed(buttonArray[i][0]);
                     buttonArray[i][0].setEnabled(false);
                     return;
                 } else if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                     buttonArray[i][2].setText("C");
+                    turnButtonRed(buttonArray[i][2]);
                     buttonArray[i][2].setEnabled(false);
                     return;
                 }
@@ -487,10 +498,12 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][6].getText() == "C") {
                 if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                     buttonArray[i][5].setText("C");
+                    turnButtonRed(buttonArray[i][5]);
                     buttonArray[i][5].setEnabled(false);
                     return;
                 } else if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
                     buttonArray[i][7].setText("C");
+                    turnButtonRed(buttonArray[i][7]);
                     buttonArray[i][7].setEnabled(false);
                     return;
                 }
@@ -523,10 +536,12 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][3].getText() == "C") {
                 if (buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                     buttonArray[i][0].setText("C");
+                    turnButtonRed(buttonArray[i][0]);
                     buttonArray[i][0].setEnabled(false);
                     return;
                 } else if (buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                     buttonArray[i][5].setText("C");
+                    turnButtonRed(buttonArray[i][5]);
                     buttonArray[i][5].setEnabled(false);
                     return;
                 }
@@ -534,10 +549,12 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][4].getText() == "C") {
                 if (buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                     buttonArray[i][2].setText("C");
+                    turnButtonRed(buttonArray[i][2]);
                     buttonArray[i][2].setEnabled(false);
                     return;
                 } else if (buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
                     buttonArray[i][7].setText("C");
+                    turnButtonRed(buttonArray[i][7]);
                     buttonArray[i][7].setEnabled(false);
                     return;
                 }
@@ -584,10 +601,12 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][0].getText() == "C") {
                 if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
                     buttonArray[i][1].setText("C");
+                    turnButtonRed(buttonArray[i][1]);
                     buttonArray[i][1].setEnabled(false);
                     return;
                 } else if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
                     buttonArray[i][3].setText("C");
+                    turnButtonRed(buttonArray[i][3]);
                     buttonArray[i][3].setEnabled(false);
                     return;
                 }//top left corner
@@ -595,10 +614,12 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][2].getText() == "C") {
                 if (buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
                     buttonArray[i][1].setText("C");
+                    turnButtonRed(buttonArray[i][1]);
                     buttonArray[i][1].setEnabled(false);
                     return;
                 } else if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
                     buttonArray[i][4].setText("C");
+                    turnButtonRed(buttonArray[i][4]);
                     buttonArray[i][4].setEnabled(false);
                     return;
                 }
@@ -606,10 +627,12 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][5].getText() == "C") {
                 if (buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
                     buttonArray[i][3].setText("C");
+                    turnButtonRed(buttonArray[i][3]);
                     buttonArray[i][3].setEnabled(false);
                     return;
                 } else if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
                     buttonArray[i][6].setText("C");
+                    turnButtonRed(buttonArray[i][6]);
                     buttonArray[i][6].setEnabled(false);
                     return;
                 }
@@ -617,11 +640,13 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][7].getText() == "C") {
                 if (buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
                     buttonArray[i][6].setText("C");
+                    turnButtonRed(buttonArray[i][6]);
                     buttonArray[i][6].setEnabled(false);
                     return;
 
                 } else if (buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
                     buttonArray[i][4].setText("C");
+                    turnButtonRed(buttonArray[i][4]);
                     buttonArray[i][4].setEnabled(false);
                     return;
                 }
@@ -670,6 +695,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[1][numbersInList].getText() != "C" &&
                         buttonArray[1][numbersInList].getText() != "P") {
                     buttonArray[1][numbersInList].setText("C");
+                    turnButtonRed(buttonArray[1][numbersInList]);
                     buttonArray[1][numbersInList].setEnabled(false);
                     return;
                 }
@@ -678,11 +704,13 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[0][numbersInList].getText() != "C" &&
                         buttonArray[0][numbersInList].getText() != "P") {
                     buttonArray[0][numbersInList].setText("C");
+                    turnButtonRed(buttonArray[0][numbersInList]);
                     buttonArray[0][numbersInList].setEnabled(false);
                     return;
                 } else if (buttonArray[2][numbersInList].getText() != "C" &&
                         buttonArray[2][numbersInList].getText() != "P") {
                     buttonArray[2][numbersInList].setText("C");
+                    turnButtonRed(buttonArray[2][numbersInList]);
                     buttonArray[2][numbersInList].setEnabled(false);
                     return;
                 }
@@ -691,6 +719,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (buttonArray[1][numbersInList].getText() != "C" &&
                         buttonArray[1][numbersInList].getText() != "P") {
                     buttonArray[1][numbersInList].setText("C");
+                    turnButtonRed(buttonArray[1][numbersInList]);
                     buttonArray[1][numbersInList].setEnabled(false);
                     return;
                 }
@@ -705,6 +734,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int j = 0; j <= 7; j++) {
                 if (buttonArray[i][j].getText() == "C") {
                     buttonArray[i][j].setEnabled(false);
+                    changeVisualUnselected(buttonArray[i][j]);
                 }
             }//inner for loop
         }//outer for loop
@@ -727,6 +757,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 for (int j = 0; j <= 7; j++) {
                     if (buttonArray[i][j].getText() == "P") {
                         buttonArray[i][j].setText(null);
+                        turnButtonWhite(buttonArray[i][j]);
                         return;
                     }
                 }
@@ -739,41 +770,49 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][0].getText() == whichPiece && buttonArray[i][1].getText() == whichPiece &&
                     buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                 buttonArray[i][2].setText(null);
+                turnButtonWhite(buttonArray[i][2]);
                 return;
             }
             if (buttonArray[i][0].getText() == whichPiece && buttonArray[i][2].getText() == whichPiece &&
                     buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
                 buttonArray[i][1].setText(null);
+                turnButtonWhite(buttonArray[i][1]);
                 return;
             }
             if (buttonArray[i][2].getText() == whichPiece && buttonArray[i][1].getText() == whichPiece &&
                     buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                 buttonArray[i][0].setText(null);
+                turnButtonWhite(buttonArray[i][0]);
                 return;
             }
             if (buttonArray[i][2].getText() == whichPiece && buttonArray[i][0].getText() == whichPiece &&
                     buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
                 buttonArray[i][1].setText(null);
+                turnButtonWhite(buttonArray[i][1]);
                 return;
             }
             if (buttonArray[i][5].getText() == whichPiece && buttonArray[i][6].getText() == whichPiece &&
                     buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
                 buttonArray[i][7].setText(null);
+                turnButtonWhite(buttonArray[i][7]);
                 return;
             }
             if (buttonArray[i][5].getText() == whichPiece && buttonArray[i][7].getText() == whichPiece &&
                     buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
                 buttonArray[i][6].setText(null);
+                turnButtonWhite(buttonArray[i][6]);
                 return;
             }
             if (buttonArray[i][7].getText() == whichPiece && buttonArray[i][6].getText() == whichPiece &&
                     buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                 buttonArray[i][5].setText(null);
+                turnButtonWhite(buttonArray[i][5]);
                 return;
             }
             if (buttonArray[i][7].getText() == whichPiece && buttonArray[i][5].getText() == whichPiece &&
                     buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
                 buttonArray[i][6].setText(null);
+                turnButtonWhite(buttonArray[i][6]);
                 return;
             }
         }
@@ -784,41 +823,49 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][0].getText() == whichPiece && buttonArray[i][3].getText() == whichPiece &&
                     buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                 buttonArray[i][5].setText(null);
+                turnButtonWhite(buttonArray[i][5]);
                 return;
             }
             if (buttonArray[i][0].getText() == whichPiece && buttonArray[i][5].getText() == whichPiece &&
                     buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
                 buttonArray[i][3].setText(null);
+                turnButtonWhite(buttonArray[i][3]);
                 return;
             }
             if (buttonArray[i][5].getText() == whichPiece && buttonArray[i][3].getText() == whichPiece &&
                     buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                 buttonArray[i][0].setText(null);
+                turnButtonWhite(buttonArray[i][0]);
                 return;
             }
             if (buttonArray[i][5].getText() == whichPiece && buttonArray[i][0].getText() == whichPiece &&
                     buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
                 buttonArray[i][3].setText(null);
+                turnButtonWhite(buttonArray[i][3]);
                 return;
             }
             if (buttonArray[i][2].getText() == whichPiece && buttonArray[i][4].getText() == whichPiece &&
                     buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
                 buttonArray[i][7].setText(null);
+                turnButtonWhite(buttonArray[i][7]);
                 return;
             }
             if (buttonArray[i][2].getText() == whichPiece && buttonArray[i][7].getText() == whichPiece &&
                     buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
                 buttonArray[i][4].setText(null);
+                turnButtonWhite(buttonArray[i][4]);
                 return;
             }
             if (buttonArray[i][7].getText() == whichPiece && buttonArray[i][4].getText() == whichPiece &&
                     buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                 buttonArray[i][2].setText(null);
+                turnButtonWhite(buttonArray[i][2]);
                 return;
             }
             if (buttonArray[i][7].getText() == whichPiece && buttonArray[i][2].getText() == whichPiece &&
                     buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
                 buttonArray[i][4].setText(null);
+                turnButtonWhite(buttonArray[i][4]);
                 return;
             }
         }
@@ -832,21 +879,25 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[0][numbersInList].getText() == whichPiece && buttonArray[1][numbersInList].getText() == whichPiece &&
                     buttonArray[2][numbersInList].getText() != "C" && buttonArray[2][numbersInList].getText() != "P") {
                 buttonArray[2][numbersInList].setText(null);
+                turnButtonWhite(buttonArray[2][numbersInList]);
                 return;
             }
             if (buttonArray[0][numbersInList].getText() == whichPiece && buttonArray[2][numbersInList].getText() == whichPiece &&
                     buttonArray[1][numbersInList].getText() != "C" && buttonArray[1][numbersInList].getText() != "P") {
                 buttonArray[1][numbersInList].setText(null);
+                turnButtonWhite(buttonArray[1][numbersInList]);
                 return;
             }
             if (buttonArray[2][numbersInList].getText() == whichPiece && buttonArray[1][numbersInList].getText() == whichPiece &&
                     buttonArray[0][numbersInList].getText() != "C" && buttonArray[0][numbersInList].getText() != "P") {
                 buttonArray[0][numbersInList].setText(null);
+                turnButtonWhite(buttonArray[0][numbersInList]);
                 return;
             }
             if (buttonArray[2][numbersInList].getText() == whichPiece && buttonArray[0][numbersInList].getText() == whichPiece &&
                     buttonArray[1][numbersInList].getText() != "C" && buttonArray[1][numbersInList].getText() != "P") {
                 buttonArray[1][numbersInList].setText(null);
+                turnButtonWhite(buttonArray[1][numbersInList]);
                 return;
             }
 
@@ -860,6 +911,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int j = 0; j <= 7; j++) {
                 if (buttonArray[i][j].getText() == "C") {
                     buttonArray[i][j].setEnabled(true);
+                    changeVisualSelected(buttonArray[i][j]);
                 }
             }
         }
@@ -870,6 +922,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int j = 0; j <= 7; j++) {
                 if (buttonArray[i][j].getText() == "P") {
                     buttonArray[i][j].setEnabled(true);
+                    changeVisualSelected(buttonArray[i][j]);
                 }
             }
         }
@@ -880,6 +933,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int j = 0; j <= 7; j++) {
                 if (buttonArray[i][j].getText() == "P") {
                     buttonArray[i][j].setEnabled(false);
+                    changeVisualUnselected(buttonArray[i][j]);
                 }
             }
         }
@@ -887,7 +941,9 @@ public class PvcGameScreen extends AppCompatActivity {
 
     public void removeIfMill(Button removedButton) {
         removedButton.setText(null);
+        turnButtonWhite(removedButton);
         removedButton.setEnabled(false);
+        changeVisualUnselected(removedButton);
     }//removeIfMill
 
     public void removePlayerPieceWhenMoving(Button playerMove) {
@@ -902,9 +958,12 @@ public class PvcGameScreen extends AppCompatActivity {
     public void movePlayerPiece(Button playerMove) {
         if (playerMove.getText() != "P" && playerMove.getText() != "C") {
             playerMove.setText("P");
+            turnButtonBlue(playerMove);
             playerPiecesArray[indexOfPlayerPieceToRemove].setText(null);
+            turnButtonWhite(playerPiecesArray[indexOfPlayerPieceToRemove]);
             playerPiecesArray[indexOfPlayerPieceToRemove] = playerMove;
             playerPiecesArray[indexOfPlayerPieceToRemove].setEnabled(true);
+            changeVisualSelected(playerPiecesArray[indexOfPlayerPieceToRemove]);
         }
     }//movePlayerPiece
 
@@ -913,6 +972,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button00.length; i++) {
                 if ((button00[i].getText() != "C") && (button00[i].getText() != "P")) {
                     button00[i].setEnabled(true);
+                    changeVisualSelected(button00[i]);
                 }
             }
         }
@@ -920,6 +980,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button01.length; i++) {
                 if ((button01[i].getText() != "C") && (button01[i].getText() != "P")) {
                     button01[i].setEnabled(true);
+                    changeVisualSelected(button01[i]);
                 }
             }
         }
@@ -927,6 +988,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button02.length; i++) {
                 if ((button02[i].getText() != "C") && (button02[i].getText() != "P")) {
                     button02[i].setEnabled(true);
+                    changeVisualSelected(button02[i]);
                 }
             }
         }
@@ -934,6 +996,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button03.length; i++) {
                 if ((button03[i].getText() != "C") && (button03[i].getText() != "P")) {
                     button03[i].setEnabled(true);
+                    changeVisualSelected(button03[i]);
                 }
             }
         }
@@ -941,6 +1004,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button04.length; i++) {
                 if ((button04[i].getText() != "C") && (button04[i].getText() != "P")) {
                     button04[i].setEnabled(true);
+                    changeVisualSelected(button04[i]);
                 }
             }
         }
@@ -948,6 +1012,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button05.length; i++) {
                 if ((button05[i].getText() != "C") && (button05[i].getText() != "P")) {
                     button05[i].setEnabled(true);
+                    changeVisualSelected(button05[i]);
                 }
             }
         }
@@ -955,6 +1020,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button06.length; i++) {
                 if ((button06[i].getText() != "C") && (button06[i].getText() != "P")) {
                     button06[i].setEnabled(true);
+                    changeVisualSelected(button06[i]);
                 }
             }
         }
@@ -962,6 +1028,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button07.length; i++) {
                 if ((button07[i].getText() != "C") && (button07[i].getText() != "P")) {
                     button07[i].setEnabled(true);
+                    changeVisualSelected(button07[i]);
                 }
             }
         }
@@ -971,6 +1038,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button10.length; i++) {
                 if ((button10[i].getText() != "C") && (button10[i].getText() != "P")) {
                     button10[i].setEnabled(true);
+                    changeVisualSelected(button10[i]);
                 }
             }
         }
@@ -978,6 +1046,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button11.length; i++) {
                 if ((button11[i].getText() != "C") && (button11[i].getText() != "P")) {
                     button11[i].setEnabled(true);
+                    changeVisualSelected(button11[i]);
                 }
             }
         }
@@ -985,6 +1054,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button12.length; i++) {
                 if ((button12[i].getText() != "C") && (button12[i].getText() != "P")) {
                     button12[i].setEnabled(true);
+                    changeVisualSelected(button12[i]);
                 }
             }
         }
@@ -992,6 +1062,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button13.length; i++) {
                 if ((button13[i].getText() != "C") && (button13[i].getText() != "P")) {
                     button13[i].setEnabled(true);
+                    changeVisualSelected(button13[i]);
                 }
             }
         }
@@ -999,6 +1070,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button14.length; i++) {
                 if ((button14[i].getText() != "C") && (button14[i].getText() != "P")) {
                     button14[i].setEnabled(true);
+                    changeVisualSelected(button14[i]);
                 }
             }
         }
@@ -1006,6 +1078,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button15.length; i++) {
                 if ((button15[i].getText() != "C") && (button15[i].getText() != "P")) {
                     button15[i].setEnabled(true);
+                    changeVisualSelected(button15[i]);
                 }
             }
         }
@@ -1013,6 +1086,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button16.length; i++) {
                 if ((button16[i].getText() != "C") && (button16[i].getText() != "P")) {
                     button16[i].setEnabled(true);
+                    changeVisualSelected(button16[i]);
                 }
             }
         }
@@ -1020,6 +1094,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button17.length; i++) {
                 if ((button17[i].getText() != "C") && (button17[i].getText() != "P")) {
                     button17[i].setEnabled(true);
+                    changeVisualSelected(button17[i]);
                 }
             }
         }
@@ -1029,6 +1104,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button20.length; i++) {
                 if ((button20[i].getText() != "C") && (button20[i].getText() != "P")) {
                     button20[i].setEnabled(true);
+                    changeVisualSelected(button20[i]);
                 }
             }
         }
@@ -1036,6 +1112,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button21.length; i++) {
                 if ((button21[i].getText() != "C") && (button21[i].getText() != "P")) {
                     button21[i].setEnabled(true);
+                    changeVisualSelected(button21[i]);
                 }
             }
         }
@@ -1043,6 +1120,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button22.length; i++) {
                 if ((button22[i].getText() != "C") && (button22[i].getText() != "P")) {
                     button22[i].setEnabled(true);
+                    changeVisualSelected(button22[i]);
                 }
             }
         }
@@ -1050,6 +1128,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button23.length; i++) {
                 if ((button23[i].getText() != "C") && (button23[i].getText() != "P")) {
                     button23[i].setEnabled(true);
+                    changeVisualSelected(button23[i]);
                 }
             }
         }
@@ -1057,6 +1136,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button24.length; i++) {
                 if ((button24[i].getText() != "C") && (button24[i].getText() != "P")) {
                     button24[i].setEnabled(true);
+                    changeVisualSelected(button24[i]);
                 }
             }
         }
@@ -1064,6 +1144,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button25.length; i++) {
                 if ((button25[i].getText() != "C") && (button25[i].getText() != "P")) {
                     button25[i].setEnabled(true);
+                    changeVisualSelected(button25[i]);
                 }
             }
         }
@@ -1071,6 +1152,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button26.length; i++) {
                 if ((button26[i].getText() != "C") && (button26[i].getText() != "P")) {
                     button26[i].setEnabled(true);
+                    changeVisualSelected(button26[i]);
                 }
             }
         }
@@ -1079,6 +1161,7 @@ public class PvcGameScreen extends AppCompatActivity {
             for (int i = 0; i < button27.length; i++) {
                 if ((button27[i].getText() != "C") && (button27[i].getText() != "P")) {
                     button27[i].setEnabled(true);
+                    changeVisualSelected(button27[i]);
                 }
             }
         }
@@ -1280,50 +1363,60 @@ public class PvcGameScreen extends AppCompatActivity {
                         (buttonArray[i][j]) == returnMillSecondPhaseVertButton("P"))) {
                     returnMillSecondPhaseVertButton("P").setText("C");
                     buttonArray[i][j].setText(null);
+                    turnButtonWhite(buttonArray[i][j]);
                 } else if (returnMillSecondPhaseHortButton("P") != null && buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
                         (buttonArray[i][j]) == returnMillSecondPhaseHortButton("C"))) {
                     returnMillSecondPhaseHortButton("C").setText("C");
                     buttonArray[i][j].setText(null);
+                    turnButtonWhite(buttonArray[i][j]);
                     return;
                 }
                 else if (returnMillSecondPhaseCrossLinesButton("P") != null && buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
                         (buttonArray[i][j]) == returnMillSecondPhaseCrossLinesButton("P"))) {
                     returnMillSecondPhaseCrossLinesButton("P").setText("C");
                     buttonArray[i][j].setText(null);
+                    turnButtonWhite(buttonArray[i][j]);
                     return;
                 }
                 else  if (returnMillSecondPhaseVertButton("C") != null && buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
                         (buttonArray[i][j]) == returnMillSecondPhaseVertButton("C"))) {
                     returnMillSecondPhaseVertButton("C").setText("C");
                     buttonArray[i][j].setText(null);
+                    turnButtonWhite(buttonArray[i][j]);
                 } else if (returnMillSecondPhaseHortButton("C") != null && buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
                         (buttonArray[i][j]) == returnMillSecondPhaseHortButton("C"))) {
                     returnMillSecondPhaseHortButton("C").setText("C");
                     buttonArray[i][j].setText(null);
+                    turnButtonWhite(buttonArray[i][j]);
                     return;
                 }
                 else if (returnMillSecondPhaseCrossLinesButton("C") != null && buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
                         (buttonArray[i][j]) == returnMillSecondPhaseCrossLinesButton("C"))) {
                     returnMillSecondPhaseCrossLinesButton("C").setText("C");
                     buttonArray[i][j].setText(null);
+                    turnButtonWhite(buttonArray[i][j]);
                     return;
                 }
                 //mill method
                 else if (returnEnableAdjacentButtons(ifMillSecondPhaseReturnAdjacentButtons()) != null) {
                     returnEnableAdjacentButtons(ifMillSecondPhaseReturnAdjacentButtons()).setText("C");
                     ifMillSecondPhase().setText(null);
+                    turnButtonWhite(ifMillSecondPhase());
                     return;
                 }
                 else if (returnEnableAdjacentButtons(ifMillSecondPhaseCrossLinesReturnAdjacentButtons()) != null) {
                     returnEnableAdjacentButtons(ifMillSecondPhaseCrossLinesReturnAdjacentButtons()).setText("C");
                     ifMillSecondPhaseCrossLines().setText(null);
+                    turnButtonWhite(ifMillSecondPhaseCrossLines());
                     return;
                 }
                 else if (tryingToMakeAMillSecondPhrase() != null && buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
                         (buttonArray[i][j]) == tryingToMakeAMillSecondPhrase())) {
                     tryingToMakeAMillSecondPhrase().setText("C");
+                    turnButtonWhite(tryingToMakeAMillSecondPhrase());
                     tryingToMakeAMillSecondPhrase().setEnabled(false);
                     buttonArray[i][j].setText(null);
+                    turnButtonWhite(buttonArray[i][j]);
                     return;
                 }
                 else {
@@ -1342,8 +1435,10 @@ public class PvcGameScreen extends AppCompatActivity {
                 if (tryingToMakeAMillSecondPhrase() != null && buttonArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
                         (buttonArray[i][j]) == tryingToMakeAMillSecondPhrase())) {
                     tryingToMakeAMillSecondPhrase().setText("C");
+                    turnButtonRed(tryingToMakeAMillSecondPhrase());
                     tryingToMakeAMillSecondPhrase().setEnabled(false);
                     buttonArray[i][j].setText(null);
+                    turnButtonWhite(buttonArray[i][j]);
                     return;
                 }
             }
@@ -1357,6 +1452,7 @@ public class PvcGameScreen extends AppCompatActivity {
                     returnEnableAdjacentButtons(buttonArray[i][j]).setText("C");
                     if (buttonArray[i][j].getText() == "C") {
                         buttonArray[i][j].setText(null);
+                        turnButtonWhite(buttonArray[i][j]);
                         return;
                     }
                 }
@@ -1485,49 +1581,65 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][0].getText() == whichPiece && buttonArray[i][1].getText() == whichPiece &&
                     buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                 buttonArray[i][2].setText("C");
+                turnButtonRed(buttonArray[i][2]);
                 buttonArray[i][2].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][2]);
                 return;
             }
             if (buttonArray[i][0].getText() == whichPiece && buttonArray[i][2].getText() == whichPiece &&
                     buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
                 buttonArray[i][1].setText("C");
+                turnButtonRed(buttonArray[i][1]);
                 buttonArray[i][1].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][1]);
                 return;
             }
             if (buttonArray[i][2].getText() == whichPiece && buttonArray[i][1].getText() == whichPiece &&
                     buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                 buttonArray[i][0].setText("C");
+                turnButtonRed(buttonArray[i][0]);
                 buttonArray[i][0].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][0]);
                 return;
             }
             if (buttonArray[i][2].getText() == whichPiece && buttonArray[i][0].getText() == whichPiece &&
                     buttonArray[i][1].getText() != "C" && buttonArray[i][1].getText() != "P") {
                 buttonArray[i][1].setText("C");
+                turnButtonRed(buttonArray[i][1]);
                 buttonArray[i][1].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][1]);
                 return;
             }
             if (buttonArray[i][5].getText() == whichPiece && buttonArray[i][6].getText() == whichPiece &&
                     buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
                 buttonArray[i][7].setText("C");
+                turnButtonRed(buttonArray[i][7]);
                 buttonArray[i][7].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][7]);
                 return;
             }
             if (buttonArray[i][5].getText() == whichPiece && buttonArray[i][7].getText() == whichPiece &&
                     buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
                 buttonArray[i][6].setText("C");
+                turnButtonRed(buttonArray[i][6]);
                 buttonArray[i][6].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][6]);
                 return;
             }
             if (buttonArray[i][7].getText() == whichPiece && buttonArray[i][6].getText() == whichPiece &&
                     buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                 buttonArray[i][5].setText("C");
+                turnButtonRed(buttonArray[i][5]);
                 buttonArray[i][5].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][5]);
                 return;
             }
             if (buttonArray[i][7].getText() == whichPiece && buttonArray[i][5].getText() == whichPiece &&
                     buttonArray[i][6].getText() != "C" && buttonArray[i][6].getText() != "P") {
                 buttonArray[i][6].setText("C");
+                turnButtonRed(buttonArray[i][6]);
                 buttonArray[i][6].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][6]);
                 return;
             }
         }
@@ -1614,49 +1726,63 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[i][0].getText() == whichPiece && buttonArray[i][3].getText() == whichPiece &&
                     buttonArray[i][5].getText() != "C" && buttonArray[i][5].getText() != "P") {
                 buttonArray[i][5].setText("C");
+                turnButtonRed(buttonArray[i][5]);
                 buttonArray[i][5].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][5]);
                 return;
             }
             if (buttonArray[i][0].getText() == whichPiece && buttonArray[i][5].getText() == whichPiece &&
                     buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
                 buttonArray[i][3].setText("C");
+                turnButtonRed(buttonArray[i][3]);
                 buttonArray[i][3].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][3]);
                 return;
             }
             if (buttonArray[i][5].getText() == whichPiece && buttonArray[i][3].getText() == whichPiece &&
                     buttonArray[i][0].getText() != "C" && buttonArray[i][0].getText() != "P") {
                 buttonArray[i][0].setText("C");
+                turnButtonRed(buttonArray[i][0]);
                 buttonArray[i][0].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][0]);
                 return;
             }
             if (buttonArray[i][5].getText() == whichPiece && buttonArray[i][0].getText() == whichPiece &&
                     buttonArray[i][3].getText() != "C" && buttonArray[i][3].getText() != "P") {
                 buttonArray[i][3].setText("C");
+                turnButtonRed(buttonArray[i][3]);
                 buttonArray[i][3].setEnabled(false);
                 return;
             }
             if (buttonArray[i][2].getText() == whichPiece && buttonArray[i][4].getText() == whichPiece &&
                     buttonArray[i][7].getText() != "C" && buttonArray[i][7].getText() != "P") {
                 buttonArray[i][7].setText("C");
+                turnButtonRed(buttonArray[i][7]);
                 buttonArray[i][7].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][7]);
                 return;
             }
             if (buttonArray[i][2].getText() == whichPiece && buttonArray[i][7].getText() == whichPiece &&
                     buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
                 buttonArray[i][4].setText("C");
+                turnButtonRed(buttonArray[i][4]);
                 buttonArray[i][4].setEnabled(false);
                 return;
             }
             if (buttonArray[i][7].getText() == whichPiece && buttonArray[i][4].getText() == whichPiece &&
                     buttonArray[i][2].getText() != "C" && buttonArray[i][2].getText() != "P") {
                 buttonArray[i][2].setText("C");
+                turnButtonRed(buttonArray[i][2]);
                 buttonArray[i][2].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][2]);
                 return;
             }
             if (buttonArray[i][7].getText() == whichPiece && buttonArray[i][2].getText() == whichPiece &&
                     buttonArray[i][4].getText() != "C" && buttonArray[i][4].getText() != "P") {
                 buttonArray[i][4].setText("C");
+                turnButtonRed(buttonArray[i][4]);
                 buttonArray[i][4].setEnabled(false);
+                changeVisualUnselected(buttonArray[i][4]);
                 return;
             }
         }
@@ -1736,25 +1862,33 @@ public class PvcGameScreen extends AppCompatActivity {
             if (buttonArray[0][numbersInList].getText() == whichPiece && buttonArray[1][numbersInList].getText() == whichPiece &&
                     buttonArray[2][numbersInList].getText() != "C" && buttonArray[2][numbersInList].getText() != "P") {
                 buttonArray[2][numbersInList].setText("C");
+                turnButtonRed(buttonArray[2][numbersInList]);
                 buttonArray[2][numbersInList].setEnabled(false);
+                changeVisualUnselected(buttonArray[2][numbersInList]);
                 return;
             }
             if (buttonArray[0][numbersInList].getText() == whichPiece && buttonArray[2][numbersInList].getText() == whichPiece &&
                     buttonArray[1][numbersInList].getText() != "C" && buttonArray[1][numbersInList].getText() != "P") {
                 buttonArray[1][numbersInList].setText("C");
+                turnButtonRed(buttonArray[1][numbersInList]);
                 buttonArray[1][numbersInList].setEnabled(false);
+                changeVisualUnselected(buttonArray[1][numbersInList]);
                 return;
             }
             if (buttonArray[2][numbersInList].getText() == whichPiece && buttonArray[1][numbersInList].getText() == whichPiece &&
                     buttonArray[0][numbersInList].getText() != "C" && buttonArray[0][numbersInList].getText() != "P") {
                 buttonArray[0][numbersInList].setText("C");
+                turnButtonRed(buttonArray[0][numbersInList]);
                 buttonArray[0][numbersInList].setEnabled(false);
+                changeVisualUnselected(buttonArray[0][numbersInList]);
                 return;
             }
             if (buttonArray[2][numbersInList].getText() == whichPiece && buttonArray[0][numbersInList].getText() == whichPiece &&
                     buttonArray[1][numbersInList].getText() != "C" && buttonArray[1][numbersInList].getText() != "P") {
                 buttonArray[1][numbersInList].setText("C");
+                turnButtonRed(buttonArray[1][numbersInList]);
                 buttonArray[1][numbersInList].setEnabled(false);
+                changeVisualUnselected(buttonArray[1][numbersInList]);
                 return;
             }
 
@@ -2012,6 +2146,7 @@ public class PvcGameScreen extends AppCompatActivity {
         }
         return null;
     }
+
     public Button ifMillSecondPhaseCrossLines() {
         int[] numberArray = {1, 3, 4, 6, -1};
         int numInListCounter = 0;
@@ -2034,6 +2169,7 @@ public class PvcGameScreen extends AppCompatActivity {
         }//while loop
         return null;
     }//isBLockrMillCrossLine
+
     public Button ifMillSecondPhaseReturnAdjacentButtons() {
         for (int i = 0; i < 3; i++) {
             if (buttonArray[i][0].getText() == "C" && buttonArray[i][0].getText() == "C" && buttonArray[i][2].getText() == "C") {
@@ -2123,6 +2259,169 @@ public class PvcGameScreen extends AppCompatActivity {
         }
         return null;
     }
+
+    public void changeVisualSelected(Button toBeEnabled){
+        if(toBeEnabled.getText().equals("C")){
+            turnButtonHighlightRed(toBeEnabled);
+        }
+        else if(toBeEnabled.getText().equals("P")){
+            turnButtonHighlightBlue(toBeEnabled);
+        }
+        else if(toBeEnabled.getText().equals(null)){
+            turnButtonHighlightWhite(toBeEnabled);
+        }
+    }
+
+    public void changeVisualUnselected(Button toBeDisabled){
+        if(toBeDisabled.getText().equals("C")){
+            turnButtonRed(toBeDisabled);
+        }
+        else if(toBeDisabled.getText().equals("P")){
+            turnButtonBlue(toBeDisabled);
+        }
+        else if(toBeDisabled.getText().equals(null)){
+            turnButtonWhite(toBeDisabled);
+        }
+    }//changeVisualUnselected
+
+    /**
+     *     //////////////////////////////////
+     *     //      VISUAL BELOW            //
+     *     //////////////////////////////////
+     *     Cole Cloutier
+     */
+
+    /*
+    Changes the turn arrow depending on input turn
+    0 - Blue
+    1 - Red
+     */
+    public void flipTurnWidget(int turn){
+        ImageView arrow = (ImageView) findViewById(R.id.turnWidget);
+        if (turn == 0){
+            arrow.setImageResource(R.drawable.turn_blue);
+        }
+        else{
+            arrow.setImageResource(R.drawable.turn_red);
+        }
+    }//flipTurnWidget
+
+    /*
+    Changes the counter depending on the number and player
+    int player 0 - Blue, 1 - Red
+    int number 0-9
+     */
+    public void changeCounterNumber(int player, int number) {
+        //By default blue
+        ImageView counter= (ImageView) findViewById(R.id.playerBlueCounter);
+
+        if(player == 1) {
+            counter = (ImageView) findViewById(R.id.playerRedCounter);
+        }
+
+        //Int array that contains the font ids in order
+        int[] fonts = {(R.drawable.font_0), (R.drawable.font_1), (R.drawable.font_2), (R.drawable.font_3),
+                (R.drawable.font_4), (R.drawable.font_5), (R.drawable.font_6), (R.drawable.font_7),
+                (R.drawable.font_8), (R.drawable.font_9)};
+
+        //Change counter to specific number font
+        counter.setImageResource(fonts[number]);
+    }//changeCounterNumber
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*
+     * Functions that control the mood of the portraits
+     *
+     */
+    public void makePortraitsNeutral(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien);
+        }
+    }//makePortraitsNeutral
+    public void makePortraitBlueHappy(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human_happy);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human_sad);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien_sad);
+        }
+
+        makeActionIndicatorSayCapture();
+    }//makePortraitBlueHappy
+    public void makePortraitRedHappy(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human_sad);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human_happy);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien_happy);
+        }
+
+        makeActionIndicatorSayCapture();
+    }//makePortraitRedHappy
+
+    /*
+     * Functions that change the actionIndicator
+     */
+    public void makeActionIndicatorSayPlace(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
+
+        actionIndicator.setImageResource(R.drawable.indicator_place);
+    }//makeActionIndicatorSayPlace
+    public void makeActionIndicatorSayMove(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
+
+        actionIndicator.setImageResource(R.drawable.indicator_move);
+    }//makeActionIndicatorSayMove
+    public void makeActionIndicatorSayCapture(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
+
+        actionIndicator.setImageResource(R.drawable.indicator_capture);
+    }//makeActionIndicatorSayCapture
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*
+    Below are all the basic functions that turn an input button into a specified visual
+     */
+    public void turnButtonWhite(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_none);
+    }//turnButtonWhite
+    public void turnButtonBlue(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_blue);
+    }//turnButtonBlue
+    public void turnButtonRed(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_red);
+    }//turnButtonRed
+
+    //Below are used for when a piece needs to be highlighted for a move
+    public void turnButtonHighlightBlue(Button availableButton){
+        availableButton.setBackgroundResource(R.drawable.token_blue_selected);
+    }//turnButtonHighlightBLue
+    public void turnButtonHighlightRed(Button availableButton){
+        availableButton.setBackgroundResource(R.drawable.token_red_selected);
+    }//turnButtonHighlightRed
+    public void turnButtonHighlightWhite(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_none_selected);
+    }//turnButtonHighlightWhite
 }// end file
 
 
