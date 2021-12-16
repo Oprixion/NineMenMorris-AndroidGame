@@ -665,7 +665,7 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b21){
             if((b20.getText()!="P1")&&(b20.getText()!="P2")){
                 b20.setEnabled(true);
-                turnButtonHighlightWhite(b21);
+                turnButtonHighlightWhite(b20);
             }
             if((b22.getText()!="P1")&&(b22.getText()!="P2")){
                 b22.setEnabled(true);
@@ -742,7 +742,7 @@ public class PvpGameScreen extends AppCompatActivity{
         }
         if(chosenToBeMove==b26){
             if((b25.getText()!="P1")&&(b25.getText()!="P2")){
-                b15.setEnabled(true);
+                b25.setEnabled(true);
                 turnButtonHighlightWhite(b25);
             }
             if((b27.getText()!="P1")&&(b27.getText()!="P2")){
