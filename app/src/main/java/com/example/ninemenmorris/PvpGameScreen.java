@@ -1297,7 +1297,7 @@ public class PvpGameScreen extends AppCompatActivity{
             b14.setEnabled(false);
             changeVisualUnselected(b14);
         }
-        if ((b13.getText()!="P1")&&(b16.getText()!="")) {
+        if ((b13.getText()!="")&&(b16.getText()!="")) {
             b15.setEnabled(false);
             changeVisualUnselected(b15);
         }
