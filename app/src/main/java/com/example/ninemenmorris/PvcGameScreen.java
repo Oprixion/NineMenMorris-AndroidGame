@@ -527,20 +527,23 @@ public class PvcGameScreen extends AppCompatActivity {
 
             if (blockOrMillVertical("P")!=null) {
                 blockOrMillVertical("P").setText("C");
-                blockOrMillVertical("P").setEnabled(false);
                 changeVisualSelected(blockOrMillVertical("P"));
+                blockOrMillVertical("P").setEnabled(false);
+
             }
 
             else if (blockOrMillHorizontal("P")!=null) {
                 blockOrMillHorizontal("P").setText("C");
+                changeVisualSelected(blockOrMillVertical("P"));
                 blockOrMillHorizontal("P").setEnabled(false);
-                changeVisualSelected(blockOrMillHorizontal("P"));
+
             }
 
             else if (blockOrMillCrossLines("P")!=null) {
                 blockOrMillCrossLines("P").setText("C");
-                blockOrMillCrossLines("P").setEnabled(false);
                 changeVisualSelected(blockOrMillCrossLines("P"));
+                blockOrMillCrossLines("P").setEnabled(false);
+
             }
         }
         //Making a mill. 2 priority
@@ -548,18 +551,19 @@ public class PvcGameScreen extends AppCompatActivity {
                 blockOrMillCrossLines("C")!=null) {
             if (blockOrMillVertical("C")!=null) {
                 blockOrMillVertical("C").setText("C");
-                blockOrMillVertical("C").setEnabled(false);
                 changeVisualSelected(blockOrMillVertical("C"));
+                blockOrMillVertical("C").setEnabled(false);
+
             }
             else if (blockOrMillHorizontal("C")!=null) {
                 blockOrMillHorizontal("C").setText("C");
-                blockOrMillHorizontal("C").setEnabled(false);
                 changeVisualSelected(blockOrMillHorizontal("C"));
+                blockOrMillHorizontal("C").setEnabled(false);
             }
             else if (blockOrMillCrossLines("C")!=null) {
                 blockOrMillCrossLines("C").setText("C");
-                blockOrMillCrossLines("C").setEnabled(false);
                 changeVisualSelected(blockOrMillCrossLines("C"));
+                blockOrMillCrossLines("C").setEnabled(false);
             }
         }
             //Trying to make a mill . 3 priority
@@ -567,35 +571,35 @@ public class PvcGameScreen extends AppCompatActivity {
                 || tryingToMakeMillMiddleVertical()!=null || tryingToMakeMillCrossLines()!=null) {
             if (tryingToMakeMillMiddleHorizontal()!=null) {
                 tryingToMakeMillMiddleHorizontal().setText("C");
-                tryingToMakeMillMiddleHorizontal().setEnabled(false);
                 changeVisualSelected(tryingToMakeMillMiddleHorizontal());
+                tryingToMakeMillMiddleHorizontal().setEnabled(false);
             }
             else if (tryingToMakeMillMiddleVertical()!=null) {
                 tryingToMakeMillMiddleVertical().setText("C");
-                tryingToMakeMillMiddleVertical().setEnabled(false);
                 changeVisualSelected(tryingToMakeMillMiddleHorizontal());
+                tryingToMakeMillMiddleVertical().setEnabled(false);
             }
             else if (tryingToMakeMillCorners()!=null) {
                 tryingToMakeMillCorners().setText("C");
-                tryingToMakeMillCorners().setEnabled(false);
                 changeVisualSelected(tryingToMakeMillCorners());
+                tryingToMakeMillCorners().setEnabled(false);
             }
             else if (tryingToMakeMillCrossLines()!=null) {
                 tryingToMakeMillCrossLines().setText("C");
-                tryingToMakeMillCrossLines().setEnabled(false);
                 changeVisualSelected(tryingToMakeMillCrossLines());
+                tryingToMakeMillCrossLines().setEnabled(false);
             }
         }
          else if (adjacentToPlayerPiece() != null) {
             adjacentToPlayerPiece().setText("C");
-            adjacentToPlayerPiece().setEnabled(false);
             changeVisualSelected(adjacentToPlayerPiece());
+            adjacentToPlayerPiece().setEnabled(false);
         }
         else{
             Button randomSpot= pickRandomButtons();
             randomSpot.setText("C");
-            randomSpot.setEnabled(false);
             changeVisualSelected(randomSpot);
+            randomSpot.setEnabled(false);
         }
     }
     public void easyModeFirstPhase(){
