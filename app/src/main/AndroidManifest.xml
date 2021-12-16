@@ -9,15 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NineMenMorris">
-        <activity android:name=".RestartScreen"></activity>
+        <activity
+            android:name=".MusicService"
+            android:exported="true" />
+        <activity android:name=".RestartScreen" />
         <activity
             android:name=".SettingScreen"
+            android:theme="@style/Theme.NineMenMorris.CustomTheme"
             android:exported="true" />
         <activity
             android:name=".HelpScreen"
+            android:theme="@style/Theme.NineMenMorris.CustomTheme"
             android:exported="true" />
         <activity
             android:name=".CreditsScreen"
+            android:theme="@style/Theme.NineMenMorris.CustomTheme"
             android:exported="true" />
         <activity android:name=".PvpGameScreen" />
         <activity android:name=".PvcGameScreen" />
@@ -33,6 +39,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <service android:name=".MusicService"/>
     </application>
 
 </manifest>

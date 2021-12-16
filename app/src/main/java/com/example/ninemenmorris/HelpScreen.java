@@ -1,12 +1,11 @@
 package com.example.ninemenmorris;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 public class HelpScreen extends AppCompatActivity {
@@ -33,11 +32,19 @@ public class HelpScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_screen);
 
-    }
-    public void goBackHome(View myView){
-        Intent goHome = new Intent(this, StartScreen.class);
-        startActivity(goHome);
-        this.finish();
+        DisplayMetrics helpsPopup = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(helpsPopup);
+
+        int width = helpsPopup.widthPixels;
+        int height = helpsPopup.heightPixels;
+
+        getWindow().setLayout((int)(width*.93),(int)(height*.93));
+
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.gravity = Gravity.CENTER;
+        params.x = 0;
+        params.y = -20;
+        getWindow().setAttributes(params);
     }
     public void tutorialScreenShift(View myView){
         //Shifts number left or right based input button
