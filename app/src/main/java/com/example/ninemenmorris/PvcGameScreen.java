@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
 import java.util.Random;
 
 public class PvcGameScreen extends AppCompatActivity {
@@ -2117,6 +2119,168 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
         }//outer for loop
         return null;
     }// adjacentToPlayerPiece
+    public void changeVisualSelected(Button toBeEnabled){
+        if(toBeEnabled.getText()=="P2"){
+            turnButtonHighlightRed(toBeEnabled);
+        }
+        else if(toBeEnabled.getText()=="P1"){
+            turnButtonHighlightBlue(toBeEnabled);
+        }
+        else if(toBeEnabled.getText()==""){
+            turnButtonHighlightWhite(toBeEnabled);
+        }
+    }
+
+    public void changeVisualUnselected(Button toBeDisabled){
+        if(toBeDisabled.getText()=="P2"){
+            turnButtonRed(toBeDisabled);
+        }
+        else if(toBeDisabled.getText()=="P1"){
+            turnButtonBlue(toBeDisabled);
+        }
+        else if(toBeDisabled.getText()==""){
+            turnButtonWhite(toBeDisabled);
+        }
+    }//changeVisualUnselected
+
+    /**
+     *     //////////////////////////////////
+     *     //      VISUAL BELOW            //
+     *     //////////////////////////////////
+     *     Cole Cloutier
+     */
+
+    /*
+    Changes the turn arrow depending on input turn
+    0 - Blue
+    1 - Red
+     */
+    public void flipTurnWidget(int turn){
+        ImageView arrow = (ImageView) findViewById(R.id.turnWidget);
+        if (turn == 0){
+            arrow.setImageResource(R.drawable.turn_blue);
+        }
+        else{
+            arrow.setImageResource(R.drawable.turn_red);
+        }
+    }//flipTurnWidget
+
+    /*
+    Changes the counter depending on the number and player
+    int player 0 - Blue, 1 - Red
+    int number 0-9
+     */
+    public void changeCounterNumber(int player, int number) {
+        //By default blue
+        ImageView counter= (ImageView) findViewById(R.id.playerBlueCounter);
+
+        if(player == 1) {
+            counter = (ImageView) findViewById(R.id.playerRedCounter);
+        }
+
+        //Int array that contains the font ids in order
+        int[] fonts = {(R.drawable.font_0), (R.drawable.font_1), (R.drawable.font_2), (R.drawable.font_3),
+                (R.drawable.font_4), (R.drawable.font_5), (R.drawable.font_6), (R.drawable.font_7),
+                (R.drawable.font_8), (R.drawable.font_9)};
+
+        //Change counter to specific number font
+        counter.setImageResource(fonts[number]);
+    }//changeCounterNumber
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*
+     * Functions that control the mood of the portraits
+     *
+     */
+    public void makePortraitsNeutral(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien);
+        }
+    }//makePortraitsNeutral
+    public void makePortraitBlueHappy(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human_happy);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human_sad);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien_sad);
+        }
+
+        makeActionIndicatorSayCapture();
+    }//makePortraitBlueHappy
+    public void makePortraitRedHappy(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human_sad);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human_happy);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien_happy);
+        }
+
+        makeActionIndicatorSayCapture();
+    }//makePortraitRedHappy
+
+    /*
+     * Functions that change the actionIndicator
+     */
+    public void makeActionIndicatorSayPlace(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
+
+        actionIndicator.setImageResource(R.drawable.indicator_place);
+    }//makeActionIndicatorSayPlace
+    public void makeActionIndicatorSayMove(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
+
+        actionIndicator.setImageResource(R.drawable.indicator_move);
+    }//makeActionIndicatorSayMove
+    public void makeActionIndicatorSayCapture(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
+
+        actionIndicator.setImageResource(R.drawable.indicator_capture);
+    }//makeActionIndicatorSayCapture
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*
+    Below are all the basic functions that turn an input button into a specified visual
+     */
+    public void turnButtonWhite(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_none);
+    }//turnButtonWhite
+    public void turnButtonBlue(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_blue);
+    }//turnButtonBlue
+    public void turnButtonRed(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_red);
+    }//turnButtonRed
+
+    //Below are used for when a piece needs to be highlighted for a move
+    public void turnButtonHighlightBlue(Button availableButton){
+        availableButton.setBackgroundResource(R.drawable.token_blue_selected);
+    }//turnButtonHighlightBLue
+    public void turnButtonHighlightRed(Button availableButton){
+        availableButton.setBackgroundResource(R.drawable.token_red_selected);
+    }//turnButtonHighlightRed
+    public void turnButtonHighlightWhite(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_none_selected);
+    }//turnButtonHighlightWhite
 }// end file
 
 

@@ -1510,4 +1510,4 @@ public class PvpGameScreen extends AppCompatActivity{
     public void turnButtonHighlightWhite(Button InputButton){
         InputButton.setBackgroundResource(R.drawable.token_none_selected);
     }//turnButtonHighlightWhite
-}
+}//end of class
