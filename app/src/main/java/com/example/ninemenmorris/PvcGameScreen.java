@@ -61,6 +61,8 @@ public class PvcGameScreen extends AppCompatActivity {
         setAllButtonInArray();
         computerChoiceOnSecondPhase();
         setDifficultySliders();
+        setTextOFBoard();
+
 
         //Ensures that multiple counts of audio doesn't occur
         MusicService.musicInitialize = 2;
@@ -138,7 +140,13 @@ public class PvcGameScreen extends AppCompatActivity {
                 .setNegativeButton("X", null)
                 .show();
     }//restartGame
-
+    public void setTextOFBoard(){
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 7; j++) {
+                buttonOfSquaresArray[i][j].setText("");
+            }
+        }
+    }
     public void setDifficultySliders(){
         difficultySliders = new int[]{0,1,2,3,4,5,6,7,8,9};
     }
