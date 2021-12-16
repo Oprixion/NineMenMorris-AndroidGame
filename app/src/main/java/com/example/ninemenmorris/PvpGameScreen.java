@@ -1,8 +1,9 @@
 package com.example.ninemenmorris;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.media.MediaPlayer;
+
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,11 +19,14 @@ public class PvpGameScreen extends AppCompatActivity{
 
     private Button[] player1PieceArray = new Button[9];
     private Button[] player2PieceArray = new Button[9];
+
+    private boolean firstRoundOfSecondPhase = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pvp_game_screen);
         lastMove = "P2";
+        enableAllPieces();
 
         MusicService.musicInitialize = 2;
 
@@ -39,7 +43,6 @@ public class PvpGameScreen extends AppCompatActivity{
             muted.setVisibility(View.GONE);
             unmuted.bringToFront();
         }
-
     }
 
     public void muteSound(View myView){
@@ -69,12 +72,6 @@ public class PvpGameScreen extends AppCompatActivity{
 
     }
 
-
-    public void toModeSelection(View myView){
-        Intent modeSelection = new Intent(this, ModeSelectionScreen.class);
-        startActivity(modeSelection);
-        this.finish();
-    }//toModeSelection
     public void openSettingsScreen(View myView){
         Intent toSettingScreen = new Intent(this, SettingScreen.class);
         startActivity(toSettingScreen);
@@ -83,6 +80,19 @@ public class PvpGameScreen extends AppCompatActivity{
         Intent toHelpScreen = new Intent(this, HelpScreen.class);
         startActivity(toHelpScreen);
     }
+
+    public void toModeSelection(View myView){
+        Intent modeSelection = new Intent(this, ModeSelectionScreen.class);
+        startActivity(modeSelection);
+        this.finish();
+    }//toModeSelection
+
+    /**
+     * Main method assigned to every button on the game board that go through the game loop and
+     * making moves
+     * Thai Son Nghiem
+     * @param myView
+     */
     public void placeMove(View myView){
         Button theMove = (Button) myView;
         //When there are still pieces to play
@@ -107,23 +117,30 @@ public class PvpGameScreen extends AppCompatActivity{
                     flipTurnWidget(0);
                     if(isMill(theMove)){
                         flipTurnWidget(1);
+                        disableAllPieces();
                         enableP1Moves();
+                        makePortraitRedHappy();
                         lastMove="p2RemoveTurn";
                     }
                  }
                 else if (lastMove=="P2"){
                     flipTurnWidget(1);
-                     player1Turn(theMove);
-                     if(isMill(theMove)){
-                         flipTurnWidget(0);
-                         enableP2Moves();
-                         lastMove="p1RemoveTurn";
-                     }
+                    player1Turn(theMove);
+                    if(isMill(theMove)){
+                        flipTurnWidget(0);
+                        makePortraitBlueHappy();
+                        disableAllPieces();
+                        enableP2Moves();
+                        lastMove="p1RemoveTurn";
+                    }
                 }
                 else if((lastMove=="p1RemoveTurn")||(lastMove=="p2RemoveTurn")){
                     removeOpponentPieceIfMill(theMove);
+                    enableAllPieces();
                     disableP2Moves();
                     disableP1Moves();
+                    makePortraitsNeutral();
+                    makeActionIndicatorSayPlace();
                 }
             }//if
 
@@ -143,130 +160,161 @@ public class PvpGameScreen extends AppCompatActivity{
             //      4.1 If mill then change last move to remove turn, go to (1.2)
             //      4.2 If not mill then switch back to the other player turn.
             // 5.Remove a chosen piece of board and the corresponding array.
-            if (player1PieceOnHand == 0 && player2PieceOnHand == 0){
-                disableBlockedButtons();
+            if ((player1PieceOnHand == 0 && player2PieceOnHand == 0)){
+                //Small function for visual fixes
+                if(firstRoundOfSecondPhase && !lastMove.equals("p1RemoveTurn")
+                        && !lastMove.equals("p2RemoveTurn")){
+                    firstRoundOfSecondPhase = false;
+                    makePortraitsNeutral();
+                    makeActionIndicatorSayMove();
+                }
+
                 if(lastMove=="P2"){
                     flipTurnWidget(1);
-                    if(isInArray(theMove)){
+                    if(isMoveSelected(theMove)==false){
                         if(theMove.isEnabled()){
-                            if(player1PieceOnBoard==3){ //Phase 3
-                                enableAllPieces();
-                                disableP1Moves();
-                                disableP2Moves();
-                            }
-                            else if(player1PieceOnBoard>3){
+                            if(player1PieceOnBoard>3) {
                                 disableAllPieces();
                                 enableEmptyAdjacentButtons(theMove);
+                                selectPieceToMoveByRemovingFromArray(theMove);
+                            }
+                            else if(player1PieceOnBoard==3){//phase 3
+                                enableAllPieces();
+                                disableP2Moves();
+                                disableP1Moves();
                                 selectPieceToMoveByRemovingFromArray(theMove);
                             }
                         }
                         else {
                             disableAllPieces();
                             enableP2Moves();
+                            if (player1PieceOnBoard>3){
+                                disableBlockedButtons();
+                            }
                         }
                     }
-                    else if (isInArray(theMove)==false){
+                    else if (isMoveSelected(theMove)){
                         moveP2Piece(theMove);
                         if(isMill(theMove)){
+                            flipTurnWidget(1);
+                            makePortraitRedHappy();
+
                             lastMove="p2RemoveTurn";
                             flipTurnWidget(1);
                             enableP1Moves();
                         }
                         disableAllPieces();
                         enableP1Moves();
+                        if(isMill(theMove)==false){
+                            if (player2PieceOnBoard>=3){
+                                disableBlockedButtons();
+                            }
+                        }
+
                     }
                 }else if(lastMove=="P1"){
                     flipTurnWidget(0);
-                    if(isInArray(theMove)){
+                    if(isMoveSelected(theMove)==false){
                         if(theMove.isEnabled()){
-                            if(player2PieceOnBoard==3){ //phase 3
-                                enableAllPieces();
-                                disableP1Moves();
-                                disableP2Moves();
-                                selectPieceToMoveByRemovingFromArray(theMove);
-                            }
-                            else if(player2PieceOnBoard>3){
+                            if(player2PieceOnBoard>3) {
                                 disableAllPieces();
                                 enableEmptyAdjacentButtons(theMove);
+                                selectPieceToMoveByRemovingFromArray(theMove);
+                            }
+                            else if(player2PieceOnBoard==3){//phase 3
+                                enableAllPieces();
+                                disableP2Moves();
+                                disableP1Moves();
                                 selectPieceToMoveByRemovingFromArray(theMove);
                             }
                         }
                         else {
                             disableAllPieces();
                             enableP1Moves();
+                            if (player2PieceOnBoard>3){
+                                disableBlockedButtons();
+                            }
                         }
                     }
-                    else if (isInArray(theMove)==false){
+                    else if (isMoveSelected(theMove)){
                         moveP1Piece(theMove);
                         if(isMill(theMove)){
                             lastMove="p1RemoveTurn";
                             flipTurnWidget(0);
+                            makePortraitBlueHappy();
+
+                            lastMove="p1RemoveTurn";
                             enableP2Moves();
 
                         }
                         disableAllPieces();
                         enableP2Moves();
+                        if(isMill(theMove)==false){
+                            if (player1PieceOnBoard>=3){
+                                disableBlockedButtons();
+                            }
+                        }
                     }
                 }
                 else if((lastMove=="p1RemoveTurn")||(lastMove=="p2RemoveTurn")){
                     if(lastMove=="p2RemoveTurn"){
                         removeOpponentPieceIfMill(theMove);
                         theMove.setEnabled(false);
+                        lastMove="P1";
                         disableP2Moves();
                         enableP1Moves();
-                        lastMove="P1";
+                        if (player2PieceOnBoard>3){
+                            disableBlockedButtons();
+                        }
                     }
                     else if(lastMove=="p1RemoveTurn"){
                         removeOpponentPieceIfMill(theMove);
                         theMove.setEnabled(false);
+                        lastMove="P2";
                         disableP1Moves();
                         enableP2Moves();
-                        lastMove="P2";
+                        if (player1PieceOnBoard>3){
+                            disableBlockedButtons();
+                        }
                     }
+                    makePortraitsNeutral();
+                    makeActionIndicatorSayMove();
                 }
             }//if
+
         }//if
-        else if((player1PieceOnBoard+player1PieceOnHand ==3)||(player2PieceOnBoard+player2PieceOnHand==3)){
-            if(player2PieceOnBoard==3){
-                enableAllPieces();
-                disableP2Moves();
-                disableP1Moves();
-            }
-            if(player1PieceOnBoard==3){
-                enableAllPieces();
-                disableP2Moves();
-                disableP1Moves();
-            }
-        }
+
+        //game ends
         if ((player1PieceOnBoard+player1PieceOnHand <= 2) || (player2PieceOnBoard+player2PieceOnHand <= 2)) {
             Intent toRestartGame = new Intent(this, RestartScreen.class);
+            toRestartGame.putExtra("Winner is", lastMove);
             startActivity(toRestartGame);
             this.finish();
         }
     }//placeMove
 
-    public boolean isInArray(Button theMove){
+    public boolean isMoveSelected(Button theMove){
         if(lastMove=="P1"){
             for (int i=0; i<player1PieceArray.length; i++){
                 if(player1PieceArray[i]==theMove){
-                    return true;
+                    return false;
                 }
             }
         }else if(lastMove=="P2"){
             for (int i=0; i<player2PieceArray.length; i++){
                 if(player2PieceArray[i]==theMove){
-                    return true;
+                    return false;
                 }
             }
         }
-        return false;
-    }//isInArray
+        return true;
+    }//isMoveSelected
 
     public void updateP1PieceCounterTV(){
         changeCounterNumber(0, player1PieceOnHand);
     }//updateP1PieceCounterTV
 
-    public void updateP2PieceCounterTV(){
+     public void updateP2PieceCounterTV(){
         changeCounterNumber(1, player2PieceOnHand);
     }//updateP2PieceCounterTV
 
@@ -313,7 +361,7 @@ public class PvpGameScreen extends AppCompatActivity{
     public void selectPieceToMoveByRemovingFromArray(Button chosenToBeMove){
         if(lastMove=="P1"){
             chosenToBeMove.setText("");
-            turnButtonWhite(chosenToBeMove);
+            turnButtonHighlightBlue(chosenToBeMove);
             for(int i=0;i<player1PieceArray.length;i++){
                 if(player1PieceArray[i]==chosenToBeMove){
                     player1PieceArray[i]=null;
@@ -323,7 +371,7 @@ public class PvpGameScreen extends AppCompatActivity{
         }
         if(lastMove=="P2"){
             chosenToBeMove.setText("");
-            turnButtonWhite(chosenToBeMove);
+            turnButtonHighlightRed(chosenToBeMove);
             for(int i=0;i<player2PieceArray.length;i++){
                 if(player2PieceArray[i]==chosenToBeMove){
                     player2PieceArray[i]=null;
@@ -367,29 +415,38 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b00){
             if((b01.getText()!="P1")&&(b01.getText()!="P2")){
                 b01.setEnabled(true);
+                turnButtonHighlightWhite(b01);
             }
             if((b03.getText()!="P1")&&(b03.getText()!="P2")){
                 b03.setEnabled(true);
+                turnButtonHighlightWhite(b03);
             }
+            else b00.setEnabled(false);
 
         }
         if(chosenToBeMove==b01){
             if((b11.getText()!="P1")&&(b11.getText()!="P2")){
                 b11.setEnabled(true);
+                turnButtonHighlightWhite(b11);
             }
             if((b00.getText()!="P1")&&(b00.getText()!="P2")){
-                b01.setEnabled(true);
+                b00.setEnabled(true);
+                turnButtonHighlightWhite(b00);
             }
             if((b02.getText()!="P1")&&(b02.getText()!="P2")){
                 b02.setEnabled(true);
+                turnButtonHighlightWhite(b02);
             }
+            else b01.setEnabled(false);
         }
         if(chosenToBeMove==b02){
             if((b01.getText()!="P1")&&(b01.getText()!="P2")){
                 b01.setEnabled(true);
+                turnButtonHighlightWhite(b01);
             }
             if((b04.getText()!="P1")&&(b04.getText()!="P2")){
                 b04.setEnabled(true);
+                turnButtonHighlightWhite(b04);
             }
             else {
                 b02.setEnabled(false);
@@ -399,12 +456,15 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b03){
             if((b00.getText()!="P1")&&(b00.getText()!="P2")){
                 b00.setEnabled(true);
+                turnButtonHighlightWhite(b00);
             }
             if((b13.getText()!="P1")&&(b13.getText()!="P2")){
                 b13.setEnabled(true);
+                turnButtonHighlightWhite(b13);
             }
             if((b05.getText()!="P1")&&(b05.getText()!="P2")){
                 b05.setEnabled(true);
+                turnButtonHighlightWhite(b05);
             }
             else {
                 b03.setEnabled(false);
@@ -413,12 +473,15 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b04){
             if((b02.getText()!="P1")&&(b02.getText()!="P2")){
                 b02.setEnabled(true);
+                turnButtonHighlightWhite(b02);
             }
             if((b14.getText()!="P1")&&(b14.getText()!="P2")){
                 b14.setEnabled(true);
+                turnButtonHighlightWhite(b14);
             }
             if((b07.getText()!="P1")&&(b07.getText()!="P2")){
                 b07.setEnabled(true);
+                turnButtonHighlightWhite(b07);
             }
             else {
                 b04.setEnabled(false);
@@ -427,9 +490,11 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b05){
             if((b03.getText()!="P1")&&(b03.getText()!="P2")){
                 b03.setEnabled(true);
+                turnButtonHighlightWhite(b03);
             }
             if((b06.getText()!="P1")&&(b06.getText()!="P2")){
                 b06.setEnabled(true);
+                turnButtonHighlightWhite(b06);
             }
             else {
                 b05.setEnabled(false);
@@ -438,12 +503,15 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b06){
             if((b05.getText()!="P1")&&(b05.getText()!="P2")){
                 b05.setEnabled(true);
+                turnButtonHighlightWhite(b05);
             }
             if((b16.getText()!="P1")&&(b16.getText()!="P2")){
                 b16.setEnabled(true);
+                turnButtonHighlightWhite(b16);
             }
             if((b07.getText()!="P1")&&(b07.getText()!="P2")){
                 b07.setEnabled(true);
+                turnButtonHighlightWhite(b07);
             }
             else {
                 b06.setEnabled(false);
@@ -452,9 +520,11 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b07){
             if((b04.getText()!="P1")&&(b04.getText()!="P2")){
                 b04.setEnabled(true);
+                turnButtonHighlightWhite(b04);
             }
             if((b06.getText()!="P1")&&(b06.getText()!="P2")){
                 b06.setEnabled(true);
+                turnButtonHighlightWhite(b06);
             }
             else {
                 b07.setEnabled(false);
@@ -465,9 +535,11 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b10){
             if((b11.getText()!="P1")&&(b11.getText()!="P2")){
                 b11.setEnabled(true);
+                turnButtonHighlightWhite(b11);
             }
             if((b13.getText()!="P1")&&(b13.getText()!="P2")){
                 b13.setEnabled(true);
+                turnButtonHighlightWhite(b13);
             }
             else {
                 b10.setEnabled(false);
@@ -477,15 +549,19 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b11){
             if((b01.getText()!="P1")&&(b01.getText()!="P2")){
                 b01.setEnabled(true);
+                turnButtonHighlightWhite(b01);
             }
             if((b21.getText()!="P1")&&(b21.getText()!="P2")){
                 b21.setEnabled(true);
+                turnButtonHighlightWhite(b21);
             }
             if((b10.getText()!="P1")&&(b10.getText()!="P2")){
                 b10.setEnabled(true);
+                turnButtonHighlightWhite(b10);
             }
             if((b12.getText()!="P1")&&(b12.getText()!="P2")){
                 b12.setEnabled(true);
+                turnButtonHighlightWhite(b12);
             }
             else {
                 b11.setEnabled(false);
@@ -493,10 +569,12 @@ public class PvpGameScreen extends AppCompatActivity{
         }
         if(chosenToBeMove==b12){
             if((b11.getText()!="P1")&&(b11.getText()!="P2")){
-                b01.setEnabled(true);
+                b11.setEnabled(true);
+                turnButtonHighlightWhite(b11);
             }
             if((b14.getText()!="P1")&&(b14.getText()!="P2")){
                 b14.setEnabled(true);
+                turnButtonHighlightWhite(b14);
             }
             else {
                 b12.setEnabled(false);
@@ -506,15 +584,19 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b13){
             if((b03.getText()!="P1")&&(b03.getText()!="P2")){
                 b03.setEnabled(true);
+                turnButtonHighlightWhite(b03);
             }
             if((b10.getText()!="P1")&&(b10.getText()!="P2")){
                 b10.setEnabled(true);
+                turnButtonHighlightWhite(b10);
             }
             if((b23.getText()!="P1")&&(b23.getText()!="P2")){
                 b23.setEnabled(true);
+                turnButtonHighlightWhite(b23);
             }
             if((b15.getText()!="P1")&&(b15.getText()!="P2")){
                 b15.setEnabled(true);
+                turnButtonHighlightWhite(b15);
             }
             else {
                 b13.setEnabled(false);
@@ -523,15 +605,19 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b14){
             if((b04.getText()!="P1")&&(b04.getText()!="P2")){
                 b04.setEnabled(true);
+                turnButtonHighlightWhite(b04);
             }
             if((b12.getText()!="P1")&&(b12.getText()!="P2")){
                 b12.setEnabled(true);
+                turnButtonHighlightWhite(b12);
             }
             if((b24.getText()!="P1")&&(b24.getText()!="P2")){
                 b24.setEnabled(true);
+                turnButtonHighlightWhite(b24);
             }
             if((b17.getText()!="P1")&&(b17.getText()!="P2")){
                 b17.setEnabled(true);
+                turnButtonHighlightWhite(b17);
             }
             else {
                 b14.setEnabled(false);
@@ -540,9 +626,11 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b15){
             if((b13.getText()!="P1")&&(b13.getText()!="P2")){
                 b13.setEnabled(true);
+                turnButtonHighlightWhite(b13);
             }
             if((b16.getText()!="P1")&&(b16.getText()!="P2")){
                 b16.setEnabled(true);
+                turnButtonHighlightWhite(b16);
             }
             else {
                 b15.setEnabled(false);
@@ -551,15 +639,19 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b16){
             if((b06.getText()!="P1")&&(b06.getText()!="P2")){
                 b06.setEnabled(true);
+                turnButtonHighlightWhite(b06);
             }
             if((b15.getText()!="P1")&&(b15.getText()!="P2")){
                 b15.setEnabled(true);
+                turnButtonHighlightWhite(b15);
             }
             if((b26.getText()!="P1")&&(b26.getText()!="P2")){
                 b26.setEnabled(true);
+                turnButtonHighlightWhite(b26);
             }
             if((b17.getText()!="P1")&&(b17.getText()!="P2")){
                 b17.setEnabled(true);
+                turnButtonHighlightWhite(b17);
             }
             else {
                 b16.setEnabled(false);
@@ -568,9 +660,11 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b17){
             if((b14.getText()!="P1")&&(b14.getText()!="P2")){
                 b14.setEnabled(true);
+                turnButtonHighlightWhite(b14);
             }
             if((b16.getText()!="P1")&&(b16.getText()!="P2")){
                 b16.setEnabled(true);
+                turnButtonHighlightWhite(b16);
             }
             else {
                 b17.setEnabled(false);
@@ -582,9 +676,11 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b20){
             if((b21.getText()!="P1")&&(b21.getText()!="P2")){
                 b21.setEnabled(true);
+                turnButtonHighlightWhite(b21);
             }
             if((b23.getText()!="P1")&&(b23.getText()!="P2")){
                 b23.setEnabled(true);
+                turnButtonHighlightWhite(b23);
             }
             else {
                 b20.setEnabled(false);
@@ -595,12 +691,15 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b21){
             if((b20.getText()!="P1")&&(b20.getText()!="P2")){
                 b20.setEnabled(true);
+                turnButtonHighlightWhite(b21);
             }
             if((b22.getText()!="P1")&&(b22.getText()!="P2")){
                 b22.setEnabled(true);
+                turnButtonHighlightWhite(b22);
             }
             if((b11.getText()!="P1")&&(b11.getText()!="P2")){
                 b11.setEnabled(true);
+                turnButtonHighlightWhite(b11);
             }
             else {
                 b21.setEnabled(false);
@@ -609,9 +708,11 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b22){
             if((b21.getText()!="P1")&&(b21.getText()!="P2")){
                 b21.setEnabled(true);
+                turnButtonHighlightWhite(b21);
             }
             if((b24.getText()!="P1")&&(b24.getText()!="P2")){
                 b24.setEnabled(true);
+                turnButtonHighlightWhite(b24);
             }
             else {
                 b22.setEnabled(false);
@@ -621,12 +722,15 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b23){
             if((b20.getText()!="P1")&&(b20.getText()!="P2")){
                 b20.setEnabled(true);
+                turnButtonHighlightWhite(b20);
             }
             if((b25.getText()!="P1")&&(b25.getText()!="P2")){
                 b25.setEnabled(true);
+                turnButtonHighlightWhite(b25);
             }
             if((b13.getText()!="P1")&&(b13.getText()!="P2")){
                 b13.setEnabled(true);
+                turnButtonHighlightWhite(b13);
             }
             else {
                 b23.setEnabled(false);
@@ -635,12 +739,15 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b24){
             if((b22.getText()!="P1")&&(b22.getText()!="P2")){
                 b22.setEnabled(true);
+                turnButtonHighlightWhite(b22);
             }
             if((b27.getText()!="P1")&&(b27.getText()!="P2")){
                 b27.setEnabled(true);
+                turnButtonHighlightWhite(b27);
             }
             if((b14.getText()!="P1")&&(b14.getText()!="P2")){
                 b14.setEnabled(true);
+                turnButtonHighlightWhite(b14);
             }
             else {
                 b24.setEnabled(false);
@@ -649,9 +756,11 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b25){
             if((b23.getText()!="P1")&&(b23.getText()!="P2")){
                 b23.setEnabled(true);
+                turnButtonHighlightWhite(b23);
             }
             if((b26.getText()!="P1")&&(b26.getText()!="P2")){
                 b26.setEnabled(true);
+                turnButtonHighlightWhite(b26);
             }
             else {
                 b25.setEnabled(false);
@@ -660,12 +769,15 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b26){
             if((b25.getText()!="P1")&&(b25.getText()!="P2")){
                 b15.setEnabled(true);
+                turnButtonHighlightWhite(b25);
             }
             if((b27.getText()!="P1")&&(b27.getText()!="P2")){
                 b27.setEnabled(true);
+                turnButtonHighlightWhite(b27);
             }
             if((b16.getText()!="P1")&&(b16.getText()!="P2")){
                 b16.setEnabled(true);
+                turnButtonHighlightWhite(b16);
             }
             else {
                 b26.setEnabled(false);
@@ -674,9 +786,11 @@ public class PvpGameScreen extends AppCompatActivity{
         if(chosenToBeMove==b27){
             if((b24.getText()!="P1")&&(b24.getText()!="P2")){
                 b24.setEnabled(true);
+                turnButtonHighlightWhite(b24);
             }
             if((b26.getText()!="P1")&&(b26.getText()!="P2")){
                 b26.setEnabled(true);
+                turnButtonHighlightWhite(b26);
             }
             else {
                 b27.setEnabled(false);
@@ -716,42 +830,12 @@ public class PvpGameScreen extends AppCompatActivity{
 
     }//removeOpponentPieceIfMill
 
-    public void enableP2Moves(){
-        for (int i = 0; i< player2PieceArray.length; i++){
-            if (player2PieceArray[i] != null){
-                player2PieceArray[i].setEnabled(true);
-                turnButtonHighlightRed(player2PieceArray[i]);
-            }
-        }
-    }//enableP2Moves
-
-    public void enableP1Moves(){
-        for (int i = 0; i< player1PieceArray.length; i++){
-            if(player1PieceArray[i]!=null){
-                player1PieceArray[i].setEnabled(true);
-                turnButtonHighlightBlue(player1PieceArray[i]);
-            }
-        }
-    }//enableP1Moves
-
-    public void disableP2Moves(){
-        for (int i = 0; i< player2PieceArray.length; i++){
-            if(player2PieceArray[i]!=null){
-                player2PieceArray[i].setEnabled(false);
-                turnButtonRed(player2PieceArray[i]);
-            }
-        }
-    }//disableP2Moves
-
-    public void disableP1Moves(){
-        for (int i = 0; i< player1PieceArray.length; i++){
-            if(player1PieceArray[i]!=null) {
-                player1PieceArray[i].setEnabled(false);
-                turnButtonBlue(player1PieceArray[i]);
-            }
-        }
-    }//disableP1Moves
-
+    /**
+     * Checking for mill around the move that has just been placed
+     * James Mendozas, Thai Son Nghiem
+     * @param theMove
+     * @return true if mill, else false
+     */
     public boolean isMill(Button theMove) {
         //first square
         Button b00 = (Button) findViewById(R.id.pvpB00);
@@ -917,134 +1001,170 @@ public class PvpGameScreen extends AppCompatActivity{
 
         //first square
         b00.setEnabled(false);
-        changeVisualDisable(b00);
+        changeVisualUnselected(b00);
         b01.setEnabled(false);
-        changeVisualDisable(b01);
+        changeVisualUnselected(b01);
         b02.setEnabled(false);
-        changeVisualDisable(b02);
+        changeVisualUnselected(b02);
         b03.setEnabled(false);
-        changeVisualDisable(b03);
+        changeVisualUnselected(b03);
         b04.setEnabled(false);
-        changeVisualDisable(b04);
+        changeVisualUnselected(b04);
         b05.setEnabled(false);
-        changeVisualDisable(b05);
+        changeVisualUnselected(b05);
         b06.setEnabled(false);
-        changeVisualDisable(b06);
+        changeVisualUnselected(b06);
         b07.setEnabled(false);
-        changeVisualDisable(b07);
+        changeVisualUnselected(b07);
 
         b10.setEnabled(false);
-        changeVisualDisable(b10);
+        changeVisualUnselected(b10);
         b11.setEnabled(false);
-        changeVisualDisable(b11);
+        changeVisualUnselected(b11);
         b12.setEnabled(false);
-        changeVisualDisable(b12);
+        changeVisualUnselected(b12);
         b13.setEnabled(false);
-        changeVisualDisable(b13);
+        changeVisualUnselected(b13);
         b14.setEnabled(false);
-        changeVisualDisable(b14);
+        changeVisualUnselected(b14);
         b15.setEnabled(false);
-        changeVisualDisable(b15);
+        changeVisualUnselected(b15);
         b16.setEnabled(false);
-        changeVisualDisable(b16);
+        changeVisualUnselected(b16);
         b17.setEnabled(false);
-        changeVisualDisable(b17);
+        changeVisualUnselected(b17);
 
         b20.setEnabled(false);
-        changeVisualDisable(b20);
+        changeVisualUnselected(b20);
         b21.setEnabled(false);
-        changeVisualDisable(b21);
+        changeVisualUnselected(b21);
         b22.setEnabled(false);
-        changeVisualDisable(b22);
+        changeVisualUnselected(b22);
         b23.setEnabled(false);
-        changeVisualDisable(b23);
+        changeVisualUnselected(b23);
         b24.setEnabled(false);
-        changeVisualDisable(b24);
+        changeVisualUnselected(b24);
         b25.setEnabled(false);
-        changeVisualDisable(b25);
+        changeVisualUnselected(b25);
         b26.setEnabled(false);
-        changeVisualDisable(b26);
+        changeVisualUnselected(b26);
         b27.setEnabled(false);
-        changeVisualDisable(b27);
+        changeVisualUnselected(b27);
     }//disableAllPieces
+
+    public void enableP2Moves(){
+        for (int i = 0; i< player2PieceArray.length; i++){
+            if (player2PieceArray[i] != null){
+                player2PieceArray[i].setEnabled(true);
+                turnButtonHighlightRed(player2PieceArray[i]);
+            }
+        }
+    }//enableP2Moves
+
+    public void enableP1Moves(){
+        for (int i = 0; i< player1PieceArray.length; i++){
+            if(player1PieceArray[i]!=null){
+                player1PieceArray[i].setEnabled(true);
+                turnButtonHighlightBlue(player1PieceArray[i]);
+            }
+        }
+    }//enableP1Moves
+
+    public void disableP2Moves(){
+        for (int i = 0; i< player2PieceArray.length; i++){
+            if(player2PieceArray[i]!=null){
+                player2PieceArray[i].setEnabled(false);
+                turnButtonRed(player2PieceArray[i]);
+            }
+        }
+    }//disableP2Moves
+
+    public void disableP1Moves(){
+        for (int i = 0; i< player1PieceArray.length; i++){
+            if(player1PieceArray[i]!=null) {
+                player1PieceArray[i].setEnabled(false);
+                turnButtonBlue(player1PieceArray[i]);
+            }
+        }
+    }//disableP1Moves
 
     public void enableAllPieces(){
         //first square
         Button b00 = (Button) findViewById(R.id.pvpB00);
         b00.setEnabled(true);
-        changeVisualDisable(b00);
+        changeVisualSelected(b00);
         Button b01 = (Button) findViewById(R.id.pvpB01);
         b01.setEnabled(true);
-        changeVisualDisable(b01);
+        changeVisualSelected(b01);
         Button b02 = (Button) findViewById(R.id.pvpB02);
         b02.setEnabled(true);
-        changeVisualDisable(b02);
+        changeVisualSelected(b02);
         Button b03 = (Button) findViewById(R.id.pvpB03);
         b03.setEnabled(true);
-        changeVisualDisable(b03);
+        changeVisualSelected(b03);
         Button b04 = (Button) findViewById(R.id.pvpB04);
         b04.setEnabled(true);
-        changeVisualDisable(b04);
+        changeVisualSelected(b04);
         Button b05 = (Button) findViewById(R.id.pvpB05);
         b05.setEnabled(true);
-        changeVisualDisable(b05);
+        changeVisualSelected(b05);
         Button b06 = (Button) findViewById(R.id.pvpB06);
         b06.setEnabled(true);
-        changeVisualDisable(b06);
+        changeVisualSelected(b06);
         Button b07 = (Button) findViewById(R.id.pvpB07);
         b07.setEnabled(true);
-        changeVisualDisable(b07);
+        changeVisualSelected(b07);
 
 
         Button b10 = (Button) findViewById(R.id.pvpB10);
         b10.setEnabled(true);
-        changeVisualDisable(b10);
+        changeVisualSelected(b10);
         Button b11 = (Button) findViewById(R.id.pvpB11);
         b11.setEnabled(true);
-        changeVisualDisable(b11);
+        changeVisualSelected(b11);
         Button b12 = (Button) findViewById(R.id.pvpB12);
         b12.setEnabled(true);
-        changeVisualDisable(b12);
+        changeVisualSelected(b12);
         Button b13 = (Button) findViewById(R.id.pvpB13);
         b13.setEnabled(true);
-        changeVisualDisable(b13);
+        changeVisualSelected(b13);
         Button b14 = (Button) findViewById(R.id.pvpB14);
         b14.setEnabled(true);
-        changeVisualDisable(b14);
+        changeVisualSelected(b14);
         Button b15 = (Button) findViewById(R.id.pvpB15);
         b15.setEnabled(true);
-        changeVisualDisable(b15);
+        changeVisualSelected(b15);
         Button b16 = (Button) findViewById(R.id.pvpB16);
         b16.setEnabled(true);
-        changeVisualDisable(b16);
+        changeVisualSelected(b16);
         Button b17 = (Button) findViewById(R.id.pvpB17);
         b17.setEnabled(true);
-        changeVisualDisable(b17);
+        changeVisualSelected(b17);
 
         Button b20 = (Button) findViewById(R.id.pvpB20);
         b20.setEnabled(true);
-        changeVisualDisable(b20);
+        changeVisualSelected(b20);
         Button b21 = (Button) findViewById(R.id.pvpB21);
         b21.setEnabled(true);
-        changeVisualDisable(b21);
+        changeVisualSelected(b21);
         Button b22 = (Button) findViewById(R.id.pvpB22);
         b22.setEnabled(true);
-        changeVisualDisable(b22);
+        changeVisualSelected(b22);
         Button b23 = (Button) findViewById(R.id.pvpB23);
         b23.setEnabled(true);
-        changeVisualDisable(b23);
+        changeVisualSelected(b23);
         Button b24 = (Button) findViewById(R.id.pvpB24);
         b24.setEnabled(true);
-        changeVisualDisable(b24);
+        changeVisualSelected(b24);
         Button b25 = (Button) findViewById(R.id.pvpB25);
         b25.setEnabled(true);
-        changeVisualDisable(b25);
+        changeVisualSelected(b25);
         Button b26 = (Button) findViewById(R.id.pvpB26);
         b26.setEnabled(true);
-        changeVisualDisable(b26);
+        changeVisualSelected(b26);
         Button b27 = (Button) findViewById(R.id.pvpB27);
         b27.setEnabled(true);
-        changeVisualDisable(b27);
+        changeVisualSelected(b27);
     }//enableAllPieces
 
     public void disableBlockedButtons(){
@@ -1079,121 +1199,139 @@ public class PvpGameScreen extends AppCompatActivity{
         //first square
         if((b01.getText()!="")&&(b03.getText()!="")) {
             b00.setEnabled(false);
-            changeVisualDisable(b00);
+            changeVisualUnselected(b00);
         }
         if((b11.getText()!="")&&(b00.getText()!="")&&(b02.getText()!="")) {
             b01.setEnabled(false);
-            changeVisualDisable(b01);
+            changeVisualUnselected(b01);
         }
         if ((b01.getText()!="")&&(b04.getText()!="")) {
             b02.setEnabled(false);
-            changeVisualDisable(b02);
+            changeVisualUnselected(b02);
         }
         if ((b00.getText()!="")&&(b13.getText()!="")&&(b05.getText()!="")) {
             b03.setEnabled(false);
-            changeVisualDisable(b03);
+            changeVisualUnselected(b03);
         }
         if ((b02.getText()!="")&&(b14.getText()!="")&&(b07.getText()!="")) {
             b04.setEnabled(false);
-            changeVisualDisable(b04);
+            changeVisualUnselected(b04);
         }
         if ((b03.getText()!="")&&(b06.getText()!="")) {
             b05.setEnabled(false);
-            changeVisualDisable(b05);
+            changeVisualUnselected(b05);
         }
         if ((b05.getText()!="")&&(b16.getText()!="")&&(b07.getText()!="")) {
             b06.setEnabled(false);
-            changeVisualDisable(b06);
+            changeVisualUnselected(b06);
         }
         if ((b04.getText()!="")&&(b06.getText()!="")) {
             b07.setEnabled(false);
-            changeVisualDisable(b07);
+            changeVisualUnselected(b07);
         }
 
         //second square
         if((b11.getText()!="")&&(b13.getText()!="")) {
             b10.setEnabled(false);
-            changeVisualDisable(b10);
+            changeVisualUnselected(b10);
         }
         if((b21.getText()!="")&&(b01.getText()!="")&&(b12.getText()!="")&&(b10.getText()!="")) {
             b11.setEnabled(false);
-            changeVisualDisable(b11);
+            changeVisualUnselected(b11);
         }
         if ((b11.getText()!="")&&(b14.getText()!="")) {
             b12.setEnabled(false);
-            changeVisualDisable(b12);
+            changeVisualUnselected(b12);
         }
         if ((b03.getText()!="")&&(b23.getText()!="")&&(b15.getText()!="")&&(b10.getText()!="")) {
             b13.setEnabled(false);
-            changeVisualDisable(b13);
+            changeVisualUnselected(b13);
         }
         if ((b12.getText()!="")&&(b24.getText()!="")&&(b17.getText()!="")&&(b04.getText()!="")) {
             b14.setEnabled(false);
-            changeVisualDisable(b14);
+            changeVisualUnselected(b14);
         }
         if ((b13.getText()!="P1")&&(b16.getText()!="")) {
             b15.setEnabled(false);
-            changeVisualDisable(b15);
+            changeVisualUnselected(b15);
         }
         if ((b15.getText()!="")&&(b26.getText()!="")&&(b17.getText()!="")&&(b06.getText()!="")) {
             b16.setEnabled(false);
-            changeVisualDisable(b16);
+            changeVisualUnselected(b16);
         }
         if ((b14.getText()!="")&&(b16.getText()!="")) {
             b17.setEnabled(false);
-            changeVisualDisable(b17);
+            changeVisualUnselected(b17);
         }
 
         //third square
         if((b21.getText()!="")&&(b23.getText()!="")) {
             b20.setEnabled(false);
-            changeVisualDisable(b20);
+            changeVisualUnselected(b20);
         }
         if((b11.getText()!="")&&(b20.getText()!="")&&(b22.getText()!="")) {
             b21.setEnabled(false);
-            changeVisualDisable(b21);
+            changeVisualUnselected(b21);
         }
         if ((b21.getText()!="")&&(b24.getText()!="")) {
             b22.setEnabled(false);
-            changeVisualDisable(b22);
+            changeVisualUnselected(b22);
         }
         if ((b20.getText()!="")&&(b13.getText()!="")&&(b25.getText()!="")) {
             b23.setEnabled(false);
-            changeVisualDisable(b23);
+            changeVisualUnselected(b23);
         }
         if ((b22.getText()!="")&&(b14.getText()!="")&&(b27.getText()!="")) {
+            changeVisualUnselected(b24);
             b24.setEnabled(false);
-            changeVisualDisable(b24);
         }
         if ((b23.getText()!="")&&(b26.getText()!="")) {
             b25.setEnabled(false);
-            changeVisualDisable(b25);
+            changeVisualUnselected(b25);
         }
         if ((b25.getText()!="")&&(b16.getText()!="")&&(b27.getText()!="")) {
             b26.setEnabled(false);
-            changeVisualDisable(b26);
+            changeVisualUnselected(b26);
         }
         if ((b24.getText()!="")&&(b26.getText()!="")) {
             b27.setEnabled(false);
-            changeVisualDisable(b27);
+            changeVisualUnselected(b27);
         }
 
 
 
     }//disableBlockedButtons
 
-    public void changeVisualDisable(Button toBeDisabled){
+    public void changeVisualSelected(Button toBeEnabled){
+        if(toBeEnabled.getText()=="P2"){
+            turnButtonHighlightRed(toBeEnabled);
+        }
+        else if(toBeEnabled.getText()=="P1"){
+            turnButtonHighlightBlue(toBeEnabled);
+        }
+        else if(toBeEnabled.getText()==""){
+            turnButtonHighlightWhite(toBeEnabled);
+        }
+    }
+
+    public void changeVisualUnselected(Button toBeDisabled){
         if(toBeDisabled.getText()=="P2"){
             turnButtonRed(toBeDisabled);
         }
         else if(toBeDisabled.getText()=="P1"){
             turnButtonBlue(toBeDisabled);
         }
-    }//changeVisualDisable
+        else if(toBeDisabled.getText()==""){
+            turnButtonWhite(toBeDisabled);
+        }
+    }//changeVisualUnselected
 
-    //////////////////////////////////
-    //      VISUAL BELOW            //
-    //////////////////////////////////
+    /**
+     *     //////////////////////////////////
+     *     //      VISUAL BELOW            //
+     *     //////////////////////////////////
+     *     Cole Cloutier
+     */
 
     /*
     Changes the turn arrow depending on input turn
@@ -1209,6 +1347,7 @@ public class PvpGameScreen extends AppCompatActivity{
             arrow.setImageResource(R.drawable.turn_red);
         }
     }//flipTurnWidget
+
     /*
     Changes the counter depending on the number and player
     int player 0 - Blue, 1 - Red
@@ -1231,6 +1370,77 @@ public class PvpGameScreen extends AppCompatActivity{
         counter.setImageResource(fonts[number]);
     }//changeCounterNumber
 
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
+    /*
+     * Functions that control the mood of the portraits
+     *
+     */
+    public void makePortraitsNeutral(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien);
+        }
+    }//makePortraitsNeutral
+    public void makePortraitBlueHappy(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human_happy);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human_sad);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien_sad);
+        }
+
+        makeActionIndicatorSayCapture();
+    }//makePortraitBlueHappy
+    public void makePortraitRedHappy(){
+        boolean isPvp = true;
+        ImageView bluePortrait = (ImageView) findViewById(R.id.playerBlue);
+        ImageView redPortrait = (ImageView) findViewById(R.id.playerRed);
+
+        bluePortrait.setImageResource(R.drawable.portrait_blue_human_sad);
+        if(isPvp){
+            redPortrait.setImageResource(R.drawable.portrait_red_human_happy);
+        }
+        else{
+            redPortrait.setImageResource(R.drawable.portrait_red_alien_happy);
+        }
+
+        makeActionIndicatorSayCapture();
+    }//makePortraitRedHappy
+
+    /*
+     * Functions that change the actionIndicator
+     */
+    public void makeActionIndicatorSayPlace(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
+
+        actionIndicator.setImageResource(R.drawable.indicator_place);
+    }//makeActionIndicatorSayPlace
+    public void makeActionIndicatorSayMove(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
+
+        actionIndicator.setImageResource(R.drawable.indicator_move);
+    }//makeActionIndicatorSayMove
+    public void makeActionIndicatorSayCapture(){
+        ImageView actionIndicator = (ImageView) findViewById(R.id.actionIndicator);
+
+        actionIndicator.setImageResource(R.drawable.indicator_capture);
+    }//makeActionIndicatorSayCapture
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+
     /*
     Below are all the basic functions that turn an input button into a specified visual
      */
@@ -1251,4 +1461,7 @@ public class PvpGameScreen extends AppCompatActivity{
     public void turnButtonHighlightRed(Button availableButton){
         availableButton.setBackgroundResource(R.drawable.token_red_selected);
     }//turnButtonHighlightRed
+    public void turnButtonHighlightWhite(Button InputButton){
+        InputButton.setBackgroundResource(R.drawable.token_none_selected);
+    }//turnButtonHighlightWhite
 }

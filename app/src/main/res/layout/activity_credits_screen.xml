@@ -4,42 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#232323"
     tools:context=".CreditsScreen">
 
-    <Button
-        android:id="@+id/muted"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/button_mute_off"
-        android:onClick="unMuteSound"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/unmuted"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/button_mute_on"
-        android:onClick="muteSound"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/creditsTitle"
         android:layout_width="340dp"
         android:layout_height="55dp"
         android:layout_marginTop="100dp"
         android:background="@drawable/custom_button"
+        android:fontFamily="sans-serif"
         android:text="Credits"
         android:textAlignment="center"
         android:textColor="#000000"
-        android:fontFamily="@font/amatic_sc_bold"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,34 +25,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/credits"
         android:layout_width="339dp"
         android:layout_height="446dp"
-        android:background="@drawable/custom_button"
+        android:fontFamily="sans-serif"
         android:inputType="textMultiLine"
         android:text="@string/nall_right_reserved_n_n_n_nmember_roles_n_ui_wireframe_and_prototype_cole_n_high_level_design_israel_n_low_level_design_thai_n_project_requirements_and_planning_james_n"
         android:textAlignment="center"
-        android:textColor="#000000"
-        android:fontFamily="@font/amatic_sc_bold"
+        android:textColor="#FFFFFF"
         android:textSize="25sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/creditsTitle" />
 
-    <Button
-        android:id="@+id/backToMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="450dp"
-        android:layout_marginBottom="100dp"
-        android:background="@drawable/custom_button"
-        android:onClick="goBackHome"
-        android:text="@string/back"
-        android:fontFamily="@font/amatic_sc_bold"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

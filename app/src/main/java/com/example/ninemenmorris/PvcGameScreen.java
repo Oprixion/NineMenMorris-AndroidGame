@@ -127,5 +127,4 @@ public class PvcGameScreen extends AppCompatActivity {
         Button InputButton = (Button) MyView;
         InputButton.setBackgroundResource(R.drawable.token_red_selected);
     }
-
 }

@@ -6,19 +6,34 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 
 public class SettingScreen extends AppCompatActivity {
-    PopupWindow popUp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_screen);
 
-        popUp = new PopupWindow(this);
+        DisplayMetrics creditsPopup = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(creditsPopup);
+
+        int width = creditsPopup.widthPixels;
+        int height = creditsPopup.heightPixels;
+
+        getWindow().setLayout((int)(width*.93),(int)(height*.93));
+
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.gravity = Gravity.CENTER;
+        params.x = 0;
+        params.y = -20;
+        getWindow().setAttributes(params);
+
 
         MusicService.musicInitialize = 2;
 
@@ -84,9 +99,6 @@ public class SettingScreen extends AppCompatActivity {
 
 
     }
-
-
-
 
     public void openHelpScreen(View myView){
         Intent toHelpScreen = new Intent(this, HelpScreen.class);

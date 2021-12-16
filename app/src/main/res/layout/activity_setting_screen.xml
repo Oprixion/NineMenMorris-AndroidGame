@@ -4,24 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#232323"
     tools:context=".SettingScreen">
 
     <SeekBar
         android:id="@+id/adjustVolume"
-        android:layout_width="238dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="500dp"
-        android:thumbTint="#000000"
+        android:layout_width="246dp"
+        android:layout_height="50dp"
+        android:progressBackgroundTint="#FFFFFF"
+        android:progressTint="#1F9FF6"
+        android:thumbTint="#1F9FF6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.842"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.303" />
 
     <Button
         android:id="@+id/muted"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="192dp"
         android:background="@drawable/button_mute_off"
         android:onClick="unMuteSound"
         android:text=""
@@ -34,41 +38,51 @@
         android:id="@+id/unmuted"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="72dp"
         android:background="@drawable/button_mute_on"
         android:onClick="muteSound"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.148"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/settingsTitle" />
 
     <Button
         android:id="@+id/howToPlay"
         android:layout_width="231dp"
         android:layout_height="67dp"
-        android:layout_marginBottom="300dp"
-        android:background="@drawable/custom_button"
+        android:background="@drawable/button_how_to_play"
         android:fontFamily="@font/amatic_sc_bold"
         android:onClick="openHelpScreen"
         android:text="HOW TO PLAY"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/backToHome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/adjustVolume"
+        app:layout_constraintVertical_bias="0.914" />
 
     <Button
         android:id="@+id/backToHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_button"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_back"
         android:fontFamily="@font/amatic_sc_bold"
         android:onClick="goBackHome"
-        android:text="BACK"
-        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/settingsTitle"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/howToPlay" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".03"
+        app:srcCompat="@drawable/background_settings" />
 </androidx.constraintlayout.widget.ConstraintLayout>

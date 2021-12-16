@@ -271,11 +271,11 @@
             android:background="@drawable/token_none"
             android:onClick="placeMove"
             android:textColor="@android:color/transparent"
-            app:layout_constraintBottom_toTopOf="@+id/pvpB07"
-            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
             android:textColorHighlight="@android:color/transparent"
             android:textColorHint="@android:color/transparent"
-            android:textColorLink="@android:color/transparent" />
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB07"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter" />
 
         <Button
             android:id="@+id/pvpB20"
@@ -469,21 +469,21 @@
             android:id="@+id/playerBlue"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="88dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/blue_human" />
+            app:srcCompat="@drawable/portrait_blue_human" />
 
         <ImageView
             android:id="@+id/playerRed"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginTop="88dp"
+            android:layout_marginEnd="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/red_human" />
+            app:srcCompat="@drawable/portrait_red_human" />
 
         <ImageView
             android:id="@+id/playerBlueCounter"
@@ -506,6 +506,16 @@
             app:layout_constraintEnd_toStartOf="@+id/playerRed"
             app:layout_constraintTop_toTopOf="@+id/playerRed"
             app:srcCompat="@drawable/font_9" />
+
+        <ImageView
+            android:id="@+id/actionIndicator"
+            android:layout_width="150dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="-10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/turnWidget"
+            app:srcCompat="@drawable/indicator_place" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
