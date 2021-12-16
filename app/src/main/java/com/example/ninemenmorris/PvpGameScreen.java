@@ -1,7 +1,9 @@
 package com.example.ninemenmorris;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -29,9 +31,21 @@ public class PvpGameScreen extends AppCompatActivity{
     }
 
     public void toModeSelection(View myView){
-        Intent modeSelection = new Intent(this, ModeSelectionScreen.class);
-        startActivity(modeSelection);
-        this.finish();
+        //dialog to make sure user want to quit
+        new AlertDialog.Builder(this)
+                .setIcon(R.drawable.button_quit)
+                .setTitle("Return to menu? your progress will not be saved")
+                .setMessage("Are you sure?")
+                .setPositiveButton("✓", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("X", null)
+                .show();
     }//toModeSelection
 
     /**
