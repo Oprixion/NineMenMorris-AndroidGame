@@ -20,11 +20,11 @@ public class SettingScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_screen);
 
-        DisplayMetrics creditsPopup = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(creditsPopup);
+        DisplayMetrics settingsPopup = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(settingsPopup);
 
-        int width = creditsPopup.widthPixels;
-        int height = creditsPopup.heightPixels;
+        int width = settingsPopup.widthPixels;
+        int height = settingsPopup.heightPixels;
 
         getWindow().setLayout((int)(width*.93),(int)(height*.93));
 
@@ -103,11 +103,6 @@ public class SettingScreen extends AppCompatActivity {
     public void openHelpScreen(View myView){
         Intent toHelpScreen = new Intent(this, HelpScreen.class);
         startActivity(toHelpScreen);
-    }
-    public void goBackHome(View myView){
-        Intent goHome = new Intent(this, StartScreen.class);
-        startActivity(goHome);
-        this.finish();
     }
 
 }

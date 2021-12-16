@@ -37,11 +37,11 @@ public class HelpScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_screen);
 
-        DisplayMetrics creditsPopup = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(creditsPopup);
+        DisplayMetrics helpsPopup = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(helpsPopup);
 
-        int width = creditsPopup.widthPixels;
-        int height = creditsPopup.heightPixels;
+        int width = helpsPopup.widthPixels;
+        int height = helpsPopup.heightPixels;
 
         getWindow().setLayout((int)(width*.93),(int)(height*.93));
 
