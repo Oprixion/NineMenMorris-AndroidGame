@@ -52,9 +52,9 @@
 
         <Button
             android:id="@+id/restartGame"
-            android:layout_width="128dp"
-            android:layout_height="82dp"
-            android:background="@drawable/button_restart"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/button_restart2"
             android:onClick="restartGame"
             android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
