@@ -61,6 +61,8 @@ public class PvcGameScreen extends AppCompatActivity {
         setAllButtonInArray();
         computerChoiceOnSecondPhase();
         setDifficultySliders();
+        setTextOFBoard();
+
 
         //Ensures that multiple counts of audio doesn't occur
         MusicService.musicInitialize = 2;
@@ -101,6 +103,15 @@ public class PvcGameScreen extends AppCompatActivity {
         MusicService.setMuteStatus("unmuted");
     }
 
+    public void openSettingsScreen(View myView){
+        Intent toSettingScreen = new Intent(this, SettingScreen.class);
+        startActivity(toSettingScreen);
+    }
+    public void openHelpScreen(View myView){
+        Intent toHelpScreen = new Intent(this, HelpScreen.class);
+        startActivity(toHelpScreen);
+    }
+
     public void toModeSelection(View myView){
         //dialog to make sure user want to quit
         new AlertDialog.Builder(this)
@@ -138,7 +149,13 @@ public class PvcGameScreen extends AppCompatActivity {
                 .setNegativeButton("X", null)
                 .show();
     }//restartGame
-
+    public void setTextOFBoard(){
+        for (int i = 0; i <= 2; i++) {
+            for (int j = 0; j <= 7; j++) {
+                buttonOfSquaresArray[i][j].setText("");
+            }
+        }
+    }
     public void setDifficultySliders(){
         difficultySliders = new int[]{0,1,2,3,4,5,6,7,8,9};
     }
@@ -238,13 +255,24 @@ public class PvcGameScreen extends AppCompatActivity {
                 button24, button25, button26, button27};
     }
     public void setAllButtonInArray(){
-        allButtonOfBoard = new Button[]{buttonOfSquaresArray[0][0], buttonOfSquaresArray[0][1], buttonOfSquaresArray[0][2],
-                buttonOfSquaresArray[0][3], buttonOfSquaresArray[0][4], buttonOfSquaresArray[0][5], buttonOfSquaresArray[0][6], buttonOfSquaresArray[0][7]
-                , buttonOfSquaresArray[1][0], buttonOfSquaresArray[1][1], buttonOfSquaresArray[1][2], buttonOfSquaresArray[1][3],
-                buttonOfSquaresArray[1][4], buttonOfSquaresArray[1][5], buttonOfSquaresArray[1][6] ,
-                buttonOfSquaresArray[2][0], buttonOfSquaresArray[2][1], buttonOfSquaresArray[2][2], buttonOfSquaresArray[2][3],
-                buttonOfSquaresArray[2][4], buttonOfSquaresArray[2][5], buttonOfSquaresArray[2][6], buttonOfSquaresArray[2][7]};
+        allButtonOfBoard = new Button[]{buttonOfSquaresArray[0][0], buttonOfSquaresArray[0][1],
+                buttonOfSquaresArray[0][2], buttonOfSquaresArray[0][3], buttonOfSquaresArray[0][4],
+                buttonOfSquaresArray[0][5], buttonOfSquaresArray[0][6], buttonOfSquaresArray[0][7],
+
+                buttonOfSquaresArray[1][0], buttonOfSquaresArray[1][1], buttonOfSquaresArray[1][2],
+                buttonOfSquaresArray[1][3], buttonOfSquaresArray[1][4], buttonOfSquaresArray[1][5],
+                buttonOfSquaresArray[1][6] , buttonOfSquaresArray[1][7],
+
+                buttonOfSquaresArray[2][0], buttonOfSquaresArray[2][1], buttonOfSquaresArray[2][2],
+                buttonOfSquaresArray[2][3], buttonOfSquaresArray[2][4], buttonOfSquaresArray[2][5],
+                buttonOfSquaresArray[2][6], buttonOfSquaresArray[2][7]};
     }
+
+    /**
+     * Method to check between computer and player. This also contains all the method the computer
+     * will use to try and beat the player
+     * @param myView
+     */
     public void playerOrComputer(View myView) {
         numOfRd++;
         Button playerMove = (Button) myView;
@@ -259,12 +287,11 @@ public class PvcGameScreen extends AppCompatActivity {
                 }
             } else if (masterControl.equals("Remover")) {
                 removeComputerPieceIfMill(playerMove);
-                enableAllButtons(buttonOfSquaresArray);
+                enableAllButtons();
                 disableComputerMove();
                 disablePlayerMove();
                 masterControl = "Computer";
             }
-
 
             if (masterControl.equals("Computer")) {
                 Button compButtonCrossLines = getComputerButtonCrossLines();
@@ -366,6 +393,7 @@ public class PvcGameScreen extends AppCompatActivity {
         if (playerPieceOnHand > 0) {
             playerMove.setText("P");
             playerMove.setEnabled(false);
+            changeVisualSelected(playerMove);
             playerPiecesArray[9 - playerPieceOnHand] = playerMove;
             if (playerPieceOnHand > 0) {
                 playerPieceOnHand--;
@@ -386,6 +414,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 Button randomSpot= pickRandomButtons();
                 randomSpot.setEnabled(false);
                 randomSpot.setText("C");
+                changeVisualSelected(randomSpot);
             }
         }
         else if(difficulty==2){
@@ -397,6 +426,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 Button randomSpot= pickRandomButtons();
                 randomSpot.setEnabled(false);
                 randomSpot.setText("C");
+                changeVisualSelected(randomSpot);
             }
         }
         else if (difficulty==3){
@@ -410,9 +440,11 @@ public class PvcGameScreen extends AppCompatActivity {
                 Button randomSpot= pickRandomButtons();
                 randomSpot.setEnabled(false);
                 randomSpot.setText("C");
+                changeVisualSelected(randomSpot);
             }
         }
     }
+
     public void setDifficultySecondPhase(int difficulty){
         Random random = new Random();
         int percentageOfDifficulity = random.nextInt(10);
@@ -424,6 +456,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 Button randomSpot= randomMoveSecondPhase();
                 randomSpot.setEnabled(false);
                 randomSpot.setText("C");
+                changeVisualSelected(randomSpot);
             }
         }
         else if(difficulty==2){
@@ -435,6 +468,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 Button randomSpot= randomMoveSecondPhase();
                 randomSpot.setEnabled(false);
                 randomSpot.setText("C");
+                changeVisualSelected(randomSpot);
             }
         }
         else if (difficulty==3){
@@ -448,6 +482,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 Button randomSpot= randomMoveSecondPhase();
                 randomSpot.setEnabled(false);
                 randomSpot.setText("C");
+                changeVisualSelected(randomSpot);
             }
         }
     }
@@ -462,6 +497,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 Button randomSpot= pickRandomButtons();
                 randomSpot.setEnabled(false);
                 randomSpot.setText("C");
+                changeVisualSelected(randomSpot);
             }
         }
         else if(difficulty==2){
@@ -473,6 +509,7 @@ public class PvcGameScreen extends AppCompatActivity {
                 Button randomSpot= pickRandomButtons();
                 randomSpot.setEnabled(false);
                 randomSpot.setText("C");
+                changeVisualSelected(randomSpot);
             }
         }
         else if (difficulty==3){
@@ -485,13 +522,14 @@ public class PvcGameScreen extends AppCompatActivity {
             else{
                 Button randomSpot= pickRandomButtons();
                 randomSpot.setText("C");
+                changeVisualSelected(randomSpot);
             }
         }
     }
     public Button randomMoveSecondPhase(){
         Button  randomButtonSecondPhase= pickRandomButtons();
 
-        while(returnEnableAdjacentButtons(randomButtonSecondPhase)==null){
+        while(returnEnabledAdjacentButtons(randomButtonSecondPhase)==null){
              randomButtonSecondPhase=pickRandomButtons();
         }
         return randomButtonSecondPhase;
@@ -501,85 +539,118 @@ public class PvcGameScreen extends AppCompatActivity {
             firstComputerTurn();
         }
         //Block opponenet trying to make a mill. 1 Priority
-        else if (blockOrMillVert("P")!=null || blockOrMillHort("P")!=null ||
+        else if (blockOrMillVertical("P")!=null || blockOrMillHorizontal("P")!=null ||
                 blockOrMillCrossLines("P")!=null) {
-            if (blockOrMillVert("P")!=null) {
-                blockOrMillVert("P").setEnabled(false);
-                blockOrMillVert("P").setText("C");
-            } else if (blockOrMillHort("P")!=null) {
-                blockOrMillHort("P").setEnabled(false);
-                blockOrMillHort("P").setText("C");
-            } else if (blockOrMillCrossLines("P")!=null) {
-                blockOrMillCrossLines("P").setEnabled(false);
+
+            if (blockOrMillVertical("P")!=null) {
+                blockOrMillVertical("P").setText("C");
+                changeVisualSelected(blockOrMillVertical("P"));
+                blockOrMillVertical("P").setEnabled(false);
+
+            }
+
+            else if (blockOrMillHorizontal("P")!=null) {
+                blockOrMillHorizontal("P").setText("C");
+                changeVisualSelected(blockOrMillVertical("P"));
+                blockOrMillHorizontal("P").setEnabled(false);
+
+            }
+
+            else if (blockOrMillCrossLines("P")!=null) {
                 blockOrMillCrossLines("P").setText("C");
+                changeVisualSelected(blockOrMillCrossLines("P"));
+                blockOrMillCrossLines("P").setEnabled(false);
+
             }
         }
         //Making a mill. 2 priority
-        else if (blockOrMillVert("C")!=null || blockOrMillHort("C")!=null ||
+        else if (blockOrMillVertical("C")!=null || blockOrMillHorizontal("C")!=null ||
                 blockOrMillCrossLines("C")!=null) {
-            if (blockOrMillVert("C")!=null) {
-                blockOrMillVert("C").setEnabled(false);
-                blockOrMillVert("C").setText("C");
-            } else if (blockOrMillHort("C")!=null) {
-                blockOrMillHort("C").setEnabled(false);
-                blockOrMillHort("C").setText("C");
-            } else if (blockOrMillCrossLines("C")!=null) {
-                blockOrMillCrossLines("C").setEnabled(false);
+            if (blockOrMillVertical("C")!=null) {
+                blockOrMillVertical("C").setText("C");
+                changeVisualSelected(blockOrMillVertical("C"));
+                blockOrMillVertical("C").setEnabled(false);
+
+            }
+            else if (blockOrMillHorizontal("C")!=null) {
+                blockOrMillHorizontal("C").setText("C");
+                changeVisualSelected(blockOrMillHorizontal("C"));
+                blockOrMillHorizontal("C").setEnabled(false);
+            }
+            else if (blockOrMillCrossLines("C")!=null) {
                 blockOrMillCrossLines("C").setText("C");
+                changeVisualSelected(blockOrMillCrossLines("C"));
+                blockOrMillCrossLines("C").setEnabled(false);
             }
         }
             //Trying to make a mill . 3 priority
          else if (tryingToMakeMillCorners()!=null || tryingToMakeMillMiddleHorizontal()!=null
                 || tryingToMakeMillMiddleVertical()!=null || tryingToMakeMillCrossLines()!=null) {
             if (tryingToMakeMillMiddleHorizontal()!=null) {
-                tryingToMakeMillMiddleHorizontal().setEnabled(false);
                 tryingToMakeMillMiddleHorizontal().setText("C");
-            } else if (tryingToMakeMillMiddleVertical()!=null) {
-                tryingToMakeMillMiddleVertical().setEnabled(false);
-                tryingToMakeMillMiddleVertical().setText("C");
-            } else if (tryingToMakeMillCorners()!=null) {
-                tryingToMakeMillCorners().setEnabled(false);
-                tryingToMakeMillCorners().setText("C");
-            } else if (tryingToMakeMillCrossLines()!=null) {
-                tryingToMakeMillCrossLines().setEnabled(false);
-                tryingToMakeMillCrossLines().setText("C");
+                changeVisualSelected(tryingToMakeMillMiddleHorizontal());
+                tryingToMakeMillMiddleHorizontal().setEnabled(false);
             }
-        } else if (adjacentToPlayerPiece() != null) {
-            adjacentToPlayerPiece().setEnabled(false);
+            else if (tryingToMakeMillMiddleVertical()!=null) {
+                tryingToMakeMillMiddleVertical().setText("C");
+                changeVisualSelected(tryingToMakeMillMiddleHorizontal());
+                tryingToMakeMillMiddleVertical().setEnabled(false);
+            }
+            else if (tryingToMakeMillCorners()!=null) {
+                tryingToMakeMillCorners().setText("C");
+                changeVisualSelected(tryingToMakeMillCorners());
+                tryingToMakeMillCorners().setEnabled(false);
+            }
+            else if (tryingToMakeMillCrossLines()!=null) {
+                tryingToMakeMillCrossLines().setText("C");
+                changeVisualSelected(tryingToMakeMillCrossLines());
+                tryingToMakeMillCrossLines().setEnabled(false);
+            }
+        }
+         else if (adjacentToPlayerPiece() != null) {
             adjacentToPlayerPiece().setText("C");
+            changeVisualSelected(adjacentToPlayerPiece());
+            adjacentToPlayerPiece().setEnabled(false);
         }
         else{
             Button randomSpot= pickRandomButtons();
-            randomSpot.setEnabled(false);
             randomSpot.setText("C");
+            changeVisualSelected(randomSpot);
+            randomSpot.setEnabled(false);
         }
     }
     public void easyModeFirstPhase(){
         Button randomSpot= pickRandomButtons();
         randomSpot.setEnabled(false);
         randomSpot.setText("C");
+        changeVisualSelected(randomSpot);
     }
 
     public Button cpuThirdPhaseMoves(){
-        if (blockOrMillVert("P")!=null || blockOrMillHort("P")!=null ||
+        if (blockOrMillVertical("P")!=null || blockOrMillHorizontal("P")!=null ||
                 blockOrMillCrossLines("P")!=null) {
-            if (blockOrMillVert("P")!=null) {
-                return blockOrMillVert("P");
-
-            } else if (blockOrMillHort("P")!=null) {
-               return blockOrMillHort("P");
-            } else if (blockOrMillCrossLines("P")!=null) {
+            if (blockOrMillVertical("P")!=null) {
+                return blockOrMillVertical("P");
+            }
+            else if (blockOrMillHorizontal("P")!=null) {
+               return blockOrMillHorizontal("P");
+            }
+            else if (blockOrMillCrossLines("P")!=null) {
                 return blockOrMillCrossLines("P");
             }
         }
         //Making a mill. 2 priority
-        else if (blockOrMillVert("C")!=null || blockOrMillHort("C")!=null ||
+        else if (blockOrMillVertical("C")!=null || blockOrMillHorizontal("C")!=null ||
                 blockOrMillCrossLines("C")!=null) {
-            if (blockOrMillVert("C")!=null) {
-                return blockOrMillVert("C");
-            } else if (blockOrMillHort("C")!=null) {
-                return blockOrMillHort("C");
-            } else if (blockOrMillCrossLines("C")!=null) {
+            if (blockOrMillVertical("C")!=null) {
+                return blockOrMillVertical("C");
+            }
+
+            else if (blockOrMillHorizontal("C")!=null) {
+                return blockOrMillHorizontal("C");
+            }
+
+            else if (blockOrMillCrossLines("C")!=null) {
                 return blockOrMillCrossLines("C");
             }
         }
@@ -588,14 +659,18 @@ public class PvcGameScreen extends AppCompatActivity {
                 || tryingToMakeMillMiddleVertical()!=null || tryingToMakeMillCrossLines()!=null) {
             if (tryingToMakeMillMiddleHorizontal()!=null) {
                 return tryingToMakeMillMiddleHorizontal();
-            } else if (tryingToMakeMillMiddleVertical()!=null) {
+            }
+            else if (tryingToMakeMillMiddleVertical()!=null) {
                return tryingToMakeMillMiddleVertical();
-            } else if (tryingToMakeMillCorners()!=null) {
+            }
+            else if (tryingToMakeMillCorners()!=null) {
                 return tryingToMakeMillCorners();
-            } else if (tryingToMakeMillCrossLines()!=null) {
+            }
+            else if (tryingToMakeMillCrossLines()!=null) {
                 return tryingToMakeMillCrossLines();
             }
-        } else if (adjacentToPlayerPiece() != null) {
+        }
+        else if (adjacentToPlayerPiece() != null) {
             return adjacentToPlayerPiece();
         }
         return null;
@@ -606,7 +681,10 @@ public class PvcGameScreen extends AppCompatActivity {
                 if(cpuThirdPhaseMoves()!=null) {
                     cpuThirdPhaseMoves().setText("C");
                     cpuThirdPhaseMoves().setEnabled(false);
-                    allButtonOfBoard[i].setText(null);
+                    changeVisualSelected(cpuThirdPhaseMoves());
+                    allButtonOfBoard[i].setEnabled(false);
+                    allButtonOfBoard[i].setText("");
+                    changeVisualSelected(cpuThirdPhaseMoves());
                     return;
                 }
             }
@@ -616,6 +694,7 @@ public class PvcGameScreen extends AppCompatActivity {
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
                 buttonOfSquaresArray[i][j].setEnabled(false);
+                changeVisualSelected(buttonOfSquaresArray[i][j]);
             }
         }
     }//disableAllButtons
@@ -636,6 +715,7 @@ public class PvcGameScreen extends AppCompatActivity {
         for (int i = 0; i <= 8; i++) {
             if (playerPiecesArray[i].getText() != null) {
                 playerPiecesArray[i].setEnabled(true);
+                changeVisualUnselected(playerPiecesArray[i]);
             }
         }
     }//enableAllPlayerPieces
@@ -644,14 +724,17 @@ public class PvcGameScreen extends AppCompatActivity {
         for (int i = 0; i <= 8; i++) {
             if (playerPiecesArray[i].getText() != null) {
                 playerPiecesArray[i].setEnabled(false);
+                changeVisualSelected(playerPiecesArray[i]);
             }
         }
     }//disableAllPlayerPieces
 
-    public void enableAllButtons(Button[][] gameBoard) {
+    public void enableAllButtons() {
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
-                gameBoard[i][j].setEnabled(true);
+                buttonOfSquaresArray[i][j].setEnabled(true);
+                changeVisualUnselected(buttonOfSquaresArray[i][j]);
+
             }
         }
     }//enableAllButtons
@@ -667,6 +750,7 @@ public class PvcGameScreen extends AppCompatActivity {
         }
         buttonOfSquaresArray[0][cpuFirstPosition].setText("C");
         buttonOfSquaresArray[0][cpuFirstPosition].setEnabled(false);
+        changeVisualSelected(buttonOfSquaresArray[0][cpuFirstPosition]);
 
     }//firstComputerTurn
 public Button pickRandomButtons(){
@@ -828,7 +912,7 @@ public Button pickRandomButtons(){
 
     public void removePlayerPiece() {
         //check vertical lines
-        if (blockOrMillVert("P")!=null) {
+        if (blockOrMillVertical("P")!=null) {
             removePlayerPieceIfTryingToMakeMillVert("P");
         }
         //check crosslines
@@ -836,14 +920,15 @@ public Button pickRandomButtons(){
             removePlayerPieceIfTryingToMakeMillCrossLines("P");
         }
         //check horizontal lines
-        else if (blockOrMillHort("P")!=null) {
+        else if (blockOrMillHorizontal("P")!=null) {
             removePlayerPieceIfTryingToMakeMillHort("P");
         } else {
             for (int i = 0; i <= 2; i++) {
                 for (int j = 0; j <= 7; j++) {
                     if (buttonOfSquaresArray[i][j].getText() == "P") {
                         removingPieceFromArray(buttonOfSquaresArray[i][j]);
-                        buttonOfSquaresArray[i][j].setText(null);
+                        buttonOfSquaresArray[i][j].setText("");
+                        changeVisualUnselected(buttonOfSquaresArray[i][j]);
                         return;
                     }
                 }
@@ -861,42 +946,50 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
         for (int i = 0; i <= 2; i++) {
             if (buttonOfSquaresArray[i][0].getText() == whichPiece && buttonOfSquaresArray[i][1].getText() == whichPiece &&
                     buttonOfSquaresArray[i][2].getText() != "C" && buttonOfSquaresArray[i][2].getText() != "P") {
-                buttonOfSquaresArray[i][2].setText(null);
+                buttonOfSquaresArray[i][2].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][2]);
                 return;
             }//top line of squares scanning forward
             if (buttonOfSquaresArray[i][0].getText() == whichPiece && buttonOfSquaresArray[i][2].getText() == whichPiece &&
                     buttonOfSquaresArray[i][1].getText() != "C" && buttonOfSquaresArray[i][1].getText() != "P") {
-                buttonOfSquaresArray[i][1].setText(null);
+                buttonOfSquaresArray[i][1].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][1]);
                 return;
             }//top line of squares scanning forward inBetween
             if (buttonOfSquaresArray[i][2].getText() == whichPiece && buttonOfSquaresArray[i][1].getText() == whichPiece &&
                     buttonOfSquaresArray[i][0].getText() != "C" && buttonOfSquaresArray[i][0].getText() != "P") {
-                buttonOfSquaresArray[i][0].setText(null);
+                buttonOfSquaresArray[i][0].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][0]);
                 return;
             }//top line of squares scanning backward
             if (buttonOfSquaresArray[i][2].getText() == whichPiece && buttonOfSquaresArray[i][0].getText() == whichPiece &&
                     buttonOfSquaresArray[i][1].getText() != "C" && buttonOfSquaresArray[i][1].getText() != "P") {
-                buttonOfSquaresArray[i][1].setText(null);
+                buttonOfSquaresArray[i][1].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][1]);
                 return;
             }//top line of squares Scanning backward inBetween
             if (buttonOfSquaresArray[i][5].getText() == whichPiece && buttonOfSquaresArray[i][6].getText() == whichPiece &&
                     buttonOfSquaresArray[i][7].getText() != "C" && buttonOfSquaresArray[i][7].getText() != "P") {
-                buttonOfSquaresArray[i][7].setText(null);
+                buttonOfSquaresArray[i][7].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][7]);
                 return;
             }//bottom line of squares Scanning forward
             if (buttonOfSquaresArray[i][5].getText() == whichPiece && buttonOfSquaresArray[i][7].getText() == whichPiece &&
                     buttonOfSquaresArray[i][6].getText() != "C" && buttonOfSquaresArray[i][6].getText() != "P") {
-                buttonOfSquaresArray[i][6].setText(null);
+                buttonOfSquaresArray[i][6].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][6]);
                 return;
             }// bottom line of squares forward inBetween
             if (buttonOfSquaresArray[i][7].getText() == whichPiece && buttonOfSquaresArray[i][6].getText() == whichPiece &&
                     buttonOfSquaresArray[i][5].getText() != "C" && buttonOfSquaresArray[i][5].getText() != "P") {
-                buttonOfSquaresArray[i][5].setText(null);
+                buttonOfSquaresArray[i][5].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][5]);
                 return;
             }//bottom line of squares scanning backward
             if (buttonOfSquaresArray[i][7].getText() == whichPiece && buttonOfSquaresArray[i][5].getText() == whichPiece &&
                     buttonOfSquaresArray[i][6].getText() != "C" && buttonOfSquaresArray[i][6].getText() != "P") {
-                buttonOfSquaresArray[i][6].setText(null);
+                buttonOfSquaresArray[i][6].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][6]);
                 return;
             }// bottom line of squares scanning backward inBetween
         }
@@ -906,42 +999,50 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
         for (int i = 0; i <= 2; i++) {
             if (buttonOfSquaresArray[i][0].getText() == whichPiece && buttonOfSquaresArray[i][3].getText() == whichPiece &&
                     buttonOfSquaresArray[i][5].getText() != "C" && buttonOfSquaresArray[i][5].getText() != "P") {
-                buttonOfSquaresArray[i][5].setText(null);
+                buttonOfSquaresArray[i][5].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][5]);
                 return;
             }// right side of squares scanning downward
             if (buttonOfSquaresArray[i][0].getText() == whichPiece && buttonOfSquaresArray[i][5].getText() == whichPiece &&
                     buttonOfSquaresArray[i][3].getText() != "C" && buttonOfSquaresArray[i][3].getText() != "P") {
-                buttonOfSquaresArray[i][3].setText(null);
+                buttonOfSquaresArray[i][3].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][3]);
                 return;
             }//right side of squares scanning downward inbetween
             if (buttonOfSquaresArray[i][5].getText() == whichPiece && buttonOfSquaresArray[i][3].getText() == whichPiece &&
                     buttonOfSquaresArray[i][0].getText() != "C" && buttonOfSquaresArray[i][0].getText() != "P") {
-                buttonOfSquaresArray[i][0].setText(null);
+                buttonOfSquaresArray[i][0].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][0]);
                 return;
             }//right side of squares scanning upward
             if (buttonOfSquaresArray[i][5].getText() == whichPiece && buttonOfSquaresArray[i][0].getText() == whichPiece &&
                     buttonOfSquaresArray[i][3].getText() != "C" && buttonOfSquaresArray[i][3].getText() != "P") {
-                buttonOfSquaresArray[i][3].setText(null);
+                buttonOfSquaresArray[i][3].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][3]);
                 return;
             }//right side of squares scanning upward in between
             if (buttonOfSquaresArray[i][2].getText() == whichPiece && buttonOfSquaresArray[i][4].getText() == whichPiece &&
                     buttonOfSquaresArray[i][7].getText() != "C" && buttonOfSquaresArray[i][7].getText() != "P") {
-                buttonOfSquaresArray[i][7].setText(null);
+                buttonOfSquaresArray[i][7].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][7]);
                 return;
             }// left side of squares scanning downward
             if (buttonOfSquaresArray[i][2].getText() == whichPiece && buttonOfSquaresArray[i][7].getText() == whichPiece &&
                     buttonOfSquaresArray[i][4].getText() != "C" && buttonOfSquaresArray[i][4].getText() != "P") {
-                buttonOfSquaresArray[i][4].setText(null);
+                buttonOfSquaresArray[i][4].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][4]);
                 return;
             }//left side of squares scanning downward in between
             if (buttonOfSquaresArray[i][7].getText() == whichPiece && buttonOfSquaresArray[i][4].getText() == whichPiece &&
                     buttonOfSquaresArray[i][2].getText() != "C" && buttonOfSquaresArray[i][2].getText() != "P") {
-                buttonOfSquaresArray[i][2].setText(null);
+                buttonOfSquaresArray[i][2].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][2]);
                 return;
             }// left side of squares scanning upward
             if (buttonOfSquaresArray[i][7].getText() == whichPiece && buttonOfSquaresArray[i][2].getText() == whichPiece &&
                     buttonOfSquaresArray[i][4].getText() != "C" && buttonOfSquaresArray[i][4].getText() != "P") {
-                buttonOfSquaresArray[i][4].setText(null);
+                buttonOfSquaresArray[i][4].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[i][4]);
                 return;
             }// left side of squares scanning upward
         }
@@ -955,22 +1056,26 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             //scanning all four cross lines
             if (buttonOfSquaresArray[0][numbersInList].getText() == whichPiece && buttonOfSquaresArray[1][numbersInList].getText() == whichPiece &&
                     buttonOfSquaresArray[2][numbersInList].getText() != "C" && buttonOfSquaresArray[2][numbersInList].getText() != "P") {
-                buttonOfSquaresArray[2][numbersInList].setText(null);
+                buttonOfSquaresArray[2][numbersInList].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[2][numbersInList]);
                 return;
             }
             if (buttonOfSquaresArray[0][numbersInList].getText() == whichPiece && buttonOfSquaresArray[2][numbersInList].getText() == whichPiece &&
                     buttonOfSquaresArray[1][numbersInList].getText() != "C" && buttonOfSquaresArray[1][numbersInList].getText() != "P") {
-                buttonOfSquaresArray[1][numbersInList].setText(null);
+                buttonOfSquaresArray[1][numbersInList].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[1][numbersInList]);
                 return;
             }
             if (buttonOfSquaresArray[2][numbersInList].getText() == whichPiece && buttonOfSquaresArray[1][numbersInList].getText() == whichPiece &&
                     buttonOfSquaresArray[0][numbersInList].getText() != "C" && buttonOfSquaresArray[0][numbersInList].getText() != "P") {
-                buttonOfSquaresArray[0][numbersInList].setText(null);
+                buttonOfSquaresArray[0][numbersInList].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[0][numbersInList]);
                 return;
             }
             if (buttonOfSquaresArray[2][numbersInList].getText() == whichPiece && buttonOfSquaresArray[0][numbersInList].getText() == whichPiece &&
                     buttonOfSquaresArray[1][numbersInList].getText() != "C" && buttonOfSquaresArray[1][numbersInList].getText() != "P") {
-                buttonOfSquaresArray[1][numbersInList].setText(null);
+                buttonOfSquaresArray[1][numbersInList].setText("");
+                changeVisualUnselected(buttonOfSquaresArray[1][numbersInList]);
                 return;
             }
 
@@ -984,6 +1089,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int j = 0; j <= 7; j++) {
                 if (buttonOfSquaresArray[i][j].getText() == "C") {
                     buttonOfSquaresArray[i][j].setEnabled(true);
+                    changeVisualUnselected(buttonOfSquaresArray[i][j]);
                 }
             }
         }
@@ -994,6 +1100,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int j = 0; j <= 7; j++) {
                 if (buttonOfSquaresArray[i][j].getText() == "P") {
                     buttonOfSquaresArray[i][j].setEnabled(true);
+                    changeVisualUnselected(buttonOfSquaresArray[i][j]);
                 }
             }
         }
@@ -1004,14 +1111,16 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int j = 0; j <= 7; j++) {
                 if (buttonOfSquaresArray[i][j].getText() == "P") {
                     buttonOfSquaresArray[i][j].setEnabled(false);
+                    changeVisualSelected(buttonOfSquaresArray[i][j]);
                 }
             }//Inner
         }// Outer
     }//disablePlayerMove
 
     public void removeComputerPieceIfMill(Button removedButton) {
-        removedButton.setText(null);
+        removedButton.setText("");
         removedButton.setEnabled(false);
+        changeVisualSelected(removedButton);
     }//removeIfMill
 
     public void removePlayerPieceWhenMoving(Button playerMove) {
@@ -1026,9 +1135,10 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
     public void movePlayerPiece(Button playerMove) {
         if (playerMove.getText() != "P" && playerMove.getText() != "C") {
             playerMove.setText("P");
-            playerPiecesArray[indexOfPlayerPieceToRemove].setText(null);
+            playerPiecesArray[indexOfPlayerPieceToRemove].setText("");
             playerPiecesArray[indexOfPlayerPieceToRemove] = playerMove;
             playerPiecesArray[indexOfPlayerPieceToRemove].setEnabled(true);
+            changeVisualUnselected(playerPiecesArray[indexOfPlayerPieceToRemove]);
         }
     }//movePlayerPiece
 
@@ -1037,6 +1147,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button00.length; i++) {
                 if ((button00[i].getText() != "C") && (button00[i].getText() != "P")) {
                     button00[i].setEnabled(true);
+                    changeVisualUnselected(button00[i]);
                 }
             }
         }
@@ -1044,6 +1155,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button01.length; i++) {
                 if ((button01[i].getText() != "C") && (button01[i].getText() != "P")) {
                     button01[i].setEnabled(true);
+                    changeVisualUnselected(button01[i]);
                 }
             }
         }
@@ -1051,6 +1163,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button02.length; i++) {
                 if ((button02[i].getText() != "C") && (button02[i].getText() != "P")) {
                     button02[i].setEnabled(true);
+                    changeVisualUnselected(button02[i]);
                 }
             }
         }
@@ -1058,6 +1171,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button03.length; i++) {
                 if ((button03[i].getText() != "C") && (button03[i].getText() != "P")) {
                     button03[i].setEnabled(true);
+                    changeVisualUnselected(button03[i]);
                 }
             }
         }
@@ -1065,6 +1179,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button04.length; i++) {
                 if ((button04[i].getText() != "C") && (button04[i].getText() != "P")) {
                     button04[i].setEnabled(true);
+                    changeVisualUnselected(button04[i]);
                 }
             }
         }
@@ -1072,6 +1187,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button05.length; i++) {
                 if ((button05[i].getText() != "C") && (button05[i].getText() != "P")) {
                     button05[i].setEnabled(true);
+                    changeVisualUnselected(button05[i]);
                 }
             }
         }
@@ -1079,6 +1195,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button06.length; i++) {
                 if ((button06[i].getText() != "C") && (button06[i].getText() != "P")) {
                     button06[i].setEnabled(true);
+                    changeVisualUnselected(button06[i]);
                 }
             }
         }
@@ -1086,6 +1203,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button07.length; i++) {
                 if ((button07[i].getText() != "C") && (button07[i].getText() != "P")) {
                     button07[i].setEnabled(true);
+                    changeVisualUnselected(button07[i]);
                 }
             }
         }
@@ -1095,6 +1213,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button10.length; i++) {
                 if ((button10[i].getText() != "C") && (button10[i].getText() != "P")) {
                     button10[i].setEnabled(true);
+                    changeVisualUnselected(button10[i]);
                 }
             }
         }
@@ -1102,6 +1221,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button11.length; i++) {
                 if ((button11[i].getText() != "C") && (button11[i].getText() != "P")) {
                     button11[i].setEnabled(true);
+                    changeVisualUnselected(button11[i]);
                 }
             }
         }
@@ -1109,6 +1229,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button12.length; i++) {
                 if ((button12[i].getText() != "C") && (button12[i].getText() != "P")) {
                     button12[i].setEnabled(true);
+                    changeVisualUnselected(button12[i]);
                 }
             }
         }
@@ -1116,6 +1237,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button13.length; i++) {
                 if ((button13[i].getText() != "C") && (button13[i].getText() != "P")) {
                     button13[i].setEnabled(true);
+                    changeVisualUnselected(button13[i]);
                 }
             }
         }
@@ -1123,6 +1245,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button14.length; i++) {
                 if ((button14[i].getText() != "C") && (button14[i].getText() != "P")) {
                     button14[i].setEnabled(true);
+                    changeVisualUnselected(button14[i]);
                 }
             }
         }
@@ -1130,6 +1253,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button15.length; i++) {
                 if ((button15[i].getText() != "C") && (button15[i].getText() != "P")) {
                     button15[i].setEnabled(true);
+                    changeVisualUnselected(button15[i]);
                 }
             }
         }
@@ -1137,6 +1261,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button16.length; i++) {
                 if ((button16[i].getText() != "C") && (button16[i].getText() != "P")) {
                     button16[i].setEnabled(true);
+                    changeVisualUnselected(button16[i]);
                 }
             }
         }
@@ -1144,6 +1269,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button17.length; i++) {
                 if ((button17[i].getText() != "C") && (button17[i].getText() != "P")) {
                     button17[i].setEnabled(true);
+                    changeVisualUnselected(button17[i]);
                 }
             }
         }
@@ -1153,6 +1279,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button20.length; i++) {
                 if ((button20[i].getText() != "C") && (button20[i].getText() != "P")) {
                     button20[i].setEnabled(true);
+                    changeVisualUnselected(button20[i]);
                 }
             }
         }
@@ -1160,6 +1287,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button21.length; i++) {
                 if ((button21[i].getText() != "C") && (button21[i].getText() != "P")) {
                     button21[i].setEnabled(true);
+                    changeVisualUnselected(button21[i]);
                 }
             }
         }
@@ -1167,6 +1295,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button22.length; i++) {
                 if ((button22[i].getText() != "C") && (button22[i].getText() != "P")) {
                     button22[i].setEnabled(true);
+                    changeVisualUnselected(button22[i]);
                 }
             }
         }
@@ -1174,6 +1303,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button23.length; i++) {
                 if ((button23[i].getText() != "C") && (button23[i].getText() != "P")) {
                     button23[i].setEnabled(true);
+                    changeVisualUnselected(button23[i]);
                 }
             }
         }
@@ -1181,6 +1311,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button24.length; i++) {
                 if ((button24[i].getText() != "C") && (button24[i].getText() != "P")) {
                     button24[i].setEnabled(true);
+                    changeVisualUnselected(button24[i]);
                 }
             }
         }
@@ -1188,6 +1319,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button25.length; i++) {
                 if ((button25[i].getText() != "C") && (button25[i].getText() != "P")) {
                     button25[i].setEnabled(true);
+                    changeVisualUnselected(button25[i]);
                 }
             }
         }
@@ -1195,6 +1327,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button26.length; i++) {
                 if ((button26[i].getText() != "C") && (button26[i].getText() != "P")) {
                     button26[i].setEnabled(true);
+                    changeVisualUnselected(button26[i]);
                 }
             }
         }
@@ -1203,12 +1336,13 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             for (int i = 0; i < button27.length; i++) {
                 if ((button27[i].getText() != "C") && (button27[i].getText() != "P")) {
                     button27[i].setEnabled(true);
+                    changeVisualUnselected(button27[i]);
                 }
             }
         }
     }
 
-    private Button returnEnableAdjacentButtons(Button playerMove) {
+    private Button returnEnabledAdjacentButtons(Button playerMove) {
         if (playerMove == buttonOfSquaresArray[0][0]) {
             for (int i = 0; i < button00.length; i++) {
                 if ((button00[i].getText() != "C") && (button00[i].getText() != "P")) {
@@ -1354,31 +1488,31 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
             }
         }
         if (playerMove == buttonOfSquaresArray[2][4]) {
-            for (int i = 0; i < button24.length; i++) {
-                if ((button24[i].getText() != "C") && (button24[i].getText() != "P")) {
-                    return button24[i];
+            for (Button button : button24) {
+                if ((button.getText() != "C") && (button.getText() != "P")) {
+                    return button;
                 }
             }
         }
         if (playerMove == buttonOfSquaresArray[2][5]) {
-            for (int i = 0; i < button25.length; i++) {
-                if ((button25[i].getText() != "C") && (button25[i].getText() != "P")) {
-                    return button25[i];
+            for (Button button : button25) {
+                if ((button.getText() != "C") && (button.getText() != "P")) {
+                    return button;
                 }
             }
         }
         if (playerMove == buttonOfSquaresArray[2][6]) {
-            for (int i = 0; i < button26.length; i++) {
-                if ((button26[i].getText() != "C") && (button26[i].getText() != "P")) {
-                    return button26[i];
+            for (Button button : button26) {
+                if ((button.getText() != "C") && (button.getText() != "P")) {
+                    return button;
                 }
             }
         }
 
         if (playerMove == buttonOfSquaresArray[2][7]) {
-            for (int i = 0; i < button27.length; i++) {
-                if ((button27[i].getText() != "C") && (button27[i].getText() != "P")) {
-                    return button27[i];
+            for (Button button : button27) {
+                if ((button.getText() != "C") && (button.getText() != "P")) {
+                    return button;
                 }
             }
         }
@@ -1389,7 +1523,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
                 if (buttonOfSquaresArray[i][j].getText() == "C" &&
-                        returnEnableAdjacentButtons(buttonOfSquaresArray[i][j]) != null) {
+                        returnEnabledAdjacentButtons(buttonOfSquaresArray[i][j]) != null) {
                     return buttonOfSquaresArray[i][j];
                 }
             }// inner for loop
@@ -1400,62 +1534,74 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
     public void cpuSecondPhaseMove() {
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
-                if (returnMillSecondPhaseVertButton("P") != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                if (returnMillSecondPhaseVertButton("P") != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnabledAdjacentButtons
                         (buttonOfSquaresArray[i][j]) == returnMillSecondPhaseVertButton("P"))) {
                     returnMillSecondPhaseVertButton("P").setEnabled(false);
                     returnMillSecondPhaseVertButton("P").setText("C");
-                    buttonOfSquaresArray[i][j].setText(null);
-                } else if (returnMillSecondPhaseHortButton("P") != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                    changeVisualSelected(returnMillSecondPhaseVertButton("P"));
+                    buttonOfSquaresArray[i][j].setText("");
+                }
+                else if (returnMillSecondPhaseHortButton("P") != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnabledAdjacentButtons
                         (buttonOfSquaresArray[i][j]) == returnMillSecondPhaseHortButton("C"))) {
                     returnMillSecondPhaseHortButton("C").setEnabled(false);
                     returnMillSecondPhaseHortButton("C").setText("C");
-                    buttonOfSquaresArray[i][j].setText(null);
+                    changeVisualSelected(returnMillSecondPhaseHortButton("P"));
+                    buttonOfSquaresArray[i][j].setText("");
                     return;
                 }
-                else if (returnMillSecondPhaseCrossLinesButton("P") != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                else if (returnMillSecondPhaseCrossLinesButton("P") != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnabledAdjacentButtons
                         (buttonOfSquaresArray[i][j]) == returnMillSecondPhaseCrossLinesButton("P"))) {
                     returnMillSecondPhaseCrossLinesButton("P").setEnabled(false);
                     returnMillSecondPhaseCrossLinesButton("P").setText("C");
-                    buttonOfSquaresArray[i][j].setText(null);
+                    changeVisualSelected(returnMillSecondPhaseCrossLinesButton("P"));
+                    buttonOfSquaresArray[i][j].setText("");
                     return;
                 }
-                else  if (returnMillSecondPhaseVertButton("C") != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                else  if (returnMillSecondPhaseVertButton("C") != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnabledAdjacentButtons
                         (buttonOfSquaresArray[i][j]) == returnMillSecondPhaseVertButton("C"))) {
                     returnMillSecondPhaseVertButton("C").setEnabled(false);
                     returnMillSecondPhaseVertButton("C").setText("C");
-                    buttonOfSquaresArray[i][j].setText(null);
-                } else if (returnMillSecondPhaseHortButton("C") != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                    changeVisualSelected(returnMillSecondPhaseVertButton("C"));
+                    buttonOfSquaresArray[i][j].setText("");
+                } else if (returnMillSecondPhaseHortButton("C") != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnabledAdjacentButtons
                         (buttonOfSquaresArray[i][j]) == returnMillSecondPhaseHortButton("C"))) {
                     returnMillSecondPhaseHortButton("C").setEnabled(false);
                     returnMillSecondPhaseHortButton("C").setText("C");
-                    buttonOfSquaresArray[i][j].setText(null);
+                    changeVisualSelected(returnMillSecondPhaseHortButton("C"));
+                    buttonOfSquaresArray[i][j].setText("");
                     return;
                 }
-                else if (returnMillSecondPhaseCrossLinesButton("C") != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                else if (returnMillSecondPhaseCrossLinesButton("C") != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnabledAdjacentButtons
                         (buttonOfSquaresArray[i][j]) == returnMillSecondPhaseCrossLinesButton("C"))) {
                     returnMillSecondPhaseCrossLinesButton("C").setEnabled(false);
                     returnMillSecondPhaseCrossLinesButton("C").setText("C");
-                    buttonOfSquaresArray[i][j].setText(null);
+                    changeVisualSelected(returnMillSecondPhaseCrossLinesButton("C"));
+                    buttonOfSquaresArray[i][j].setText("");
                     return;
                 }
                 //mill method
-                else if (returnEnableAdjacentButtons(ifMillSecondPhaseReturnAdjacentButtons()) != null) {
-                    returnEnableAdjacentButtons(ifMillSecondPhaseReturnAdjacentButtons()).setEnabled(false);
-                    returnEnableAdjacentButtons(ifMillSecondPhaseReturnAdjacentButtons()).setText("C");
-                    ifMillSecondPhaseSquares().setText(null);
+                else if (returnEnabledAdjacentButtons(ifMillSecondPhaseReturnAdjacentButtons()) != null) {
+                    Button buttonsAvaliable = ifMillSecondPhaseReturnAdjacentButtons();
+                    returnEnabledAdjacentButtons(buttonsAvaliable).setEnabled(false);
+                    returnEnabledAdjacentButtons(buttonsAvaliable).setText("C");
+                    changeVisualSelected(returnEnabledAdjacentButtons(buttonsAvaliable));
+                    ifMillSecondPhaseSquares().setText("");
                     return;
                 }
-                else if (returnEnableAdjacentButtons(ifMillSecondPhaseCrossLinesReturnAdjacentButtons()) != null) {
-                    returnEnableAdjacentButtons(ifMillSecondPhaseCrossLinesReturnAdjacentButtons()).setEnabled(false);
-                    returnEnableAdjacentButtons(ifMillSecondPhaseCrossLinesReturnAdjacentButtons()).setText("C");
-                    ifMillSecondPhaseCrossLines().setText(null);
+                else if (returnEnabledAdjacentButtons(ifMillSecondPhaseCrossLinesReturnAdjacentButtons()) != null) {
+                    Button avaliableButtonsCrossLines = ifMillSecondPhaseCrossLinesReturnAdjacentButtons();
+                    returnEnabledAdjacentButtons(avaliableButtonsCrossLines).setEnabled(false);
+                    returnEnabledAdjacentButtons(avaliableButtonsCrossLines).setText("C");
+                    changeVisualSelected(returnEnabledAdjacentButtons(avaliableButtonsCrossLines));
+                    ifMillSecondPhaseCrossLines().setText("");
                     return;
-                }
-                else if (tryingToMakeAMillSecondPhrase() != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnableAdjacentButtons
+                }//when mill is made trying to make another Mill
+                else if (tryingToMakeAMillSecondPhrase() != null && buttonOfSquaresArray[i][j].getText() == "C" && (returnEnabledAdjacentButtons
                         (buttonOfSquaresArray[i][j]) == tryingToMakeAMillSecondPhrase())) {
                     tryingToMakeAMillSecondPhrase().setEnabled(false);
                     tryingToMakeAMillSecondPhrase().setText("C");
-                    buttonOfSquaresArray[i][j].setText(null);
+                    changeVisualSelected(returnEnabledAdjacentButtons(tryingToMakeAMillSecondPhrase()));
+                    buttonOfSquaresArray[i][j].setText("");
                     return;
                 }
                 else {
@@ -1472,11 +1618,12 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
                 if (buttonOfSquaresArray[i][j].getText() == "C" &&
-                        returnEnableAdjacentButtons(buttonOfSquaresArray[i][j]) != null) {
-                    returnEnableAdjacentButtons(buttonOfSquaresArray[i][j]).setEnabled(false);
-                    returnEnableAdjacentButtons(buttonOfSquaresArray[i][j]).setText("C");
+                        returnEnabledAdjacentButtons(buttonOfSquaresArray[i][j]) != null) {
+                    returnEnabledAdjacentButtons(buttonOfSquaresArray[i][j]).setEnabled(false);
+                    returnEnabledAdjacentButtons(buttonOfSquaresArray[i][j]).setText("C");
+                    changeVisualSelected(returnEnabledAdjacentButtons(buttonOfSquaresArray[i][j]));
                     if (buttonOfSquaresArray[i][j].getText() == "C") {
-                        buttonOfSquaresArray[i][j].setText(null);
+                        buttonOfSquaresArray[i][j].setText("");
                         return;
                     }
                 }
@@ -1485,7 +1632,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
     }//cpuMakeRandomMove
 
     public Button returnComputerEnabledSpot(Button compMove) {
-        return returnEnableAdjacentButtons(compMove);
+        return returnEnabledAdjacentButtons(compMove);
     }//returnComputerEnabledSpot
 
     public boolean isMillVertical(String playerOrComputerPiece, Button playerMove) {
@@ -1600,7 +1747,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
         return null;
     }//getComputerButtonVertical
 
-    public Button blockOrMillVert(String whichPiece) {
+    public Button blockOrMillVertical(String whichPiece) {
         for (int i = 0; i <= 2; i++) {
             if (buttonOfSquaresArray[i][0].getText() == whichPiece && buttonOfSquaresArray[i][1].getText() == whichPiece &&
                     buttonOfSquaresArray[i][2].getText() != "C" && buttonOfSquaresArray[i][2].getText() != "P") {
@@ -1678,7 +1825,7 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
         return null;
     }//getComputerButtonHorizontal
 
-    public Button blockOrMillHort(String whichPiece) {
+    public Button blockOrMillHorizontal(String whichPiece) {
         for (int i = 0; i <= 2; i++) {
             if (buttonOfSquaresArray[i][0].getText() == whichPiece && buttonOfSquaresArray[i][3].getText() == whichPiece &&
                     buttonOfSquaresArray[i][5].getText() != "C" && buttonOfSquaresArray[i][5].getText() != "P") {
@@ -1781,42 +1928,42 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
     public Button returnMillSecondPhaseVertButton(String whichPiece) {
         for (int i = 0; i <= 2; i++) {
             if (buttonOfSquaresArray[i][0].getText() == whichPiece && buttonOfSquaresArray[i][1].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][1]) == buttonOfSquaresArray[i][2]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][1]) == buttonOfSquaresArray[i][2]) {
                     return buttonOfSquaresArray[i][2];
                 }
             }
             if (buttonOfSquaresArray[i][0].getText() == whichPiece && buttonOfSquaresArray[i][2].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][2]) == buttonOfSquaresArray[i][1]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][2]) == buttonOfSquaresArray[i][1]) {
                     return buttonOfSquaresArray[i][1];
                 }
             }
             if (buttonOfSquaresArray[i][2].getText() == whichPiece && buttonOfSquaresArray[i][1].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][1]) == buttonOfSquaresArray[i][0]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][1]) == buttonOfSquaresArray[i][0]) {
                     return buttonOfSquaresArray[i][0];
                 }
             }
             if (buttonOfSquaresArray[i][2].getText() == whichPiece && buttonOfSquaresArray[i][0].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][0]) == buttonOfSquaresArray[i][1]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][0]) == buttonOfSquaresArray[i][1]) {
                     return buttonOfSquaresArray[i][1];
                 }
             }
             if (buttonOfSquaresArray[i][5].getText() == whichPiece && buttonOfSquaresArray[i][6].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][6]) == buttonOfSquaresArray[i][7]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][6]) == buttonOfSquaresArray[i][7]) {
                     return buttonOfSquaresArray[i][7];
                 }
             }
             if (buttonOfSquaresArray[i][5].getText() == whichPiece && buttonOfSquaresArray[i][7].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][7]) == buttonOfSquaresArray[i][6]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][7]) == buttonOfSquaresArray[i][6]) {
                     return buttonOfSquaresArray[i][6];
                 }
             }
             if (buttonOfSquaresArray[i][7].getText() == whichPiece && buttonOfSquaresArray[i][6].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][6]) == buttonOfSquaresArray[i][5]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][6]) == buttonOfSquaresArray[i][5]) {
                     return buttonOfSquaresArray[i][7];
                 }
             }
             if (buttonOfSquaresArray[i][7].getText() == whichPiece && buttonOfSquaresArray[i][5].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][5]) == buttonOfSquaresArray[i][6]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][5]) == buttonOfSquaresArray[i][6]) {
                     return buttonOfSquaresArray[i][6];
                 }
             }
@@ -1827,42 +1974,42 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
     public Button returnMillSecondPhaseHortButton(String whichPiece) {
         for (int i = 0; i <= 2; i++) {
             if (buttonOfSquaresArray[i][0].getText() == whichPiece && buttonOfSquaresArray[i][3].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][3]) == buttonOfSquaresArray[i][5]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][3]) == buttonOfSquaresArray[i][5]) {
                     return buttonOfSquaresArray[i][5];
                 }
             }
             if (buttonOfSquaresArray[i][0].getText() == whichPiece && buttonOfSquaresArray[i][5].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][5]) == buttonOfSquaresArray[i][3]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][5]) == buttonOfSquaresArray[i][3]) {
                     return buttonOfSquaresArray[i][3];
                 }
             }
             if (buttonOfSquaresArray[i][5].getText() == whichPiece && buttonOfSquaresArray[i][3].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][3]) == buttonOfSquaresArray[i][0]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][3]) == buttonOfSquaresArray[i][0]) {
                     return buttonOfSquaresArray[i][0];
                 }
             }
             if (buttonOfSquaresArray[i][5].getText() == whichPiece && buttonOfSquaresArray[i][0].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][0]) == buttonOfSquaresArray[i][3]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][0]) == buttonOfSquaresArray[i][3]) {
                     return buttonOfSquaresArray[i][3];
                 }
             }
             if (buttonOfSquaresArray[i][2].getText() == whichPiece && buttonOfSquaresArray[i][4].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][4]) == buttonOfSquaresArray[i][7]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][4]) == buttonOfSquaresArray[i][7]) {
                     return buttonOfSquaresArray[i][7];
                 }
             }
             if (buttonOfSquaresArray[i][2].getText() == whichPiece && buttonOfSquaresArray[i][7].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][7]) == buttonOfSquaresArray[i][4]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][7]) == buttonOfSquaresArray[i][4]) {
                     return buttonOfSquaresArray[i][4];
                 }
             }
             if (buttonOfSquaresArray[i][7].getText() == whichPiece && buttonOfSquaresArray[i][4].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][4]) == buttonOfSquaresArray[i][2]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][4]) == buttonOfSquaresArray[i][2]) {
                     return buttonOfSquaresArray[i][2];
                 }
             }
             if (buttonOfSquaresArray[i][7].getText() == whichPiece && buttonOfSquaresArray[i][2].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][2]) == buttonOfSquaresArray[i][4]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][2]) == buttonOfSquaresArray[i][4]) {
                     return buttonOfSquaresArray[i][4];
                 }
             }
@@ -1876,22 +2023,22 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
         int numbersInList = numberArray[numInListCounter];
         while (numInListCounter < 4) {
             if (buttonOfSquaresArray[0][numbersInList].getText() == whichPiece && buttonOfSquaresArray[1][numbersInList].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[1][numbersInList]) == buttonOfSquaresArray[2][numbersInList]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[1][numbersInList]) == buttonOfSquaresArray[2][numbersInList]) {
                     return buttonOfSquaresArray[2][numbersInList];
                 }
             }
             if (buttonOfSquaresArray[0][numbersInList].getText() == whichPiece && buttonOfSquaresArray[2][numbersInList].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[2][numbersInList]) == buttonOfSquaresArray[1][numbersInList]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[2][numbersInList]) == buttonOfSquaresArray[1][numbersInList]) {
                     return buttonOfSquaresArray[1][numbersInList];
                 }
             }
             if (buttonOfSquaresArray[2][numbersInList].getText() == whichPiece && buttonOfSquaresArray[1][numbersInList].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[1][numbersInList]) == buttonOfSquaresArray[0][numbersInList]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[1][numbersInList]) == buttonOfSquaresArray[0][numbersInList]) {
                     return buttonOfSquaresArray[0][numbersInList];
                 }
             }
             if (buttonOfSquaresArray[2][numbersInList].getText() == whichPiece && buttonOfSquaresArray[0][numbersInList].getText() == whichPiece) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[0][numbersInList]) == buttonOfSquaresArray[1][numbersInList]) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[0][numbersInList]) == buttonOfSquaresArray[1][numbersInList]) {
                     return buttonOfSquaresArray[1][numbersInList];
                 }
             }
@@ -1903,53 +2050,53 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
 
     public Button tryingToMakeAMillSecondPhrase() {
         for (int i = 0; i < 3; i++) {
-            if (buttonOfSquaresArray[i][1].getText() == "C" && returnEnableAdjacentButtons(buttonOfSquaresArray[i][1]) != null) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][1]).getText() != "C" &&
-                        returnEnableAdjacentButtons(buttonOfSquaresArray[i][1]).getText() != "P") {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][1]);
+            if (buttonOfSquaresArray[i][1].getText() == "C" && returnEnabledAdjacentButtons(buttonOfSquaresArray[i][1]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][1]).getText() != "C" &&
+                        returnEnabledAdjacentButtons(buttonOfSquaresArray[i][1]).getText() != "P") {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][1]);
                 }
             }// top of the squares
-            if (buttonOfSquaresArray[i][6].getText() == "C" && returnEnableAdjacentButtons(buttonOfSquaresArray[i][6]) != null) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][6]).getText() != "C" &&
-                        returnEnableAdjacentButtons(buttonOfSquaresArray[i][6]).getText() != "P") {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][6]);
+            if (buttonOfSquaresArray[i][6].getText() == "C" && returnEnabledAdjacentButtons(buttonOfSquaresArray[i][6]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][6]).getText() != "C" &&
+                        returnEnabledAdjacentButtons(buttonOfSquaresArray[i][6]).getText() != "P") {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][6]);
                 }
             }// bottom of the squares
-            if (buttonOfSquaresArray[i][3].getText() == "C" && returnEnableAdjacentButtons(buttonOfSquaresArray[i][3]) != null) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][3]).getText() != "C" &&
-                        returnEnableAdjacentButtons(buttonOfSquaresArray[i][3]).getText() != "P") {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][3]);
+            if (buttonOfSquaresArray[i][3].getText() == "C" && returnEnabledAdjacentButtons(buttonOfSquaresArray[i][3]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][3]).getText() != "C" &&
+                        returnEnabledAdjacentButtons(buttonOfSquaresArray[i][3]).getText() != "P") {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][3]);
                 }
             }// left lines of the squares
-            if (buttonOfSquaresArray[i][4].getText() == "C" && returnEnableAdjacentButtons(buttonOfSquaresArray[i][4]) != null) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][4]).getText() != "C" &&
-                        returnEnableAdjacentButtons(buttonOfSquaresArray[i][4]).getText() != "P") {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][4]);
+            if (buttonOfSquaresArray[i][4].getText() == "C" && returnEnabledAdjacentButtons(buttonOfSquaresArray[i][4]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][4]).getText() != "C" &&
+                        returnEnabledAdjacentButtons(buttonOfSquaresArray[i][4]).getText() != "P") {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][4]);
                 }
             }// right lines of the squares
 
-            if (buttonOfSquaresArray[i][0].getText() == "C" && returnEnableAdjacentButtons(buttonOfSquaresArray[i][0]) != null) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][0]).getText() != "C" &&
-                        returnEnableAdjacentButtons(buttonOfSquaresArray[i][0]).getText() != "P") {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][0]);
+            if (buttonOfSquaresArray[i][0].getText() == "C" && returnEnabledAdjacentButtons(buttonOfSquaresArray[i][0]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][0]).getText() != "C" &&
+                        returnEnabledAdjacentButtons(buttonOfSquaresArray[i][0]).getText() != "P") {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][0]);
                 }
             }// top left corner of squares
-            if (buttonOfSquaresArray[i][2].getText() == "C" && returnEnableAdjacentButtons(buttonOfSquaresArray[i][2]) != null) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][2]).getText() != "C" &&
-                        returnEnableAdjacentButtons(buttonOfSquaresArray[i][2]).getText() != "P") {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][2]);
+            if (buttonOfSquaresArray[i][2].getText() == "C" && returnEnabledAdjacentButtons(buttonOfSquaresArray[i][2]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][2]).getText() != "C" &&
+                        returnEnabledAdjacentButtons(buttonOfSquaresArray[i][2]).getText() != "P") {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][2]);
                 }
             }// top right corner of squares
-            if (buttonOfSquaresArray[i][5].getText() == "C" && returnEnableAdjacentButtons(buttonOfSquaresArray[i][5]) != null) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][5]).getText() != "C" &&
-                        returnEnableAdjacentButtons(buttonOfSquaresArray[i][5]).getText() != "P") {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][5]);
+            if (buttonOfSquaresArray[i][5].getText() == "C" && returnEnabledAdjacentButtons(buttonOfSquaresArray[i][5]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][5]).getText() != "C" &&
+                        returnEnabledAdjacentButtons(buttonOfSquaresArray[i][5]).getText() != "P") {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][5]);
                 }
             }// bottom left corner of squares
-            if (buttonOfSquaresArray[i][7].getText() == "C" && returnEnableAdjacentButtons(buttonOfSquaresArray[i][7]) != null) {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][7]).getText() != "C" &&
-                        returnEnableAdjacentButtons(buttonOfSquaresArray[i][7]).getText() != "P") {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][7]);
+            if (buttonOfSquaresArray[i][7].getText() == "C" && returnEnabledAdjacentButtons(buttonOfSquaresArray[i][7]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][7]).getText() != "C" &&
+                        returnEnabledAdjacentButtons(buttonOfSquaresArray[i][7]).getText() != "P") {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][7]);
                 }
             }// bottom right corner of squares
 
@@ -1960,38 +2107,38 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
     public Button ifMillSecondPhaseSquares() {
         for (int i = 0; i < 3; i++) {
             if (buttonOfSquaresArray[i][0].getText() == "C" && buttonOfSquaresArray[i][0].getText() == "C" && buttonOfSquaresArray[i][2].getText() == "C") {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][0]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][0]) != null) {
                     return buttonOfSquaresArray[i][0];
-                } else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][1]) != null) {
+                } else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][1]) != null) {
                     return buttonOfSquaresArray[i][1];
-                } else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][2]) != null) {
+                } else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][2]) != null) {
                     return buttonOfSquaresArray[i][2];
                 }
             }
             if (buttonOfSquaresArray[i][0].getText() == "C" && buttonOfSquaresArray[i][3].getText() == "C" && buttonOfSquaresArray[i][5].getText() == "C") {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][0]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][0]) != null) {
                     return buttonOfSquaresArray[i][0];
-                } else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][3]) != null) {
+                } else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][3]) != null) {
                     return buttonOfSquaresArray[i][3];
-                } else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][5]) != null) {
+                } else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][5]) != null) {
                     return buttonOfSquaresArray[i][5];
                 }
             }
             if (buttonOfSquaresArray[i][2].getText() == "C" && buttonOfSquaresArray[i][4].getText() == "C" && buttonOfSquaresArray[i][7].getText() == "C") {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][2]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][2]) != null) {
                     return buttonOfSquaresArray[i][2];
-                } else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][4]) != null) {
+                } else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][4]) != null) {
                     return buttonOfSquaresArray[i][4];
-                } else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][7]) != null) {
+                } else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][7]) != null) {
                     return buttonOfSquaresArray[i][7];
                 }
             }
             if (buttonOfSquaresArray[i][5].getText() == "C" && buttonOfSquaresArray[i][6].getText() == "C" && buttonOfSquaresArray[i][7].getText() == "C") {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][5]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][5]) != null) {
                     return buttonOfSquaresArray[i][5];
-                } else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][6]) != null) {
+                } else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][6]) != null) {
                     return buttonOfSquaresArray[i][6];
-                } else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][7]) != null) {
+                } else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][7]) != null) {
                     return buttonOfSquaresArray[i][7];
                 }
             }
@@ -2006,13 +2153,13 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
         while (numInListCounter < 4) {
             if (buttonOfSquaresArray[0][numbersInList].getText() == "C" && buttonOfSquaresArray[1][numbersInList].getText() == "C" &&
                     buttonOfSquaresArray[2][numbersInList].getText() == "C") {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[0][numbersInList]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[0][numbersInList]) != null) {
                     return buttonOfSquaresArray[0][numbersInList];
                 }
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[1][numbersInList]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[1][numbersInList]) != null) {
                     return buttonOfSquaresArray[1][numbersInList];
                 }
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[2][numbersInList]) != null) {
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[2][numbersInList]) != null) {
                     return buttonOfSquaresArray[2][numbersInList];
                 }
             }
@@ -2024,47 +2171,47 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
     public Button ifMillSecondPhaseReturnAdjacentButtons() {
         for (int i = 0; i < 3; i++) {
             if (buttonOfSquaresArray[i][0].getText() == "C" && buttonOfSquaresArray[i][0].getText() == "C" && buttonOfSquaresArray[i][2].getText() == "C") {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][0]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][0]);
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][0]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][0]);
                 }
-                else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][1]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][1]);
+                else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][1]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][1]);
                 }
-                else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][2]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][2]);
+                else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][2]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][2]);
                 }
             }
             if (buttonOfSquaresArray[i][0].getText() == "C" && buttonOfSquaresArray[i][3].getText() == "C" && buttonOfSquaresArray[i][5].getText() == "C") {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][0]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][0]);
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][0]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][0]);
                 }
-                else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][3]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][3]);
+                else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][3]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][3]);
                 }
-                else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][5]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][5]);
+                else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][5]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][5]);
                 }
             }
             if (buttonOfSquaresArray[i][2].getText() == "C" && buttonOfSquaresArray[i][4].getText() == "C" && buttonOfSquaresArray[i][7].getText() == "C") {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][2]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][2]);
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][2]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][2]);
                 }
-                else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][4]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][4]);
+                else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][4]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][4]);
                 }
-                else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][7]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][7]);
+                else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][7]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][7]);
                 }
             }
             if (buttonOfSquaresArray[i][5].getText() == "C" && buttonOfSquaresArray[i][6].getText() == "C" && buttonOfSquaresArray[i][7].getText() == "C") {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][5]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][5]);
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][5]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][5]);
                 }
-                else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][6]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][6]);
+                else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][6]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][6]);
                 }
-                else if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][7]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[i][7]);
+                else if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][7]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][7]);
                 }
             }
 
@@ -2079,14 +2226,14 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
         while (numInListCounter < 4) {
             if (buttonOfSquaresArray[0][numbersInList].getText() == "C" && buttonOfSquaresArray[1][numbersInList].getText() == "C" &&
                     buttonOfSquaresArray[2][numbersInList].getText() == "C") {
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[0][numbersInList]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[0][numbersInList]);
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[0][numbersInList]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[0][numbersInList]);
                 }
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[1][numbersInList]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[1][numbersInList]);
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[1][numbersInList]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[1][numbersInList]);
                 }
-                if (returnEnableAdjacentButtons(buttonOfSquaresArray[2][numbersInList]) != null) {
-                    return returnEnableAdjacentButtons(buttonOfSquaresArray[2][numbersInList]);
+                if (returnEnabledAdjacentButtons(buttonOfSquaresArray[2][numbersInList]) != null) {
+                    return returnEnabledAdjacentButtons(buttonOfSquaresArray[2][numbersInList]);
                 }
             }
             numInListCounter += 1;
@@ -2099,37 +2246,36 @@ public void removingPieceFromArray(Button pieceToBeRemoved){
         for (int i = 0; i <= 2; i++) {
             for (int j = 0; j <= 7; j++) {
                 if (buttonOfSquaresArray[i][j].getText() == "P" &&
-                        returnEnableAdjacentButtons(buttonOfSquaresArray[i][j]) != null) {
-                    if (returnEnableAdjacentButtons(buttonOfSquaresArray[i][j]).getText() != "P"
-                            && returnEnableAdjacentButtons(buttonOfSquaresArray[i][j]).getText() != "C") {
-                        return returnEnableAdjacentButtons(buttonOfSquaresArray[i][j]);
+                        returnEnabledAdjacentButtons(buttonOfSquaresArray[i][j]) != null) {
+                    if (returnEnabledAdjacentButtons(buttonOfSquaresArray[i][j]).getText() != "P"
+                            && returnEnabledAdjacentButtons(buttonOfSquaresArray[i][j]).getText() != "C") {
+                        return returnEnabledAdjacentButtons(buttonOfSquaresArray[i][j]);
                     }
-
                 }
             }// inner for loop
         }//outer for loop
         return null;
     }// adjacentToPlayerPiece
     public void changeVisualSelected(Button toBeEnabled){
-        if(toBeEnabled.getText()=="P2"){
+        if(toBeEnabled.getText()=="C"){
             turnButtonHighlightRed(toBeEnabled);
         }
-        else if(toBeEnabled.getText()=="P1"){
+        else if(toBeEnabled.getText()=="P"){
             turnButtonHighlightBlue(toBeEnabled);
         }
-        else if(toBeEnabled.getText()==""){
+        else if(toBeEnabled.getText()==null){
             turnButtonHighlightWhite(toBeEnabled);
         }
     }
 
     public void changeVisualUnselected(Button toBeDisabled){
-        if(toBeDisabled.getText()=="P2"){
+        if(toBeDisabled.getText()=="C"){
             turnButtonRed(toBeDisabled);
         }
-        else if(toBeDisabled.getText()=="P1"){
+        else if(toBeDisabled.getText()=="P"){
             turnButtonBlue(toBeDisabled);
         }
-        else if(toBeDisabled.getText()==""){
+        else if(toBeDisabled.getText()==null){
             turnButtonWhite(toBeDisabled);
         }
     }//changeVisualUnselected
