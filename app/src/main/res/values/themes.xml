@@ -19,7 +19,13 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="Theme.NineMenMorris.CustomTheme" >
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
     <style name="Theme.NineMenMorris.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.NineMenMorris.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
+

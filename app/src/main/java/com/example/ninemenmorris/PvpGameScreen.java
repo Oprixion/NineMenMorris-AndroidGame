@@ -2,7 +2,6 @@ package com.example.ninemenmorris;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,13 +27,86 @@ public class PvpGameScreen extends AppCompatActivity{
         setContentView(R.layout.activity_pvp_game_screen);
         lastMove = "P2";
         enableAllPieces();
+
+        //Ensures that multiple counts of audio doesn't occur
+        MusicService.musicInitialize = 2;
+
+        Button muted = (Button) findViewById(R.id.muted);
+        Button unmuted = (Button) findViewById(R.id.unmuted);
+
+        if (MusicService.getMuteStatus() == "muted"){
+            muted.setVisibility(View.VISIBLE);
+            unmuted.setVisibility(View.GONE);
+            muted.bringToFront();
+        }
+        else if (MusicService.getMuteStatus() == "unmuted"){
+            unmuted.setVisibility(View.VISIBLE);
+            muted.setVisibility(View.GONE);
+            unmuted.bringToFront();
+        }
+    }
+
+    public void muteSound(View myView){
+        Button muted = (Button) findViewById(R.id.muted);
+        muted.setVisibility(View.VISIBLE);
+
+        Button unmuted = (Button) findViewById(R.id.unmuted);
+        unmuted.setVisibility(View.GONE);
+
+        muted.bringToFront();
+
+        MusicService.setMuteStatus("muted");
+
+    }
+
+    public void unMuteSound(View myView){
+        Button muted = (Button) findViewById(R.id.muted);
+        muted.setVisibility(View.GONE);
+
+        Button unmuted = (Button) findViewById(R.id.unmuted);
+        unmuted.setVisibility(View.VISIBLE);
+
+        unmuted.bringToFront();
+
+        MusicService.setMuteStatus("unmuted");
+
+
+    }
+
+    public void openSettingsScreen(View myView){
+        Intent toSettingScreen = new Intent(this, SettingScreen.class);
+        startActivity(toSettingScreen);
+    }
+    public void openHelpScreen(View myView){
+        Intent toHelpScreen = new Intent(this, HelpScreen.class);
+        startActivity(toHelpScreen);
+    }
+
+    public void restartGame(View myView){
+        Intent restartCurrentGame = new Intent(this, PvpGameScreen.class);
+        //dialog to make sure user want to restart a new game
+        new AlertDialog.Builder(this)
+                .setIcon(R.drawable.button_restart)
+                .setTitle("Restart your game? Your progress will not be saved")
+                .setMessage("Are you sure?")
+                .setPositiveButton("✓", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(restartCurrentGame);
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("X", null)
+                .show();
     }
 
     public void toModeSelection(View myView){
         //dialog to make sure user want to quit
         new AlertDialog.Builder(this)
                 .setIcon(R.drawable.button_quit)
-                .setTitle("Return to menu? your progress will not be saved")
+                .setTitle("Return to game mode selection? Your progress will not be saved")
                 .setMessage("Are you sure?")
                 .setPositiveButton("✓", new DialogInterface.OnClickListener()
                 {
@@ -1225,7 +1297,7 @@ public class PvpGameScreen extends AppCompatActivity{
             b14.setEnabled(false);
             changeVisualUnselected(b14);
         }
-        if ((b13.getText()!="P1")&&(b16.getText()!="")) {
+        if ((b13.getText()!="")&&(b16.getText()!="")) {
             b15.setEnabled(false);
             changeVisualUnselected(b15);
         }
@@ -1438,4 +1510,4 @@ public class PvpGameScreen extends AppCompatActivity{
     public void turnButtonHighlightWhite(Button InputButton){
         InputButton.setBackgroundResource(R.drawable.token_none_selected);
     }//turnButtonHighlightWhite
-}
+}//end of class

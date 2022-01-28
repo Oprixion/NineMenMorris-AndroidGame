@@ -1,14 +1,11 @@
 package com.example.ninemenmorris;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ToggleButton;
 
 /**
  * When ever a button is chosen it will be disabled, the disabled state should be change into
@@ -17,12 +14,55 @@ import android.widget.ToggleButton;
 public class ModeSelectionScreen extends AppCompatActivity {
     public int gameMode=2;
     public int gameDifficulty=2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mode_selection_screen);
         setDefaultGame();
+
+        //Ensures that multiple counts of audio doesn't occur
+        MusicService.musicInitialize = 2;
+
+        Button muted = (Button) findViewById(R.id.muted);
+        Button unmuted = (Button) findViewById(R.id.unmuted);
+
+        if (MusicService.getMuteStatus() == "muted"){
+            muted.setVisibility(View.VISIBLE);
+            unmuted.setVisibility(View.GONE);
+            muted.bringToFront();
+        }
+        else if (MusicService.getMuteStatus() == "unmuted"){
+            unmuted.setVisibility(View.VISIBLE);
+            muted.setVisibility(View.GONE);
+            unmuted.bringToFront();
+        }
+
     }
+
+    public void muteSound(View myView){
+        Button muted = (Button) findViewById(R.id.muted);
+        Button unmuted = (Button) findViewById(R.id.unmuted);
+
+        muted.setVisibility(View.VISIBLE);
+        unmuted.setVisibility(View.GONE);
+        muted.bringToFront();
+        MusicService.setMuteStatus("muted");
+
+    }
+
+    public void unMuteSound(View myView){
+        Button muted = (Button) findViewById(R.id.muted);
+        Button unmuted = (Button) findViewById(R.id.unmuted);
+
+        muted.setVisibility(View.GONE);
+        unmuted.setVisibility(View.VISIBLE);
+        unmuted.bringToFront();
+        MusicService.setMuteStatus("unmuted");
+
+
+    }
+
 
     public void updateGameModePvp(View myView){
         disableTheDifficulties();
@@ -91,6 +131,7 @@ public class ModeSelectionScreen extends AppCompatActivity {
         }else {
             toGameScreen = new Intent(this, PvcGameScreen.class);
         }
+
         startActivity(toGameScreen);
     }
 
@@ -225,14 +266,4 @@ public class ModeSelectionScreen extends AppCompatActivity {
         }
 
     }
-    public void toggleMute(View myView){
-        //Visual
-        ToggleButton muteButton = (ToggleButton) findViewById(R.id.ModeMuteButton);
-        if(muteButton.isChecked()){
-            muteButton.setBackgroundResource(R.drawable.button_mute_on);
-        }
-        else{
-            muteButton.setBackgroundResource(R.drawable.button_mute_off);
-        }
-    }//toggleMute
 }

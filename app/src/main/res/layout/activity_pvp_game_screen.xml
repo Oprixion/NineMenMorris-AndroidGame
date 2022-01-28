@@ -271,11 +271,11 @@
             android:background="@drawable/token_none"
             android:onClick="placeMove"
             android:textColor="@android:color/transparent"
-            app:layout_constraintBottom_toTopOf="@+id/pvpB07"
-            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter"
             android:textColorHighlight="@android:color/transparent"
             android:textColorHint="@android:color/transparent"
-            android:textColorLink="@android:color/transparent" />
+            android:textColorLink="@android:color/transparent"
+            app:layout_constraintBottom_toTopOf="@+id/pvpB07"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundBoardConnecter" />
 
         <Button
             android:id="@+id/pvpB20"
@@ -411,6 +411,7 @@
             android:layout_marginEnd="13dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/button_settings"
+            android:onClick="openSettingsScreen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.991"
@@ -425,16 +426,31 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="17dp"
             android:background="@drawable/button_help"
+            android:onClick="openHelpScreen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
-            android:id="@+id/mutesButton"
+            android:id="@+id/muted"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/button_mute_off"
+            android:onClick="unMuteSound"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/unmuted"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/button_mute_on"
+            android:onClick="muteSound"
+            android:text=""
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -445,7 +461,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/playerRed"
             app:layout_constraintEnd_toStartOf="@+id/playerRedCounter"
             app:layout_constraintStart_toEndOf="@+id/playerBlueCounter"
-            app:layout_constraintTop_toBottomOf="@+id/mutesButton"
+            app:layout_constraintTop_toTopOf="@+id/backgroundStars"
+            app:layout_constraintVertical_bias="0.916"
             app:srcCompat="@drawable/turn_blue" />
 
         <ImageView
@@ -453,17 +470,19 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="88dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mutesButton"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/portrait_blue_human" />
 
         <ImageView
             android:id="@+id/playerRed"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginTop="88dp"
+            android:layout_marginEnd="12dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mutesButton"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/portrait_red_human" />
 
         <ImageView
@@ -497,6 +516,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/turnWidget"
             app:srcCompat="@drawable/indicator_place" />
+
+        <Button
+            android:id="@+id/restartGame"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/button_restart2"
+            android:onClick="restartGame"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/quitPvpButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
